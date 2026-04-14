@@ -865,24 +865,367 @@ if (menuToggle && siteNav) {
 
 // Highlight active navigation link based on scroll position
 function updateActiveNav() {
-    const sections = document.querySelectorAll('main > section');
-    const navLinks = siteNav ? siteNav.querySelectorAll('a') : [];
-    
-    let current = '';
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        if (window.pageYOffset >= sectionTop - 100) {
-            current = section.getAttribute('id');
-        }
-    });
-    
+    const siteNavEl = document.getElementById('site-nav');
+    const navLinks = siteNavEl ? siteNavEl.querySelectorAll('a') : [];
+    const path = window.location.pathname;
+    const file = path.substring(path.lastIndexOf('/') + 1) || 'index.html';
+    const base = (file.split('.')[0] === 'index' || file.split('.')[0] === '') ? 'home' : file.split('.')[0];
+
     navLinks.forEach(link => {
         link.classList.remove('active');
-        if (link.getAttribute('href') === `#${current}`) {
-            link.classList.add('active');
+        const href = link.getAttribute('href') || '';
+        if (href.endsWith('.html')) {
+            const hrefFile = href.substring(href.lastIndexOf('/') + 1);
+            const hrefBase = (hrefFile.split('.')[0] === 'index' || hrefFile.split('.')[0] === '') ? 'home' : hrefFile.split('.')[0];
+            if (hrefBase === base) {
+                link.classList.add('active');
+            }
+        } else if (href.startsWith('#')) {
+            // On home page we may have in-page anchors
+            if (base === 'home') {
+                const sectionId = href.substring(1);
+                if (document.getElementById(sectionId)) {
+                    link.classList.add('active');
+                }
+            }
         }
     });
 }
 
 window.addEventListener('scroll', updateActiveNav);
 document.addEventListener('DOMContentLoaded', updateActiveNav);
+
+// Render only the requested page (split into separate static pages)
+(function renderPageSections() {
+    const appEl = document.querySelector('#app');
+    if (!appEl) return;
+    const path = window.location.pathname;
+    const file = path.substring(path.lastIndexOf('/') + 1) || 'index.html';
+    const base = (file.split('.')[0] === 'index' || file.split('.')[0] === '') ? 'home' : file.split('.')[0];
+
+    const headerNav = `
+  <header class="site-header" id="top">
+    <div class="header-inner">
+      <div>
+        <h1>PHYS 1 Study</h1>
+        <p>Built by Tyler Abell, Andrew Garza, David Peine, and Xavier Robles</p>
+      </div>
+      <button class="menu-toggle" aria-label="Toggle navigation" id="menu-toggle">☰</button>
+    </div>
+  </header>
+  
+  <aside class="site-nav" id="site-nav">
+    <nav aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="study-guide.html">Study Guide</a>
+      <a href="formula-sheet.html">Formula Sheet</a>
+      <a href="practice.html">Practice Exam</a>
+      <a href="simulators.html">Simulators</a>
+      <a href="flashcards.html">Flashcards</a>
+      <a href="tools.html">Study Tools</a>
+      <a href="resources.html">Resources & Team</a>
+    </nav>
+  </aside>
+    `;
+
+    const pageTemplates = {
+      home: `
+    <main>
+      <section id="home" class="panel">
+        <h2>Purpose</h2>
+        <p>This browser-only study site helps you review key Physics 1 concepts, drill with exam-style questions, and track prep progress on any device.</p>
+        <div class="two-col">
+          <div>
+            <h3>Start Here</h3>
+            <ol>
+              <li>Review each topic summary and formula set.</li>
+              <li>Use simulators to build intuition for motion and forces.</li>
+              <li>Run timed mixed-review exams to train pacing.</li>
+              <li>Use flashcards and checklist until weak spots are gone.</li>
+            </ol>
+          </div>
+          <div>
+            <h3>Quick Access</h3>
+            <ul>
+              <li><a href="practice.html">Take a mixed timed practice exam</a></li>
+              <li><a href="tools.html">Use formula finder and converter</a></li>
+              <li><a href="study-guide.html">Read concept summaries and common mistakes</a></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+      `,
+      'study-guide': `
+    <main>
+      <section id="study-guide" class="panel">
+        <h2>Core Physics 1 Study Guide</h2>
+        <div id="study-guide-list" class="stack"></div>
+      </section>
+    </main>
+      `,
+      'formula-sheet': `
+    <main>
+      <section id="formula-sheet" class="panel">
+        <h2>Formula Sheet by Topic</h2>
+        <div id="formula-sheet-list" class="formula-grid"></div>
+      </section>
+    </main>
+      `,
+      'practice': `
+    <main>
+      <section id="practice" class="panel">
+        <h2>Practice Exam</h2>
+        <p>Choose topic or mixed mode, timed or untimed, then review explanations after submission.</p>
+        <form id="exam-controls" class="control-grid">
+          <label>Mode
+            <select id="exam-mode">
+              <option value="mixed">Mixed review</option>
+              <option value="topic">Single topic</option>
+            </select>
+          </label>
+          <label>Topic
+            <select id="exam-topic"></select>
+          </label>
+          <label>Question count
+            <input id="exam-count" type="number" min="5" max="30" value="10" />
+          </label>
+          <label>Timed?
+            <select id="exam-timed">
+              <option value="no">Untimed</option>
+              <option value="yes">Timed</option>
+            </select>
+          </label>
+          <label>Minutes (if timed)
+            <input id="exam-minutes" type="number" min="5" max="60" value="15" />
+          </label>
+          <button id="start-exam" type="button">Start Exam</button>
+        </form>
+        <p id="exam-status" class="status" aria-live="polite"></p>
+        <div id="exam-area" aria-live="polite"></div>
+        <div id="history-area" class="history-box" aria-live="polite"></div>
+      </section>
+    </main>
+      `,
+      'simulators': `
+    <main>
+      <section id="simulators" class="panel">
+        <h2>Interactive Simulators</h2>
+        <div class="sim-grid">
+          <article class="sim-card">
+            <h3>Projectile Motion</h3>
+            <label>Initial speed (m/s)<input id="proj-speed" type="number" value="20" step="0.1" /></label>
+            <label>Launch angle (deg)<input id="proj-angle" type="number" value="35" step="0.1" /></label>
+            <label>g (m/s²)<input id="proj-g" type="number" value="9.8" step="0.1" /></label>
+            <button id="proj-run" type="button">Calculate</button>
+            <p id="proj-output" class="sim-output" aria-live="polite"></p>
+          </article>
+
+          <article class="sim-card">
+            <h3>Forces / Newton’s 2nd Law</h3>
+            <label>Mass (kg)<input id="force-mass" type="number" value="5" step="0.1" /></label>
+            <label>Applied force (N)<input id="force-applied" type="number" value="25" step="0.1" /></label>
+            <label>μ<sub>k</sub><input id="force-mu" type="number" value="0.2" step="0.01" /></label>
+            <button id="force-run" type="button">Calculate</button>
+            <p id="force-output" class="sim-output" aria-live="polite"></p>
+          </article>
+
+          <article class="sim-card">
+            <h3>Energy Breakdown</h3>
+            <label>Mass (kg)<input id="energy-mass" type="number" value="1" step="0.1" /></label>
+            <label>Height (m)<input id="energy-height" type="number" value="2" step="0.1" /></label>
+            <label>Speed (m/s)<input id="energy-speed" type="number" value="3" step="0.1" /></label>
+            <label>Spring k (N/m)<input id="energy-k" type="number" value="80" step="1" /></label>
+            <label>Compression x (m)<input id="energy-x" type="number" value="0.2" step="0.01" /></label>
+            <button id="energy-run" type="button">Calculate</button>
+            <p id="energy-output" class="sim-output" aria-live="polite"></p>
+          </article>
+
+          <article class="sim-card">
+            <h3>Momentum / Collisions</h3>
+            <label>m₁ (kg)<input id="mom-m1" type="number" value="1" step="0.1" /></label>
+            <label>u₁ (m/s)<input id="mom-u1" type="number" value="4" step="0.1" /></label>
+            <label>m₂ (kg)<input id="mom-m2" type="number" value="2" step="0.1" /></label>
+            <label>u₂ (m/s)<input id="mom-u2" type="number" value="0" step="0.1" /></label>
+            <label>Collision type
+              <select id="mom-type">
+                <option value="elastic">Elastic</option>
+                <option value="inelastic">Perfectly inelastic</option>
+              </select>
+            </label>
+            <button id="mom-run" type="button">Calculate</button>
+            <p id="mom-output" class="sim-output" aria-live="polite"></p>
+          </article>
+
+          <article class="sim-card">
+            <h3>SHM / Rotation Dynamics</h3>
+            <label>Mode
+              <select id="osc-mode">
+                <option value="shm">Simple Harmonic Motion</option>
+                <option value="rotation">Rotation Dynamics</option>
+              </select>
+            </label>
+            <div id="osc-shm-inputs">
+              <label>Mass m (kg)<input id="shm-mass" type="number" value="0.4" step="0.1" /></label>
+              <label>Spring k (N/m)<input id="shm-k" type="number" value="64" step="1" /></label>
+              <label>Amplitude A (m)<input id="shm-a" type="number" value="0.15" step="0.01" /></label>
+            </div>
+            <div id="osc-rot-inputs" class="hidden">
+              <label>Force F (N)<input id="rot-force" type="number" value="2" step="0.1" /></label>
+              <label>Radius r (m)<input id="rot-radius" type="number" value="0.3" step="0.01" /></label>
+              <label>Moment of inertia I (kg·m²)<input id="rot-i" type="number" value="0.18" step="0.01" /></label>
+            </div>
+            <button id="osc-run" type="button">Calculate</button>
+            <p id="osc-output" class="sim-output" aria-live="polite"></p>
+          </article>
+        </div>
+      </section>
+    </main>
+      `,
+      'flashcards': `
+    <main>
+      <section id="flashcards" class="panel">
+        <h2>Flashcards</h2>
+        <div class="control-row">
+          <label>Topic filter
+            <select id="flash-topic"></select>
+          </label>
+          <button id="flash-prev" type="button">Previous</button>
+          <button id="flash-reveal" type="button">Reveal</button>
+          <button id="flash-next" type="button">Next</button>
+          <button id="flash-random" type="button">Random</button>
+        </div>
+        <article id="flash-card" class="flash-card"></article>
+        <p id="flash-meta" class="status" aria-live="polite"></p>
+      </section>
+    </main>
+      `,
+      'tools': `
+    <main>
+      <section id="tools" class="panel">
+        <h2>Study Tools</h2>
+        <div class="tools-grid">
+          <article class="tool-card">
+            <h3>Problem-Solving Checklist</h3>
+            <div id="checklist-box" class="stack"></div>
+          </article>
+
+          <article class="tool-card">
+            <h3>Unit Conversion Helper</h3>
+            <label>Conversion
+            <select id="convert-type"></select>
+          </label>
+          <label>Value<input id="convert-value" type="number" value="1" step="any" /></label>
+            <p id="convert-output" class="status" aria-live="polite"></p>
+          </article>
+
+          <article class="tool-card">
+            <h3>Formula Finder Decision Guide</h3>
+            <label>What are you solving?
+            <select id="finder-select"></select>
+          </label>
+          <p id="finder-output" class="status" aria-live="polite"></p>
+          </article>
+
+          <article class="tool-card">
+            <h3>Exam-Day Strategy</h3>
+            <ul>
+              <li>Start with problems you can finish in 90 seconds or less.</li>
+              <li>Write knowns with units before equations.</li>
+              <li>Check signs and directions before final answer.</li>
+              <li>If stuck, box equation setup and move on.</li>
+              <li>Use final 10 minutes to check units and reasonableness.</li>
+            </ul>
+          </article>
+
+          <article class="tool-card">
+            <h3>Topic Progress Tracker</h3>
+            <div id="topic-progress" class="stack"></div>
+          </article>
+
+          <article class="tool-card">
+            <h3>Overall Progress</h3>
+            <div id="progress-summary" class="stack" aria-live="polite"></div>
+          </article>
+        </div>
+      </section>
+    </main>
+      `,
+      'resources': `
+    <main>
+      <section id="resources" class="panel">
+        <h2>Resources & Team</h2>
+        <div class="two-col">
+          <div>
+            <h3>Recommended Resources</h3>
+            <ul>
+              <li><a href="https://openstax.org/details/books/university-physics-volume-1" target="_blank" rel="noreferrer">OpenStax University Physics Vol. 1</a></li>
+              <li><a href="https://phet.colorado.edu" target="_blank" rel="noreferrer">PhET Interactive Simulations</a></li>
+              <li><a href="https://www.khanacademy.org/science/physics" target="_blank" rel="noreferrer">Khan Academy Physics</a></li>
+              <li><a href="https://www.desmos.com/scientific" target="_blank" rel="noreferrer">Scientific Calculator (Desmos)</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3>Project Team</h3>
+            <ul>
+              <li>Tyler Abell</li>
+              <li>Andrew Garza</li>
+              <li>David Peine</li>
+              <li>Xavier Robles</li>
+            </ul>
+            <p>This site is static, browser-only, and designed for GitHub Pages hosting.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+      `
+    };
+
+    appEl.innerHTML = headerNav + (pageTemplates[base] || pageTemplates.home);
+
+    // Reattach mobile menu handlers for the injected layout
+    const menuToggle2 = document.getElementById('menu-toggle');
+    const siteNav2 = document.getElementById('site-nav');
+    if (menuToggle2 && siteNav2) {
+      menuToggle2.addEventListener('click', () => {
+        siteNav2.classList.toggle('active');
+      });
+      siteNav2.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          siteNav2.classList.remove('active');
+        });
+      });
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 900) {
+          siteNav2.classList.remove('active');
+        }
+      });
+    }
+
+    updateActiveNav();
+
+    // Initialize page-specific behaviors
+    switch (base) {
+      case 'study-guide':
+        renderStudyGuide();
+        break;
+      case 'formula-sheet':
+        renderFormulaSheet();
+        break;
+      case 'practice':
+        setupPracticeExam();
+        break;
+      case 'simulators':
+        setupSimulators();
+        break;
+      case 'flashcards':
+        setupFlashcards();
+        break;
+      case 'tools':
+        setupTools();
+        break;
+      default:
+        // no extra initialization for home/resources
+        break;
+    }
+  })();
