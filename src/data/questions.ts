@@ -1,0 +1,64 @@
+import type { PracticeQuestion } from '../types';
+
+export const questionBank: PracticeQuestion[] = [
+  { id: 'v1', topic: 'Vectors & Components', prompt: 'A 10 N vector makes a 60 degree angle above +x. What is Ax?', choices: ['5 N', '8.66 N', '10 N', '0 N'], correctIndex: 0, explanation: 'Ax = A cos(theta) = 10 cos(60) = 5 N.' },
+  { id: 'v2', topic: 'Vectors & Components', prompt: 'A vector has components (6, 8). Magnitude?', choices: ['10', '12', '14', '2'], correctIndex: 0, explanation: 'sqrt(6^2 + 8^2) = 10.' },
+  { id: 'v3', topic: 'Vectors & Components', prompt: 'If a vector points left, its x-component is:', choices: ['Positive', 'Negative', 'Zero', 'Undefined'], correctIndex: 1, explanation: 'Left corresponds to negative x.' },
+  { id: 'v4', topic: 'Vectors & Components', prompt: 'Adding vectors by components means you should add:', choices: ['Only magnitudes', 'x to x and y to y', 'angles only', 'masses only'], correctIndex: 1, explanation: 'Component addition keeps each axis separate.' },
+
+  { id: 'k1', topic: 'Kinematics', prompt: 'A car starts from rest and accelerates at 2.0 m/s^2 for 5 s. Final speed?', choices: ['5 m/s', '10 m/s', '15 m/s', '20 m/s'], correctIndex: 1, explanation: 'v = v0 + at = 0 + (2)(5) = 10 m/s.' },
+  { id: 'k2', topic: 'Kinematics', prompt: 'For constant acceleration, the slope of position-time graph gives:', choices: ['Acceleration', 'Velocity', 'Displacement', 'Jerk'], correctIndex: 1, explanation: 'Slope of x-t is velocity.' },
+  { id: 'k3', topic: 'Kinematics', prompt: 'Projectile launched horizontally has initial vertical velocity:', choices: ['g', '0', 'Depends on mass', 'Equals horizontal speed'], correctIndex: 1, explanation: 'Horizontal launch means v0y = 0.' },
+  { id: 'k4', topic: 'Kinematics', prompt: 'If an object has constant velocity, acceleration is:', choices: ['Positive', 'Negative', 'Zero', 'Infinite'], correctIndex: 2, explanation: 'No velocity change means zero acceleration.' },
+  { id: 'k5', topic: 'Kinematics', prompt: 'A runner goes 100 m east then 100 m west. Displacement is:', choices: ['200 m', '0 m', '100 m', 'Depends on speed'], correctIndex: 1, explanation: 'Final and initial positions are same.' },
+
+  { id: 'f1', topic: 'Forces', prompt: 'A 10 kg object has net force 30 N. Acceleration?', choices: ['0.33 m/s^2', '3.0 m/s^2', '30 m/s^2', '300 m/s^2'], correctIndex: 1, explanation: 'a = F/m = 30/10 = 3.0 m/s^2.' },
+  { id: 'f2', topic: 'Forces', prompt: 'Normal force on 4 kg object resting on horizontal surface:', choices: ['4 N', '9.8 N', '39.2 N', '0 N'], correctIndex: 2, explanation: 'N = mg = 4(9.8)=39.2 N.' },
+  { id: 'f3', topic: 'Forces', prompt: 'Static friction maximum is:', choices: ['μkN', 'μsN', 'mg', 'ma'], correctIndex: 1, explanation: 'Maximum static friction is μsN.' },
+  { id: 'f4', topic: 'Forces', prompt: 'An elevator moving upward at constant speed has acceleration:', choices: ['Upward', 'Downward', 'Zero', 'Variable'], correctIndex: 2, explanation: 'Constant velocity implies zero acceleration.' },
+  { id: 'f5', topic: 'Forces', prompt: 'Action-reaction pair forces act on:', choices: ['Same object', 'Different objects', 'Only if moving', 'Only if frictionless'], correctIndex: 1, explanation: 'Newton 3rd law pairs act on different objects.' },
+
+  { id: 'i1', topic: 'Friction, Tension, and Inclined Planes', prompt: 'On a frictionless incline, acceleration down the slope is:', choices: ['g', 'g sin(theta)', 'g cos(theta)', '0'], correctIndex: 1, explanation: 'Only the component parallel to the slope causes acceleration.' },
+  { id: 'i2', topic: 'Friction, Tension, and Inclined Planes', prompt: 'Normal force on an incline equals:', choices: ['mg', 'mg sin(theta)', 'mg cos(theta)', 'zero always'], correctIndex: 2, explanation: 'The perpendicular component of weight is mg cos(theta).' },
+  { id: 'i3', topic: 'Friction, Tension, and Inclined Planes', prompt: 'Kinetic friction points:', choices: ['With motion', 'Opposite motion', 'Straight up', 'Toward center'], correctIndex: 1, explanation: 'Kinetic friction opposes relative sliding.' },
+  { id: 'i4', topic: 'Friction, Tension, and Inclined Planes', prompt: 'Tension in an ideal rope is:', choices: ['Different at each end', 'Same throughout the rope', 'Always zero', 'Equal to weight'], correctIndex: 1, explanation: 'Ideal massless rope with frictionless pulleys has uniform tension.' },
+
+  { id: 'c1', topic: 'Circular Motion', prompt: 'Centripetal acceleration points:', choices: ['Tangent to path', 'Away from center', 'Toward center', 'Downward always'], correctIndex: 2, explanation: 'The inward direction keeps the object turning.' },
+  { id: 'c2', topic: 'Circular Motion', prompt: 'Centripetal force formula is:', choices: ['mv/r', 'mv^2/r', 'mr^2/v', 'mgh'], correctIndex: 1, explanation: 'Fc = mv^2/r.' },
+  { id: 'c3', topic: 'Circular Motion', prompt: 'If radius doubles at same speed, centripetal force:', choices: ['Doubles', 'Halves', 'Quadruples', 'Quartered'], correctIndex: 1, explanation: 'Fc is inversely proportional to radius.' },
+  { id: 'c4', topic: 'Circular Motion', prompt: 'For uniform circular motion, speed is:', choices: ['Changing', 'Constant', 'Zero', 'Infinite'], correctIndex: 1, explanation: 'Speed can stay constant even though velocity changes.' },
+
+  { id: 'e1', topic: 'Energy', prompt: 'Kinetic energy depends on:', choices: ['Speed only', 'Mass only', 'Mass and speed squared', 'Direction only'], correctIndex: 2, explanation: 'K = (1/2)mv^2.' },
+  { id: 'e2', topic: 'Energy', prompt: 'Work done by force perpendicular to displacement:', choices: ['Positive', 'Negative', 'Zero', 'Maximum'], correctIndex: 2, explanation: 'cos 90° = 0, so W=0.' },
+  { id: 'e3', topic: 'Energy', prompt: 'Power SI unit is:', choices: ['J', 'N', 'W', 'kg m/s'], correctIndex: 2, explanation: 'Power is measured in watts (J/s).' },
+  { id: 'e4', topic: 'Energy', prompt: 'A spring compressed more stores:', choices: ['Less energy', 'Same energy', 'More energy', 'No energy'], correctIndex: 2, explanation: 'Us = (1/2)kx^2 increases with x^2.' },
+  { id: 'e5', topic: 'Energy', prompt: 'Without friction, mechanical energy is:', choices: ['Not conserved', 'Conserved', 'Always zero', 'Always increasing'], correctIndex: 1, explanation: 'No non-conservative work means Emech conserved.' },
+
+  { id: 'm1', topic: 'Momentum', prompt: 'Momentum unit is:', choices: ['N', 'kg m/s', 'J', 'N s^2'], correctIndex: 1, explanation: 'p = mv has units kg·m/s.' },
+  { id: 'm2', topic: 'Momentum', prompt: 'Impulse equals change in:', choices: ['Energy', 'Position', 'Momentum', 'Mass'], correctIndex: 2, explanation: 'J = Δp.' },
+  { id: 'm3', topic: 'Momentum', prompt: 'In elastic collision, conserved quantities:', choices: ['Momentum only', 'KE only', 'Momentum and KE', 'Neither'], correctIndex: 2, explanation: 'Both conserved in ideal elastic collisions.' },
+  { id: 'm4', topic: 'Momentum', prompt: 'If no external force acts on system, total momentum is:', choices: ['Zero', 'Constant', 'Increasing', 'Decreasing'], correctIndex: 1, explanation: 'Conservation of momentum.' },
+  { id: 'm5', topic: 'Momentum', prompt: 'A heavier object at same speed has:', choices: ['Less momentum', 'Same momentum', 'More momentum', 'Zero momentum'], correctIndex: 2, explanation: 'p = mv rises with mass.' },
+
+  { id: 'r1', topic: 'Rotation', prompt: 'Angular acceleration is caused by:', choices: ['Velocity', 'Torque', 'Mass alone', 'Radius alone'], correctIndex: 1, explanation: 'Στ = Iα.' },
+  { id: 'r2', topic: 'Rotation', prompt: 'Torque magnitude is maximum when force is:', choices: ['Parallel to r', 'Perpendicular to r', 'Zero', 'At center'], correctIndex: 1, explanation: 'sinφ is max at 90°.' },
+  { id: 'r3', topic: 'Rotation', prompt: 'Rotational kinetic energy formula:', choices: ['(1/2)mv^2', 'mgh', '(1/2)Iω^2', 'Iα'], correctIndex: 2, explanation: 'Krot = (1/2)Iω^2.' },
+  { id: 'r4', topic: 'Rotation', prompt: 'Moment of inertia depends on:', choices: ['Mass distribution', 'Color', 'Temperature only', 'Velocity only'], correctIndex: 0, explanation: 'I depends on how mass is distributed relative to axis.' },
+  { id: 'r5', topic: 'Rotation', prompt: 'Angular velocity unit:', choices: ['m/s', 'rad/s', 'N m', 'kg/s'], correctIndex: 1, explanation: 'ω measured in rad/s.' },
+
+  { id: 'g1', topic: 'Gravitation & Orbits', prompt: 'Gravitational force is proportional to:', choices: ['r', '1/r', '1/r^2', 'r^2'], correctIndex: 2, explanation: 'Newton’s law has an inverse-square dependence.' },
+  { id: 'g2', topic: 'Gravitation & Orbits', prompt: 'If distance from center triples, gravity becomes:', choices: ['1/3 as large', '1/6 as large', '1/9 as large', '9 times larger'], correctIndex: 2, explanation: 'Inverse-square law gives 1/3^2 = 1/9.' },
+  { id: 'g3', topic: 'Gravitation & Orbits', prompt: 'Orbital speed formula is:', choices: ['sqrt(GM/r)', 'GM/r', 'sqrt(mg)', 'mr^2'], correctIndex: 0, explanation: 'Circular orbit speed depends on central mass and orbital radius.' },
+  { id: 'g4', topic: 'Gravitation & Orbits', prompt: 'Gravitational potential energy near a planet is:', choices: ['mgh only', '-GMm/r', 'mv^2/2', 'F = ma'], correctIndex: 1, explanation: 'The universal form is negative and depends on distance from center.' },
+
+  { id: 's1', topic: 'SHM', prompt: 'For spring-mass SHM, period is proportional to:', choices: ['√m', '1/√m', 'k', 'A'], correctIndex: 0, explanation: 'T = 2π√(m/k).' },
+  { id: 's2', topic: 'SHM', prompt: 'Restoring force in SHM is:', choices: ['F = kx', 'F = -kx', 'F = mg', 'F = ma'], correctIndex: 1, explanation: 'Negative sign means toward equilibrium.' },
+  { id: 's3', topic: 'SHM', prompt: 'At equilibrium position, potential energy is:', choices: ['Maximum', 'Minimum', 'Infinite', 'Negative always'], correctIndex: 1, explanation: 'Spring potential is minimum at x=0.' },
+  { id: 's4', topic: 'SHM', prompt: 'At maximum speed in SHM, displacement is:', choices: ['Maximum', 'Minimum', 'Zero', 'Undefined'], correctIndex: 2, explanation: 'Speed peaks at equilibrium x=0.' },
+  { id: 's5', topic: 'SHM', prompt: 'Frequency and period relation:', choices: ['f = T', 'f = 1/T', 'f = T^2', 'f = 2πT'], correctIndex: 1, explanation: 'Frequency is cycles per second.' },
+
+  { id: 'w1', topic: 'Waves & Sound', prompt: 'Wave speed equals:', choices: ['f + λ', 'fλ', 'f/λ', 'λ/f'], correctIndex: 1, explanation: 'The wave equation is v = fλ.' },
+  { id: 'w2', topic: 'Waves & Sound', prompt: 'If wave speed is fixed and frequency increases, wavelength:', choices: ['Increases', 'Decreases', 'Stays the same', 'Becomes zero'], correctIndex: 1, explanation: 'v = fλ stays constant, so λ must shrink.' },
+  { id: 'w3', topic: 'Waves & Sound', prompt: 'A 4 Hz wave has period:', choices: ['0.25 s', '4 s', '8 s', '16 s'], correctIndex: 0, explanation: 'T = 1/f = 1/4 = 0.25 s.' },
+  { id: 'w4', topic: 'Waves & Sound', prompt: 'Sound travels fastest in:', choices: ['Vacuum', 'Gas', 'Liquid', 'Solid'], correctIndex: 3, explanation: 'Sound generally travels fastest in solids.' }
+];
