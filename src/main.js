@@ -14,20 +14,27 @@ if (!app) {
 app.innerHTML = `
   <header class="site-header" id="top">
     <div class="header-inner">
-      <h1>PHYS 1 Final Exam Study Guide</h1>
-      <p>Built for University Physics 1 prep by Tyler Abell, Andrew Garza, David Peine, and Xavier Robles.</p>
-      <nav class="quick-nav" aria-label="Quick links">
-        <a href="#home">Home</a>
-        <a href="#study-guide">Study Guide</a>
-        <a href="#formula-sheet">Formula Sheet</a>
-        <a href="#practice">Practice Exam</a>
-        <a href="#simulators">Simulators</a>
-        <a href="#flashcards">Flashcards</a>
-        <a href="#tools">Study Tools</a>
-        <a href="#resources">Resources & Team</a>
-      </nav>
+      <div>
+        <h1>PHYS 1 Study</h1>
+        <p>Built by Tyler Abell, Andrew Garza, David Peine, and Xavier Robles</p>
+      </div>
+      <button class="menu-toggle" aria-label="Toggle navigation" id="menu-toggle">☰</button>
     </div>
   </header>
+  
+  <aside class="site-nav" id="site-nav">
+    <nav aria-label="Main navigation">
+      <a href="#home">Home</a>
+      <a href="#study-guide">Study Guide</a>
+      <a href="#formula-sheet">Formula Sheet</a>
+      <a href="#practice">Practice Exam</a>
+      <a href="#simulators">Simulators</a>
+      <a href="#flashcards">Flashcards</a>
+      <a href="#tools">Study Tools</a>
+      <a href="#resources">Resources & Team</a>
+    </nav>
+  </aside>
+  
   <main>
     <section id="home" class="panel">
       <h2>Purpose</h2>
@@ -832,3 +839,50 @@ function formatTime(seconds) {
         .padStart(2, '0');
     return `${mins}:${secs}`;
 }
+
+// Mobile menu toggle
+const menuToggle = document.getElementById('menu-toggle');
+const siteNav = document.getElementById('site-nav');
+if (menuToggle && siteNav) {
+    menuToggle.addEventListener('click', () => {
+        siteNav.classList.toggle('active');
+    });
+    
+    // Close menu when a link is clicked
+    siteNav.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            siteNav.classList.remove('active');
+        });
+    });
+    
+    // Close menu on window resize if it goes back to desktop size
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 900) {
+            siteNav.classList.remove('active');
+        }
+    });
+}
+
+// Highlight active navigation link based on scroll position
+function updateActiveNav() {
+    const sections = document.querySelectorAll('main > section');
+    const navLinks = siteNav ? siteNav.querySelectorAll('a') : [];
+    
+    let current = '';
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (window.pageYOffset >= sectionTop - 100) {
+            current = section.getAttribute('id');
+        }
+    });
+    
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${current}`) {
+            link.classList.add('active');
+        }
+    });
+}
+
+window.addEventListener('scroll', updateActiveNav);
+document.addEventListener('DOMContentLoaded', updateActiveNav);
