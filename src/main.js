@@ -11,6 +11,7 @@ const app = document.querySelector('#app');
 if (!app) {
     throw new Error('App container missing.');
 }
+const DEFAULT_PAGE = 'study-guide';
 const pageConfig = [
     { id: 'study-guide', file: 'study-guide.html', label: 'Study Guide' },
     { id: 'formula-sheet', file: 'formula-sheet.html', label: 'Formula Sheet' },
@@ -23,13 +24,15 @@ const pageConfig = [
 function resolveCurrentPage(pathname) {
     const lastSegment = pathname.split('/').filter(Boolean).pop() ?? '';
     if (!lastSegment || lastSegment === 'index.html') {
-        return 'study-guide';
+        return DEFAULT_PAGE;
     }
     const pageId = lastSegment.replace(/\.html$/u, '');
-    return pageConfig.some((page) => page.id === pageId) ? pageId : 'study-guide';
+    return pageConfig.some((page) => page.id === pageId) ? pageId : DEFAULT_PAGE;
 }
 const currentPage = resolveCurrentPage(window.location.pathname);
-const currentPageConfig = pageConfig.find((page) => page.id === currentPage) ?? pageConfig[0];
+const currentPageConfig = pageConfig.find((page) => page.id === currentPage)
+    ?? pageConfig.find((page) => page.id === DEFAULT_PAGE)
+    ?? pageConfig[0];
 const pageMarkup = {
     'study-guide': `
     <section id="study-guide" class="panel">
@@ -256,8 +259,12 @@ app.innerHTML = `
   <aside class="site-nav" id="site-nav">
     <nav aria-label="Main navigation">
       ${pageConfig
-    .map((page) => `<a href="./${page.file}"${page.id === currentPage ? ' class="active" aria-current="page"' : ''}>${page.label}</a>`)
-    .join('')}
+        .map((page) => {
+        const isCurrent = page.id === currentPage;
+        const attrs = isCurrent ? ' class="active" aria-current="page"' : '';
+        return `<a href="./${page.file}"${attrs}>${page.label}</a>`;
+    })
+        .join('')}
     </nav>
   </aside>
   
@@ -265,24 +272,26 @@ app.innerHTML = `
     ${pageMarkup[currentPage]}
   </main>
 `;
-setupNavigation();
-if (currentPage === 'study-guide') {
-    renderStudyGuide();
-}
-if (currentPage === 'formula-sheet') {
-    renderFormulaSheet();
-}
-if (currentPage === 'practice') {
-    setupPracticeExam();
-}
-if (currentPage === 'simulators') {
-    setupSimulators();
-}
-if (currentPage === 'flashcards') {
-    setupFlashcards();
-}
-if (currentPage === 'tools') {
-    setupTools();
+function initializeCurrentPage() {
+    setupNavigation();
+    if (currentPage === 'study-guide') {
+        renderStudyGuide();
+    }
+    if (currentPage === 'formula-sheet') {
+        renderFormulaSheet();
+    }
+    if (currentPage === 'practice') {
+        setupPracticeExam();
+    }
+    if (currentPage === 'simulators') {
+        setupSimulators();
+    }
+    if (currentPage === 'flashcards') {
+        setupFlashcards();
+    }
+    if (currentPage === 'tools') {
+        setupTools();
+    }
 }
 function renderStudyGuide() {
     const container = getById('study-guide-list');
@@ -881,3 +890,4 @@ function setupNavigation() {
         }
     });
 }
+initializeCurrentPage();
