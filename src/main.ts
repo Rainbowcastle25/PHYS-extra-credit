@@ -1,7 +1,7 @@
 import './style.css';
-import { flashcards } from './data/flashcards';
-import { questionBank } from './data/questions';
-import { formulaSheet, studyTopics } from './data/studyContent';
+import { flashcards } from './data/flashcards.js';
+import { questionBank } from './data/questions.js';
+import { formulaSheet, studyTopics } from './data/studyContent.js';
 import type { PracticeQuestion } from './types';
 
 const storageKeys = {
