@@ -11,65 +11,39 @@ const app = document.querySelector('#app');
 if (!app) {
     throw new Error('App container missing.');
 }
-app.innerHTML = `
-  <header class="site-header" id="top">
-    <div class="header-inner">
-      <div>
-        <h1>PHYS 1 Study</h1>
-        <p>Built by Tyler Abell, Andrew Garza, David Peine, and Xavier Robles</p>
-      </div>
-      <button class="menu-toggle" aria-label="Toggle navigation" id="menu-toggle">☰</button>
-    </div>
-  </header>
-  
-  <aside class="site-nav" id="site-nav">
-    <nav aria-label="Main navigation">
-      <a href="#home">Home</a>
-      <a href="#study-guide">Study Guide</a>
-      <a href="#formula-sheet">Formula Sheet</a>
-      <a href="#practice">Practice Exam</a>
-      <a href="#simulators">Simulators</a>
-      <a href="#flashcards">Flashcards</a>
-      <a href="#tools">Study Tools</a>
-      <a href="#resources">Resources & Team</a>
-    </nav>
-  </aside>
-  
-  <main>
-    <section id="home" class="panel">
-      <h2>Purpose</h2>
-      <p>This browser-only study site helps you review key Physics 1 concepts, drill with exam-style questions, and track prep progress on any device.</p>
-      <div class="two-col">
-        <div>
-          <h3>Start Here</h3>
-          <ol>
-            <li>Review each topic summary and formula set.</li>
-            <li>Use simulators to build intuition for motion and forces.</li>
-            <li>Run timed mixed-review exams to train pacing.</li>
-            <li>Use flashcards and checklist until weak spots are gone.</li>
-          </ol>
-        </div>
-        <div>
-          <h3>Quick Access</h3>
-          <ul>
-            <li><a href="#practice">Take a mixed timed practice exam</a></li>
-            <li><a href="#tools">Use formula finder and converter</a></li>
-            <li><a href="#study-guide">Read concept summaries and common mistakes</a></li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
+const pageConfig = [
+    { id: 'study-guide', file: 'study-guide.html', label: 'Study Guide' },
+    { id: 'formula-sheet', file: 'formula-sheet.html', label: 'Formula Sheet' },
+    { id: 'practice', file: 'practice.html', label: 'Practice Exam' },
+    { id: 'simulators', file: 'simulators.html', label: 'Simulators' },
+    { id: 'flashcards', file: 'flashcards.html', label: 'Flashcards' },
+    { id: 'tools', file: 'tools.html', label: 'Study Tools' },
+    { id: 'resources', file: 'resources.html', label: 'Resources & Team' }
+];
+function resolveCurrentPage(pathname) {
+    const lastSegment = pathname.split('/').filter(Boolean).pop() ?? '';
+    if (!lastSegment || lastSegment === 'index.html') {
+        return 'study-guide';
+    }
+    const pageId = lastSegment.replace(/\.html$/u, '');
+    return pageConfig.some((page) => page.id === pageId) ? pageId : 'study-guide';
+}
+const currentPage = resolveCurrentPage(window.location.pathname);
+const currentPageConfig = pageConfig.find((page) => page.id === currentPage) ?? pageConfig[0];
+const pageMarkup = {
+    'study-guide': `
     <section id="study-guide" class="panel">
       <h2>Core Physics 1 Study Guide</h2>
       <div id="study-guide-list" class="stack"></div>
     </section>
-
+  `,
+    'formula-sheet': `
     <section id="formula-sheet" class="panel">
       <h2>Formula Sheet by Topic</h2>
       <div id="formula-sheet-list" class="formula-grid"></div>
     </section>
-
+  `,
+    practice: `
     <section id="practice" class="panel">
       <h2>Practice Exam</h2>
       <p>Choose topic or mixed mode, timed or untimed, then review explanations after submission.</p>
@@ -101,7 +75,8 @@ app.innerHTML = `
       <div id="exam-area" aria-live="polite"></div>
       <div id="history-area" class="history-box" aria-live="polite"></div>
     </section>
-
+  `,
+    simulators: `
     <section id="simulators" class="panel">
       <h2>Interactive Simulators</h2>
       <div class="sim-grid">
@@ -173,7 +148,8 @@ app.innerHTML = `
         </article>
       </div>
     </section>
-
+  `,
+    flashcards: `
     <section id="flashcards" class="panel">
       <h2>Flashcards</h2>
       <div class="control-row">
@@ -188,7 +164,8 @@ app.innerHTML = `
       <article id="flash-card" class="flash-card"></article>
       <p id="flash-meta" class="status" aria-live="polite"></p>
     </section>
-
+  `,
+    tools: `
     <section id="tools" class="panel">
       <h2>Study Tools</h2>
       <div class="tools-grid">
@@ -236,7 +213,8 @@ app.innerHTML = `
         </article>
       </div>
     </section>
-
+  `,
+    resources: `
     <section id="resources" class="panel">
       <h2>Resources & Team</h2>
       <div class="two-col">
@@ -261,14 +239,51 @@ app.innerHTML = `
         </div>
       </div>
     </section>
+  `
+};
+document.title = `${currentPageConfig.label} | PHYS Extra Credit Study Guide`;
+app.innerHTML = `
+  <header class="site-header" id="top">
+    <div class="header-inner">
+      <div>
+        <h1>PHYS 1 Study</h1>
+        <p>Built by Tyler Abell, Andrew Garza, David Peine, and Xavier Robles</p>
+      </div>
+      <button class="menu-toggle" aria-label="Toggle navigation" id="menu-toggle">☰</button>
+    </div>
+  </header>
+  
+  <aside class="site-nav" id="site-nav">
+    <nav aria-label="Main navigation">
+      ${pageConfig
+    .map((page) => `<a href="./${page.file}"${page.id === currentPage ? ' class="active" aria-current="page"' : ''}>${page.label}</a>`)
+    .join('')}
+    </nav>
+  </aside>
+  
+  <main id="page-main">
+    ${pageMarkup[currentPage]}
   </main>
 `;
-renderStudyGuide();
-renderFormulaSheet();
-setupPracticeExam();
-setupSimulators();
-setupFlashcards();
-setupTools();
+setupNavigation();
+if (currentPage === 'study-guide') {
+    renderStudyGuide();
+}
+if (currentPage === 'formula-sheet') {
+    renderFormulaSheet();
+}
+if (currentPage === 'practice') {
+    setupPracticeExam();
+}
+if (currentPage === 'simulators') {
+    setupSimulators();
+}
+if (currentPage === 'flashcards') {
+    setupFlashcards();
+}
+if (currentPage === 'tools') {
+    setupTools();
+}
 function renderStudyGuide() {
     const container = getById('study-guide-list');
     container.innerHTML = studyTopics
@@ -762,7 +777,10 @@ function setupTopicTracker() {
     });
 }
 function updateProgressSummary() {
-    const summary = getById('progress-summary');
+    const summary = document.getElementById('progress-summary');
+    if (!summary) {
+        return;
+    }
     const checklistDone = loadJson(storageKeys.checklist, []).length;
     const topicsDone = loadJson(storageKeys.masteredTopics, []).length;
     const cardsReviewed = loadJson(storageKeys.reviewedFlashcards, []).length;
@@ -840,49 +858,26 @@ function formatTime(seconds) {
     return `${mins}:${secs}`;
 }
 
-// Mobile menu toggle
-const menuToggle = document.getElementById('menu-toggle');
-const siteNav = document.getElementById('site-nav');
-if (menuToggle && siteNav) {
+function setupNavigation() {
+    const menuToggle = document.getElementById('menu-toggle');
+    const siteNav = document.getElementById('site-nav');
+    if (!menuToggle || !siteNav) {
+        return;
+    }
+    const closeMenu = () => {
+        siteNav.classList.remove('active');
+    };
     menuToggle.addEventListener('click', () => {
         siteNav.classList.toggle('active');
     });
-    
-    // Close menu when a link is clicked
-    siteNav.querySelectorAll('a').forEach(link => {
+    siteNav.querySelectorAll('a').forEach((link) => {
         link.addEventListener('click', () => {
-            siteNav.classList.remove('active');
+            closeMenu();
         });
     });
-    
-    // Close menu on window resize if it goes back to desktop size
     window.addEventListener('resize', () => {
         if (window.innerWidth > 900) {
-            siteNav.classList.remove('active');
+            closeMenu();
         }
     });
 }
-
-// Highlight active navigation link based on scroll position
-function updateActiveNav() {
-    const sections = document.querySelectorAll('main > section');
-    const navLinks = siteNav ? siteNav.querySelectorAll('a') : [];
-    
-    let current = '';
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        if (window.pageYOffset >= sectionTop - 100) {
-            current = section.getAttribute('id');
-        }
-    });
-    
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${current}`) {
-            link.classList.add('active');
-        }
-    });
-}
-
-window.addEventListener('scroll', updateActiveNav);
-document.addEventListener('DOMContentLoaded', updateActiveNav);
