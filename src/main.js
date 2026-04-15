@@ -1356,6 +1356,7 @@ function updateActiveNav() {
         </div>
         <p class="header-meta">${page.summary}</p>
       </header>
+      <div id="home" aria-hidden="true"></div>
       <main id="page-content" class="page-grid page-grid--${page.tone}">
         ${pageTemplates[base] || pageTemplates.home}
       </main>
