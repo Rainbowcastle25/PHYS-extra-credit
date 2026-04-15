@@ -798,13 +798,19 @@ function updateProgressSummary() {
     const checklistPercent = (checklistDone / checklistItems.length) * 100;
     const topicPercent = (topicsDone / studyTopics.length) * 100;
     const cardPercent = (cardsReviewed / flashcards.length) * 100;
-    summary.innerHTML = `
+    const summaryHtml = `
     <p>Checklist complete: <strong>${checklistDone}/${checklistItems.length}</strong> (${checklistPercent.toFixed(0)}%)</p>
     <p>Topics mastered: <strong>${topicsDone}/${studyTopics.length}</strong> (${topicPercent.toFixed(0)}%)</p>
     <p>Flashcards reviewed: <strong>${cardsReviewed}/${flashcards.length}</strong> (${cardPercent.toFixed(0)}%)</p>
     <p>Practice attempts: <strong>${attempts.length}</strong></p>
     <p>Best practice score: <strong>${best.toFixed(1)}%</strong></p>
   `;
+    ['progress-summary', 'home-progress-summary'].forEach((id) => {
+        const container = document.getElementById(id);
+        if (container) {
+            container.innerHTML = summaryHtml;
+        }
+    });
 }
 function getById(id) {
     const element = document.getElementById(id);
