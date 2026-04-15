@@ -3,20 +3,177 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PHYS Extra Credit Study Guide</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,600&family=Space+Grotesk:wght@400;500;700&display=swap" />
-    <link rel="stylesheet" href="./src/style.css" />
+    <title>Physics 1 Study Platform</title>
     <meta
       name="description"
-      content="University Physics 1 final exam study guide with practice exams, simulators, flashcards, and review tools."
+      content="Modern Physics 1 exam prep dashboard with bento-grid UI, topic summaries, formulas, practice exams, flashcards, and simulators."
     />
-    <meta name="theme-color" content="#0d2640" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/styles.css" />
   </head>
   <body>
-    <a class="skip-link" href="#page-main">Skip to content</a>
-    <div id="app"></div>
-    <script type="module" src="./src/main.js"></script>
+    <div class="page-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Physics 1 Platform</p>
+          <h1>Exam Prep Dashboard</h1>
+        </div>
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="./index.html" class="active">Home</a>
+          <a href="./topics.html">Topics</a>
+          <a href="./formulas.html">Formulas</a>
+          <a href="./exams.html">Exams</a>
+          <a href="./flashcards.html">Flashcards</a>
+          <a href="./tools.html">Tools</a>
+          <a href="./simulators.html">Simulators</a>
+        </nav>
+      </header>
+
+      <main class="bento-grid">
+        <section class="card featured">
+          <div class="card-header">
+            <p class="card-label">Featured</p>
+            <span class="badge">Physics 1</span>
+          </div>
+          <div class="featured-content">
+            <h2>Study smarter with summaries, formulas, exams, and visual simulators.</h2>
+            <p>
+              Build confidence for your exam with focused concept review, fast formula lookup, and hands-on
+              simulator tools for mechanics topics.
+            </p>
+            <div class="feature-stats">
+              <div>
+                <span class="stat-label">Topics</span>
+                <strong>8</strong>
+              </div>
+              <div>
+                <span class="stat-label">Formula Sets</span>
+                <strong>6</strong>
+              </div>
+              <div>
+                <span class="stat-label">Simulators</span>
+                <strong>6</strong>
+              </div>
+            </div>
+            <div class="feature-actions">
+              <a class="btn primary" href="./topics.html">Start Studying</a>
+              <a class="btn secondary" href="./simulators.html">Open Simulators</a>
+            </div>
+          </div>
+          <div class="physics-ring"></div>
+        </section>
+
+        <section class="card tall">
+          <div class="card-header">
+            <p class="card-label">Formula Sheet</p>
+            <span class="badge">Core</span>
+          </div>
+          <h3>Key Equations</h3>
+          <div class="formula-list mono">
+            <p>v = v0 + at</p>
+            <p>x = x0 + v0t + 0.5at^2</p>
+            <p>F = ma</p>
+            <p>W = Fd cos(theta)</p>
+            <p>KE = 0.5mv^2</p>
+            <p>PE = mgh</p>
+            <p>p = mv</p>
+            <p>T = 2pi * sqrt(m/k)</p>
+            <p>tau = rF sin(theta)</p>
+          </div>
+          <a class="text-link" href="./formulas.html">View full formula sheet -></a>
+        </section>
+
+        <section class="card wide">
+          <div class="card-header">
+            <p class="card-label">Interactive Simulators</p>
+            <span class="badge">Visual</span>
+          </div>
+          <h3>Explore Physics Graphically</h3>
+          <p>Calculate and visualize motion, forces, energy, momentum, oscillations, and rotation.</p>
+          <div class="sim-tags">
+            <span>Projectile</span>
+            <span>Forces</span>
+            <span>Energy</span>
+            <span>Momentum</span>
+            <span>SHM</span>
+            <span>Rotation</span>
+          </div>
+          <div class="progress-line"></div>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <p class="card-label">Topic Summaries</p>
+            <span class="badge">Notes</span>
+          </div>
+          <h3>Concept-first review</h3>
+          <p>Read concise summaries of core Physics 1 units from kinematics to gravitation.</p>
+          <a class="text-link" href="./topics.html">Browse topics -></a>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <p class="card-label">Practice Exams</p>
+            <span class="badge">Timed</span>
+          </div>
+          <h3>Test readiness</h3>
+          <p>Use mixed-difficulty practice sets and free response prompts to sharpen exam skills.</p>
+          <a class="text-link" href="./exams.html">Take a practice exam -></a>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <p class="card-label">Flashcards</p>
+            <span class="badge">Memory</span>
+          </div>
+          <h3>Fast recall training</h3>
+          <p>Drill definitions, units, and formulas with quick card decks by topic.</p>
+          <a class="text-link" href="./flashcards.html">Open flashcards -></a>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <p class="card-label">Study Utilities</p>
+            <span class="badge">Tools</span>
+          </div>
+          <h3>Helpful helpers</h3>
+          <p>Use unit conversion, notation helpers, and an equation rearranger for faster homework flow.</p>
+          <a class="text-link" href="./tools.html">Use study tools -></a>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <p class="card-label">Quick Reference</p>
+            <span class="badge">Units</span>
+          </div>
+          <h3>Common units</h3>
+          <div class="mono mini-grid">
+            <p>m/s</p>
+            <p>N</p>
+            <p>J</p>
+            <p>kg*m/s</p>
+            <p>rad/s</p>
+            <p>Hz</p>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <p class="card-label">Progress</p>
+            <span class="badge">Daily Goal</span>
+          </div>
+          <h3>Today's study streak</h3>
+          <p>Stay consistent with short review sessions and focused practice blocks.</p>
+          <div class="progress-circle"><span>72%</span></div>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="./js/app.js"></script>
   </body>
 </html>

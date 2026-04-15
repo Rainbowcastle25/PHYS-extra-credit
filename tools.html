@@ -3,17 +3,116 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Study Tools | PHYS Extra Credit Study Guide</title>
-    <link rel="stylesheet" href="./src/style.css" />
-    <meta
-      name="description"
-      content="University Physics 1 final exam study guide with practice exams, simulators, flashcards, and review tools."
+    <title>Tools | Physics 1 Study Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
     />
-    <meta name="theme-color" content="#0d2640" />
+    <link rel="stylesheet" href="./css/styles.css" />
   </head>
   <body>
-    <a class="skip-link" href="#page-main">Skip to content</a>
-    <div id="app"></div>
-    <script type="module" src="./src/main.js"></script>
+    <div class="page-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Study Utilities</p>
+          <h1>Physics Tools</h1>
+        </div>
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="./index.html">Home</a>
+          <a href="./topics.html">Topics</a>
+          <a href="./formulas.html">Formulas</a>
+          <a href="./exams.html">Exams</a>
+          <a href="./flashcards.html">Flashcards</a>
+          <a href="./tools.html" class="active">Tools</a>
+          <a href="./simulators.html">Simulators</a>
+        </nav>
+      </header>
+
+      <main class="bento-grid">
+        <section class="card featured">
+          <div class="card-header">
+            <p class="card-label">Unit Converter</p>
+            <span class="badge">Interactive</span>
+          </div>
+          <h2>Convert common Physics 1 units</h2>
+          <form id="unitConverterForm" class="tool-form">
+            <label>
+              Value
+              <input id="unitValue" type="number" step="any" value="1" />
+            </label>
+            <label>
+              Conversion
+              <select id="unitMode">
+                <option value="m-to-cm">m -> cm</option>
+                <option value="cm-to-m">cm -> m</option>
+                <option value="kg-to-g">kg -> g</option>
+                <option value="g-to-kg">g -> kg</option>
+                <option value="deg-to-rad">deg -> rad</option>
+                <option value="rad-to-deg">rad -> deg</option>
+              </select>
+            </label>
+            <button class="btn primary" type="submit">Convert</button>
+          </form>
+          <pre id="unitConverterResult" class="result">1 m = 100.000 cm</pre>
+          <div class="physics-ring"></div>
+        </section>
+
+        <section class="card tall">
+          <div class="card-header">
+            <p class="card-label">Equation Rearranger</p>
+            <span class="badge">Guide</span>
+          </div>
+          <div class="check-list mono">
+            <p>F = ma -> a = F / m</p>
+            <p>v = d / t -> d = vt, t = d / v</p>
+            <p>KE = 0.5mv^2 -> v = sqrt(2KE / m)</p>
+            <p>p = mv -> v = p / m</p>
+            <p>P = W / t -> W = Pt</p>
+            <p>tau = Ialpha -> alpha = tau / I</p>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <p class="card-label">Scientific Notation</p>
+            <span class="badge">Reference</span>
+          </div>
+          <h3>Quick format rules</h3>
+          <p>Write values as a x 10^n where 1 &lt;= a &lt; 10 and n is an integer.</p>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <p class="card-label">Dimensional Analysis</p>
+            <span class="badge">Checklist</span>
+          </div>
+          <h3>Validation steps</h3>
+          <div class="check-list">
+            <p>Convert all givens to SI first.</p>
+            <p>Track base units through every equation.</p>
+            <p>Cancel units algebraically before solving.</p>
+          </div>
+        </section>
+
+        <section class="card wide">
+          <div class="card-header">
+            <p class="card-label">Common Constants</p>
+            <span class="badge">Mono</span>
+          </div>
+          <div class="mini-grid mono">
+            <p>g = 9.8 m/s^2</p>
+            <p>pi = 3.14159</p>
+            <p>1 N = 1 kg*m/s^2</p>
+            <p>1 J = 1 N*m</p>
+            <p>1 W = 1 J/s</p>
+            <p>1 rev = 2pi rad</p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="./js/app.js"></script>
   </body>
 </html>
