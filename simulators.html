@@ -3,16 +3,111 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PHYS Extra Credit — Simulators</title>
+    <title>Simulators | Physics 1 Study Platform</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,600&family=Space+Grotesk:wght@400;500;700&display=swap" />
-    <link rel="stylesheet" href="./src/style.css" />
-    <meta name="description" content="Interactive simulators" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/styles.css" />
   </head>
   <body>
-    <a class="skip-link" href="#home">Skip to content</a>
-    <div id="app"></div>
-    <script type="module" src="./src/main.js"></script>
+    <div class="page-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Interactive Tools</p>
+          <h1>Physics Simulators</h1>
+        </div>
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="./index.html">Home</a>
+          <a href="./topics.html">Topics</a>
+          <a href="./formulas.html">Formulas</a>
+          <a href="./exams.html">Exams</a>
+          <a href="./flashcards.html">Flashcards</a>
+          <a href="./tools.html">Tools</a>
+          <a href="./simulators.html" class="active">Simulators</a>
+        </nav>
+      </header>
+
+      <main class="bento-grid">
+        <section class="card featured grid-2">
+          <div class="card-header">
+            <p class="card-label">Projectile Motion</p>
+            <span class="badge">Live</span>
+          </div>
+          <h2>Launch calculator + trajectory graph</h2>
+          <div class="sim-layout">
+            <form id="projectileForm" class="tool-form" novalidate>
+              <label>
+                Initial speed (m/s)
+                <input id="velocityInput" type="number" min="0.1" step="0.1" value="20" />
+              </label>
+              <label>
+                Launch angle (deg)
+                <input id="angleInput" type="number" min="1" max="89" step="1" value="45" />
+              </label>
+              <label>
+                Gravity (m/s^2)
+                <input id="gravityInput" type="number" min="0.1" step="0.1" value="9.8" />
+              </label>
+              <button class="btn primary" type="submit">Calculate</button>
+              <pre id="projectileResults" class="result"></pre>
+            </form>
+            <div class="sim-canvas-wrap">
+              <canvas id="projectileCanvas" width="760" height="380"></canvas>
+            </div>
+          </div>
+          <div class="physics-ring"></div>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <p class="card-label">Forces</p>
+            <span class="badge">Planned</span>
+          </div>
+          <h3>Net force explorer</h3>
+          <p>Add applied force, friction, and mass to visualize acceleration and force vectors.</p>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <p class="card-label">Energy</p>
+            <span class="badge">Planned</span>
+          </div>
+          <h3>Energy conversion plot</h3>
+          <p>Track kinetic and potential energy changes over time and position.</p>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <p class="card-label">Momentum</p>
+            <span class="badge">Planned</span>
+          </div>
+          <h3>Collision simulator</h3>
+          <p>Compare elastic and inelastic outcomes for two-body 1D collisions.</p>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <p class="card-label">SHM</p>
+            <span class="badge">Planned</span>
+          </div>
+          <h3>Spring-mass graph</h3>
+          <p>Graph displacement, velocity, and acceleration for sinusoidal motion.</p>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <p class="card-label">Rotation</p>
+            <span class="badge">Planned</span>
+          </div>
+          <h3>Torque and inertia</h3>
+          <p>Model angular acceleration with adjustable torque and moment of inertia.</p>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="./js/app.js"></script>
   </body>
 </html>

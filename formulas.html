@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Formulas | Physics 1 Study Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Formula Sheet</p>
+          <h1>Physics 1 Equations</h1>
+        </div>
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="./index.html">Home</a>
+          <a href="./topics.html">Topics</a>
+          <a href="./formulas.html" class="active">Formulas</a>
+          <a href="./exams.html">Exams</a>
+          <a href="./flashcards.html">Flashcards</a>
+          <a href="./tools.html">Tools</a>
+          <a href="./simulators.html">Simulators</a>
+        </nav>
+      </header>
+
+      <main class="bento-grid">
+        <section class="card grid-2">
+          <div class="card-header">
+            <p class="card-label">Kinematics</p>
+            <span class="badge">Motion</span>
+          </div>
+          <div class="formula-list mono">
+            <p>v = v0 + at</p>
+            <p>x = x0 + v0t + 0.5at^2</p>
+            <p>v^2 = v0^2 + 2a(x - x0)</p>
+            <p>x - x0 = 0.5(v + v0)t</p>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <p class="card-label">Dynamics</p>
+            <span class="badge">Forces</span>
+          </div>
+          <div class="formula-list mono">
+            <p>Fnet = ma</p>
+            <p>f_k = mu_k N</p>
+            <p>f_s &lt;= mu_s N</p>
+            <p>W = Fd cos(theta)</p>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <p class="card-label">Energy</p>
+            <span class="badge">Work</span>
+          </div>
+          <div class="formula-list mono">
+            <p>KE = 0.5mv^2</p>
+            <p>PE_g = mgh</p>
+            <p>P = W / t</p>
+            <p>Wnet = deltaKE</p>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <p class="card-label">Momentum</p>
+            <span class="badge">Impulse</span>
+          </div>
+          <div class="formula-list mono">
+            <p>p = mv</p>
+            <p>J = Fdelta_t = delta_p</p>
+            <p>m1v1i + m2v2i = m1v1f + m2v2f</p>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <p class="card-label">Circular Motion</p>
+            <span class="badge">Orbit</span>
+          </div>
+          <div class="formula-list mono">
+            <p>v = 2pi r / T</p>
+            <p>a_c = v^2 / r</p>
+            <p>F_c = mv^2 / r</p>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <p class="card-label">Rotation</p>
+            <span class="badge">Angular</span>
+          </div>
+          <div class="formula-list mono">
+            <p>tau = rF sin(theta)</p>
+            <p>tau_net = Ialpha</p>
+            <p>K_rot = 0.5Iomega^2</p>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <p class="card-label">Oscillations</p>
+            <span class="badge">SHM</span>
+          </div>
+          <div class="formula-list mono">
+            <p>T_spring = 2pi * sqrt(m/k)</p>
+            <p>f = 1 / T</p>
+            <p>x(t) = A cos(omega t + phi)</p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="./js/app.js"></script>
+  </body>
+</html>

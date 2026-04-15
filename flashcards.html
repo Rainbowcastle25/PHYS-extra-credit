@@ -3,16 +3,98 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PHYS Extra Credit — Flashcards</title>
+    <title>Flashcards | Physics 1 Study Platform</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,600&family=Space+Grotesk:wght@400;500;700&display=swap" />
-    <link rel="stylesheet" href="./src/style.css" />
-    <meta name="description" content="Flashcards for PHYS 1" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/styles.css" />
   </head>
   <body>
-    <a class="skip-link" href="#home">Skip to content</a>
-    <div id="app"></div>
-    <script type="module" src="./src/main.js"></script>
+    <div class="page-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Flashcards</p>
+          <h1>Recall Training Deck</h1>
+        </div>
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="./index.html">Home</a>
+          <a href="./topics.html">Topics</a>
+          <a href="./formulas.html">Formulas</a>
+          <a href="./exams.html">Exams</a>
+          <a href="./flashcards.html" class="active">Flashcards</a>
+          <a href="./tools.html">Tools</a>
+          <a href="./simulators.html">Simulators</a>
+        </nav>
+      </header>
+
+      <main class="bento-grid">
+        <section class="card featured">
+          <div class="card-header">
+            <p class="card-label">Interactive Deck</p>
+            <span class="badge">Memory</span>
+          </div>
+          <div id="flashcardBody" class="flashcard" role="button" tabindex="0" aria-label="Flashcard">
+            <p class="pill" id="flashcardIndex"></p>
+            <h3 id="flashcardQuestion"></h3>
+            <p id="flashcardAnswer"></p>
+          </div>
+          <div class="flashcard-controls">
+            <button id="flipCardButton" class="btn primary" type="button">Flip Card</button>
+            <button id="nextCardButton" class="btn secondary" type="button">Next Card</button>
+          </div>
+          <div class="physics-ring"></div>
+        </section>
+
+        <section class="card tall">
+          <div class="card-header">
+            <p class="card-label">Deck Focus</p>
+            <span class="badge">Core</span>
+          </div>
+          <div class="check-list">
+            <p>Newton's laws and force models</p>
+            <p>Kinematic variables and graphs</p>
+            <p>Energy and momentum definitions</p>
+            <p>Rotation and torque relationships</p>
+            <p>SHM period and frequency facts</p>
+            <p>SI units and dimensional checks</p>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <p class="card-label">Tip</p>
+            <span class="badge">Method</span>
+          </div>
+          <h3>Active recall loop</h3>
+          <p>Say each answer out loud before flipping, then classify as known or needs review.</p>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <p class="card-label">Pacing</p>
+            <span class="badge">Daily</span>
+          </div>
+          <h3>15-minute sessions</h3>
+          <p>Short, frequent sessions improve retention more than one long cram block.</p>
+        </section>
+
+        <section class="card wide">
+          <div class="card-header">
+            <p class="card-label">Practice Pattern</p>
+            <span class="badge">Routine</span>
+          </div>
+          <div class="check-list">
+            <p>Round 1: all cards once, no pressure.</p>
+            <p>Round 2: repeat only missed cards.</p>
+            <p>Round 3: mix with one timed mini quiz.</p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="./js/app.js"></script>
   </body>
 </html>

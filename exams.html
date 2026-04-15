@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exams | Physics 1 Study Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Practice Exams</p>
+          <h1>Exam Readiness Lab</h1>
+        </div>
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="./index.html">Home</a>
+          <a href="./topics.html">Topics</a>
+          <a href="./formulas.html">Formulas</a>
+          <a href="./exams.html" class="active">Exams</a>
+          <a href="./flashcards.html">Flashcards</a>
+          <a href="./tools.html">Tools</a>
+          <a href="./simulators.html">Simulators</a>
+        </nav>
+      </header>
+
+      <main class="bento-grid">
+        <section class="card featured">
+          <div class="card-header">
+            <p class="card-label">Mock Exam Set A</p>
+            <span class="badge">60 min</span>
+          </div>
+          <div class="featured-content">
+            <h2>Mixed mechanics review</h2>
+            <p>20 multiple-choice and 4 free-response questions. Focus: kinematics through rotation.</p>
+            <div class="check-list">
+              <p>Section 1: Motion and forces</p>
+              <p>Section 2: Work and energy</p>
+              <p>Section 3: Momentum and collisions</p>
+              <p>Section 4: Rotation and SHM</p>
+            </div>
+            <div class="feature-actions">
+              <button class="btn primary" type="button">Start Timed Set</button>
+              <button class="btn secondary" type="button">Review Solutions</button>
+            </div>
+          </div>
+          <div class="physics-ring"></div>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <p class="card-label">Quick Drill</p>
+            <span class="badge">15 min</span>
+          </div>
+          <h3>Formula speed test</h3>
+          <p>Rapid-fire equation selection and unit matching across all core units.</p>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <p class="card-label">Difficulty</p>
+            <span class="badge">Adaptive</span>
+          </div>
+          <h3>Three levels</h3>
+          <div class="stat-list">
+            <p>Foundation: algebraic setup</p>
+            <p>Standard: multi-step mechanics</p>
+            <p>Challenge: conceptual synthesis</p>
+          </div>
+        </section>
+
+        <section class="card wide">
+          <div class="card-header">
+            <p class="card-label">Exam Strategy</p>
+            <span class="badge">Checklist</span>
+          </div>
+          <div class="check-list">
+            <p>Read all givens and define symbols before solving.</p>
+            <p>Draw diagrams for every force, energy, or collision problem.</p>
+            <p>Check units at each step and sanity-check final magnitude.</p>
+            <p>For free-response, state equation choice before substitution.</p>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <p class="card-label">Progress</p>
+            <span class="badge">Tracking</span>
+          </div>
+          <h3>Current benchmark</h3>
+          <p class="mono">MCQ accuracy: 78% | FRQ score: 70%</p>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <p class="card-label">Next Goal</p>
+            <span class="badge">Target</span>
+          </div>
+          <h3>Break 85% overall</h3>
+          <p>Prioritize momentum and rotational dynamics sets this week.</p>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="./js/app.js"></script>
+  </body>
+</html>
