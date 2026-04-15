@@ -11,65 +11,42 @@ const app = document.querySelector('#app');
 if (!app) {
     throw new Error('App container missing.');
 }
-app.innerHTML = `
-  <header class="site-header" id="top">
-    <div class="header-inner">
-      <div>
-        <h1>PHYS 1 Study</h1>
-        <p>Built by Tyler Abell, Andrew Garza, David Peine, and Xavier Robles</p>
-      </div>
-      <button class="menu-toggle" aria-label="Toggle navigation" id="menu-toggle">☰</button>
-    </div>
-  </header>
-  
-  <aside class="site-nav" id="site-nav">
-    <nav aria-label="Main navigation">
-      <a href="#home">Home</a>
-      <a href="#study-guide">Study Guide</a>
-      <a href="#formula-sheet">Formula Sheet</a>
-      <a href="#practice">Practice Exam</a>
-      <a href="#simulators">Simulators</a>
-      <a href="#flashcards">Flashcards</a>
-      <a href="#tools">Study Tools</a>
-      <a href="#resources">Resources & Team</a>
-    </nav>
-  </aside>
-  
-  <main>
-    <section id="home" class="panel">
-      <h2>Purpose</h2>
-      <p>This browser-only study site helps you review key Physics 1 concepts, drill with exam-style questions, and track prep progress on any device.</p>
-      <div class="two-col">
-        <div>
-          <h3>Start Here</h3>
-          <ol>
-            <li>Review each topic summary and formula set.</li>
-            <li>Use simulators to build intuition for motion and forces.</li>
-            <li>Run timed mixed-review exams to train pacing.</li>
-            <li>Use flashcards and checklist until weak spots are gone.</li>
-          </ol>
-        </div>
-        <div>
-          <h3>Quick Access</h3>
-          <ul>
-            <li><a href="#practice">Take a mixed timed practice exam</a></li>
-            <li><a href="#tools">Use formula finder and converter</a></li>
-            <li><a href="#study-guide">Read concept summaries and common mistakes</a></li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
+const DEFAULT_PAGE = 'study-guide';
+const pageConfig = [
+    { id: 'study-guide', file: 'study-guide.html', label: 'Study Guide' },
+    { id: 'formula-sheet', file: 'formula-sheet.html', label: 'Formula Sheet' },
+    { id: 'practice', file: 'practice.html', label: 'Practice Exam' },
+    { id: 'simulators', file: 'simulators.html', label: 'Simulators' },
+    { id: 'flashcards', file: 'flashcards.html', label: 'Flashcards' },
+    { id: 'tools', file: 'tools.html', label: 'Study Tools' },
+    { id: 'resources', file: 'resources.html', label: 'Resources & Team' }
+];
+function resolveCurrentPage(pathname) {
+    const lastSegment = pathname.split('/').filter(Boolean).pop() ?? '';
+    if (!lastSegment || lastSegment === 'index.html') {
+        return DEFAULT_PAGE;
+    }
+    const pageId = lastSegment.replace(/\.html$/u, '');
+    return pageConfig.some((page) => page.id === pageId) ? pageId : DEFAULT_PAGE;
+}
+const currentPage = resolveCurrentPage(window.location.pathname);
+const currentPageConfig = pageConfig.find((page) => page.id === currentPage)
+    ?? pageConfig.find((page) => page.id === DEFAULT_PAGE)
+    ?? pageConfig[0];
+const pageMarkup = {
+    'study-guide': `
     <section id="study-guide" class="panel">
       <h2>Core Physics 1 Study Guide</h2>
       <div id="study-guide-list" class="stack"></div>
     </section>
-
+  `,
+    'formula-sheet': `
     <section id="formula-sheet" class="panel">
       <h2>Formula Sheet by Topic</h2>
       <div id="formula-sheet-list" class="formula-grid"></div>
     </section>
-
+  `,
+    practice: `
     <section id="practice" class="panel">
       <h2>Practice Exam</h2>
       <p>Choose topic or mixed mode, timed or untimed, then review explanations after submission.</p>
@@ -101,7 +78,8 @@ app.innerHTML = `
       <div id="exam-area" aria-live="polite"></div>
       <div id="history-area" class="history-box" aria-live="polite"></div>
     </section>
-
+  `,
+    simulators: `
     <section id="simulators" class="panel">
       <h2>Interactive Simulators</h2>
       <div class="sim-grid">
@@ -173,7 +151,8 @@ app.innerHTML = `
         </article>
       </div>
     </section>
-
+  `,
+    flashcards: `
     <section id="flashcards" class="panel">
       <h2>Flashcards</h2>
       <div class="control-row">
@@ -188,7 +167,8 @@ app.innerHTML = `
       <article id="flash-card" class="flash-card"></article>
       <p id="flash-meta" class="status" aria-live="polite"></p>
     </section>
-
+  `,
+    tools: `
     <section id="tools" class="panel">
       <h2>Study Tools</h2>
       <div class="tools-grid">
@@ -236,7 +216,8 @@ app.innerHTML = `
         </article>
       </div>
     </section>
-
+  `,
+    resources: `
     <section id="resources" class="panel">
       <h2>Resources & Team</h2>
       <div class="two-col">
@@ -261,14 +242,57 @@ app.innerHTML = `
         </div>
       </div>
     </section>
+  `
+};
+document.title = `${currentPageConfig.label} | PHYS Extra Credit Study Guide`;
+app.innerHTML = `
+  <header class="site-header" id="top">
+    <div class="header-inner">
+      <div>
+        <h1>PHYS 1 Study</h1>
+        <p>Built by Tyler Abell, Andrew Garza, David Peine, and Xavier Robles</p>
+      </div>
+      <button class="menu-toggle" aria-label="Toggle navigation" id="menu-toggle">☰</button>
+    </div>
+  </header>
+  
+  <aside class="site-nav" id="site-nav">
+    <nav aria-label="Main navigation">
+      ${pageConfig
+        .map((page) => {
+        const isCurrent = page.id === currentPage;
+        const attrs = isCurrent ? ' class="active" aria-current="page"' : '';
+        return `<a href="./${page.file}"${attrs}>${page.label}</a>`;
+    })
+        .join('')}
+    </nav>
+  </aside>
+  
+  <main id="page-main">
+    ${pageMarkup[currentPage]}
   </main>
 `;
-renderStudyGuide();
-renderFormulaSheet();
-setupPracticeExam();
-setupSimulators();
-setupFlashcards();
-setupTools();
+function initializeCurrentPage() {
+    setupNavigation();
+    if (currentPage === 'study-guide') {
+        renderStudyGuide();
+    }
+    if (currentPage === 'formula-sheet') {
+        renderFormulaSheet();
+    }
+    if (currentPage === 'practice') {
+        setupPracticeExam();
+    }
+    if (currentPage === 'simulators') {
+        setupSimulators();
+    }
+    if (currentPage === 'flashcards') {
+        setupFlashcards();
+    }
+    if (currentPage === 'tools') {
+        setupTools();
+    }
+}
 function renderStudyGuide() {
     const container = getById('study-guide-list');
     container.innerHTML = studyTopics
@@ -762,6 +786,10 @@ function setupTopicTracker() {
     });
 }
 function updateProgressSummary() {
+    const summary = document.getElementById('progress-summary');
+    if (!summary) {
+        return;
+    }
     const checklistDone = loadJson(storageKeys.checklist, []).length;
     const topicsDone = loadJson(storageKeys.masteredTopics, []).length;
     const cardsReviewed = loadJson(storageKeys.reviewedFlashcards, []).length;
@@ -845,548 +873,27 @@ function formatTime(seconds) {
     return `${mins}:${secs}`;
 }
 
-const pageSections = [
-    {
-        key: 'home',
-        href: 'index.html',
-        label: 'Home',
-        tone: 'journal',
-        badge: 'Cosmic Journal',
-        pageTitle: 'PHYS 1 Study Guide',
-        summary: 'A cinematic launch point for Mechanics with quick access to every study mode.'
-    },
-    {
-        key: 'study-guide',
-        href: 'study-guide.html',
-        label: 'Study Guide',
-        tone: 'textbook',
-        badge: 'Interactive Textbook',
-        pageTitle: 'Study Guide',
-        summary: 'Structured chapter notes with formulas, mistakes, worked examples, and checkpoints.'
-    },
-    {
-        key: 'formula-sheet',
-        href: 'formula-sheet.html',
-        label: 'Formula Sheet',
-        tone: 'bento',
-        badge: 'Bento Grid',
-        pageTitle: 'Formula Sheet',
-        summary: 'A modular reference deck for quick formula scanning.'
-    },
-    {
-        key: 'practice',
-        href: 'practice.html',
-        label: 'Practice',
-        tone: 'lab',
-        badge: 'Lab Workbench',
-        pageTitle: 'Practice Exam',
-        summary: 'Timed and untimed exam sessions with live review and history.'
-    },
-    {
-        key: 'simulators',
-        href: 'simulators.html',
-        label: 'Simulators',
-        tone: 'lab',
-        badge: 'Lab Workbench',
-        pageTitle: 'Simulators',
-        summary: 'Projectile, forces, energy, momentum, and rotation calculators.'
-    },
-    {
-        key: 'flashcards',
-        href: 'flashcards.html',
-        label: 'Flashcards',
-        tone: 'journal',
-        badge: 'Cosmic Journal',
-        pageTitle: 'Flashcards',
-        summary: 'Fast retrieval practice with topic filters and review tracking.'
-    },
-    {
-        key: 'tools',
-        href: 'tools.html',
-        label: 'Tools',
-        tone: 'bento',
-        badge: 'Bento Dashboard',
-        pageTitle: 'Study Tools',
-        summary: 'Checklist, converter, formula finder, and progress snapshot.'
-    },
-    {
-        key: 'resources',
-        href: 'resources.html',
-        label: 'Resources',
-        tone: 'journal',
-        badge: 'Archive',
-        pageTitle: 'Resources & Team',
-        summary: 'Reference links and project credits in a clean archive layout.'
-    }
-];
-const pageSectionsByKey = Object.fromEntries(pageSections.map((section) => [section.key, section]));
-function getCurrentPageBase() {
-    const path = window.location.pathname;
-    const file = path.substring(path.lastIndexOf('/') + 1) || 'index.html';
-    const base = file.split('.')[0];
-    return base === 'index' || base === '' ? 'home' : base;
-}
-function updateActiveNav() {
-    const siteNavEl = document.getElementById('site-nav');
-    if (!siteNavEl) {
+function setupNavigation() {
+    const menuToggle = document.getElementById('menu-toggle');
+    const siteNav = document.getElementById('site-nav');
+    if (!menuToggle || !siteNav) {
         return;
     }
-    const currentBase = getCurrentPageBase();
-    siteNavEl.querySelectorAll('a').forEach((link) => {
-        const href = link.getAttribute('href') || '';
-        const file = href.substring(href.lastIndexOf('/') + 1) || 'index.html';
-        const base = file.split('.')[0];
-        const linkBase = base === 'index' || base === '' ? 'home' : base;
-        const active = linkBase === currentBase;
-        link.classList.toggle('active', active);
-        if (active) {
-            link.setAttribute('aria-current', 'page');
-        }
-        else {
-            link.removeAttribute('aria-current');
+    const closeMenu = () => {
+        siteNav.classList.remove('active');
+    };
+    menuToggle.addEventListener('click', () => {
+        siteNav.classList.toggle('active');
+    });
+    siteNav.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => {
+            closeMenu();
+        });
+    });
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 900) {
+            closeMenu();
         }
     });
 }
-(function renderPageSections() {
-    const appEl = document.querySelector('#app');
-    if (!appEl) {
-        return;
-    }
-    const base = getCurrentPageBase();
-    const page = pageSectionsByKey[base] || pageSectionsByKey.home;
-    document.body.dataset.tone = page.tone;
-    document.body.dataset.page = base;
-    document.title = `${page.pageTitle} · PHYS Extra Credit`;
-    const themeColor = document.querySelector('meta[name="theme-color"]');
-    if (themeColor) {
-        themeColor.setAttribute('content', page.tone === 'textbook' ? '#fdfcfb' : '#050505');
-    }
-    const navLinks = pageSections
-        .map((section) => `
-        <a href="${section.href}"${section.key === base ? ' class="active" aria-current="page"' : ''}>${section.label}</a>
-      `)
-        .join('');
-    const modeCards = pageSections
-        .filter((section) => section.key !== 'home')
-        .map((section) => `
-        <a class="mode-card mode-card--${section.tone}" href="${section.href}">
-          <span class="mode-card__badge">${section.badge}</span>
-          <h3>${section.label}</h3>
-          <p>${section.summary}</p>
-          <span class="mode-card__footer">Open page</span>
-        </a>
-      `)
-        .join('');
-    const topicLinks = studyTopics
-        .map((topic) => `<a href="#topic-${topic.id}">${topic.title}</a>`)
-        .join('');
-    const formulaTopicCount = new Set(formulaSheet.map((item) => item.topic)).size;
-    const pageTemplates = {
-        home: `
-      <section class="panel panel--journal hero-panel">
-        <div class="hero-copy">
-          <span class="hero-badge">University Physics 1 · Mechanics</span>
-          <h2>Master motion, forces, energy, and the ideas that connect them.</h2>
-          <p>Choose the study mode that fits the moment: textbook notes, formula cards, lab simulations, flashcards, or progress tools.</p>
-          <div class="hero-actions">
-            <a class="hero-button hero-button--solid" href="practice.html">Open Practice Exam</a>
-            <a class="hero-button hero-button--ghost" href="study-guide.html">Read the Study Guide</a>
-          </div>
-        </div>
-        <div class="hero-stats">
-          <article class="metric-card"><span>Study topics</span><strong>${studyTopics.length}</strong></article>
-          <article class="metric-card"><span>Practice questions</span><strong>${questionBank.length}</strong></article>
-          <article class="metric-card"><span>Flashcards</span><strong>${flashcards.length}</strong></article>
-          <article class="metric-card"><span>Saved tools</span><strong>5</strong></article>
-        </div>
-      </section>
-
-      <section class="panel panel--bento">
-        <div class="section-header">
-          <p class="section-kicker">Choose a mode</p>
-          <h3>Three study styles, one workflow</h3>
-          <p>Each page uses the same content engine, framed in a different visual language.</p>
-        </div>
-        <div class="mode-grid">
-          ${modeCards}
-        </div>
-      </section>
-
-      <section class="panel panel--textbook">
-        <div class="section-header section-header--textbook">
-          <p class="section-kicker">Fast start</p>
-          <h3>What to do first</h3>
-          <p>Use the sequence below if you're not sure where to begin.</p>
-        </div>
-        <div class="home-summary-grid">
-          <article class="callout-card">
-            <h4>1. Build the base</h4>
-            <p>Read the study guide and formula sheet first. They anchor the whole course.</p>
-          </article>
-          <article class="callout-card">
-            <h4>2. Test yourself</h4>
-            <p>Use mixed practice to find weak spots and track your score history.</p>
-          </article>
-          <article class="callout-card">
-            <h4>3. Lock it in</h4>
-            <p>Flip flashcards, check off topics, and review until the tracker is full.</p>
-          </article>
-          <article class="callout-card callout-card--progress">
-            <h4>Saved progress</h4>
-            <div id="home-progress-summary" class="stack progress-summary"></div>
-          </article>
-        </div>
-      </section>
-    `,
-        'study-guide': `
-      <section class="panel panel--textbook textbook-panel">
-        <div class="section-header section-header--textbook">
-          <p class="section-kicker">Interactive Textbook</p>
-          <h2>Core Physics 1 Study Guide</h2>
-          <p>Each topic reads like a compact chapter: summary, formulas, mistakes, worked example, and checkpoint.</p>
-        </div>
-        <div class="textbook-shell">
-          <aside class="textbook-side">
-            <h3>Chapters</h3>
-            <nav class="chapter-nav">
-              ${topicLinks}
-            </nav>
-            <div class="sidebar-note">
-              <strong>How to use this page</strong>
-              <p>Read one card, commit to the checkpoint answer, then reveal it only after you answer.</p>
-            </div>
-          </aside>
-          <div id="study-guide-list" class="textbook-stack"></div>
-        </div>
-      </section>
-    `,
-        'formula-sheet': `
-      <section class="panel panel--bento">
-        <div class="section-header">
-          <p class="section-kicker">Bento Grid</p>
-          <h2>Formula Sheet by Topic</h2>
-          <p>A modular reference deck for quick formula scanning before the exam.</p>
-        </div>
-        <div class="formula-highlights">
-          <article class="metric-card"><span>Topic groups</span><strong>${formulaTopicCount}</strong></article>
-          <article class="metric-card"><span>Formula entries</span><strong>${formulaSheet.length}</strong></article>
-          <article class="metric-card"><span>Rapid scan</span><strong>On</strong></article>
-        </div>
-        <div id="formula-sheet-list" class="formula-grid"></div>
-      </section>
-    `,
-        practice: `
-      <section class="panel panel--lab lab-panel">
-        <div class="section-header section-header--lab">
-          <p class="section-kicker">Lab Workbench</p>
-          <h2>Practice Exam</h2>
-          <p>Choose topic or mixed mode, timed or untimed, then review explanations after submission.</p>
-        </div>
-        <div class="lab-shell">
-          <aside class="lab-side">
-            <div class="lab-card">
-              <h3>Session protocol</h3>
-              <ul>
-                <li>Pick mixed review for broad coverage.</li>
-                <li>Use single-topic mode when one chapter feels shaky.</li>
-                <li>Review each explanation before moving on.</li>
-              </ul>
-            </div>
-            <div class="lab-card">
-              <h3>Persistence</h3>
-              <p>Your attempts are stored locally and summarized in the history panel.</p>
-            </div>
-          </aside>
-          <div class="lab-main">
-            <form id="exam-controls" class="control-grid control-grid--lab">
-              <label>Mode
-                <select id="exam-mode">
-                  <option value="mixed">Mixed review</option>
-                  <option value="topic">Single topic</option>
-                </select>
-              </label>
-              <label>Topic
-                <select id="exam-topic"></select>
-              </label>
-              <label>Question count
-                <input id="exam-count" type="number" min="5" max="30" value="10" />
-              </label>
-              <label>Timed?
-                <select id="exam-timed">
-                  <option value="no">Untimed</option>
-                  <option value="yes">Timed</option>
-                </select>
-              </label>
-              <label>Minutes (if timed)
-                <input id="exam-minutes" type="number" min="5" max="60" value="15" />
-              </label>
-              <button id="start-exam" type="button">Start Exam</button>
-            </form>
-            <p id="exam-status" class="status" aria-live="polite"></p>
-            <div id="exam-area" aria-live="polite"></div>
-            <div id="history-area" class="history-box" aria-live="polite"></div>
-          </div>
-        </div>
-      </section>
-    `,
-        simulators: `
-      <section class="panel panel--lab lab-panel">
-        <div class="section-header section-header--lab">
-          <p class="section-kicker">Lab Workbench</p>
-          <h2>Interactive Simulators</h2>
-          <p>Tune variables and read the outputs like a controlled experiment log.</p>
-        </div>
-        <div class="lab-shell">
-          <aside class="lab-side">
-            <div class="lab-card">
-              <h3>Readout rules</h3>
-              <ul>
-                <li>Adjust one variable at a time to see the relationship clearly.</li>
-                <li>Use the results to sanity-check your homework answers.</li>
-                <li>All calculations are browser-only and instant.</li>
-              </ul>
-            </div>
-            <div class="lab-card">
-              <h3>Quick focus</h3>
-              <p>Projectile motion, Newton's second law, energy, momentum, and rotation all live here.</p>
-            </div>
-          </aside>
-          <div class="lab-main">
-            <div class="sim-grid">
-              <article class="sim-card">
-                <h3>Projectile Motion</h3>
-                <label>Initial speed (m/s)<input id="proj-speed" type="number" value="20" step="0.1" /></label>
-                <label>Launch angle (deg)<input id="proj-angle" type="number" value="35" step="0.1" /></label>
-                <label>g (m/s²)<input id="proj-g" type="number" value="9.8" step="0.1" /></label>
-                <button id="proj-run" type="button">Calculate</button>
-                <p id="proj-output" class="sim-output" aria-live="polite"></p>
-              </article>
-
-              <article class="sim-card">
-                <h3>Forces / Newton's 2nd Law</h3>
-                <label>Mass (kg)<input id="force-mass" type="number" value="5" step="0.1" /></label>
-                <label>Applied force (N)<input id="force-applied" type="number" value="25" step="0.1" /></label>
-                <label>μ<sub>k</sub><input id="force-mu" type="number" value="0.2" step="0.01" /></label>
-                <button id="force-run" type="button">Calculate</button>
-                <p id="force-output" class="sim-output" aria-live="polite"></p>
-              </article>
-
-              <article class="sim-card">
-                <h3>Energy Breakdown</h3>
-                <label>Mass (kg)<input id="energy-mass" type="number" value="1" step="0.1" /></label>
-                <label>Height (m)<input id="energy-height" type="number" value="2" step="0.1" /></label>
-                <label>Speed (m/s)<input id="energy-speed" type="number" value="3" step="0.1" /></label>
-                <label>Spring k (N/m)<input id="energy-k" type="number" value="80" step="1" /></label>
-                <label>Compression x (m)<input id="energy-x" type="number" value="0.2" step="0.01" /></label>
-                <button id="energy-run" type="button">Calculate</button>
-                <p id="energy-output" class="sim-output" aria-live="polite"></p>
-              </article>
-
-              <article class="sim-card">
-                <h3>Momentum / Collisions</h3>
-                <label>m₁ (kg)<input id="mom-m1" type="number" value="1" step="0.1" /></label>
-                <label>u₁ (m/s)<input id="mom-u1" type="number" value="4" step="0.1" /></label>
-                <label>m₂ (kg)<input id="mom-m2" type="number" value="2" step="0.1" /></label>
-                <label>u₂ (m/s)<input id="mom-u2" type="number" value="0" step="0.1" /></label>
-                <label>Collision type
-                  <select id="mom-type">
-                    <option value="elastic">Elastic</option>
-                    <option value="inelastic">Perfectly inelastic</option>
-                  </select>
-                </label>
-                <button id="mom-run" type="button">Calculate</button>
-                <p id="mom-output" class="sim-output" aria-live="polite"></p>
-              </article>
-
-              <article class="sim-card">
-                <h3>SHM / Rotation Dynamics</h3>
-                <label>Mode
-                  <select id="osc-mode">
-                    <option value="shm">Simple Harmonic Motion</option>
-                    <option value="rotation">Rotation Dynamics</option>
-                  </select>
-                </label>
-                <div id="osc-shm-inputs">
-                  <label>Mass m (kg)<input id="shm-mass" type="number" value="0.4" step="0.1" /></label>
-                  <label>Spring k (N/m)<input id="shm-k" type="number" value="64" step="1" /></label>
-                  <label>Amplitude A (m)<input id="shm-a" type="number" value="0.15" step="0.01" /></label>
-                </div>
-                <div id="osc-rot-inputs" class="hidden">
-                  <label>Force F (N)<input id="rot-force" type="number" value="2" step="0.1" /></label>
-                  <label>Radius r (m)<input id="rot-radius" type="number" value="0.3" step="0.01" /></label>
-                  <label>Moment of inertia I (kg·m²)<input id="rot-i" type="number" value="0.18" step="0.01" /></label>
-                </div>
-                <button id="osc-run" type="button">Calculate</button>
-                <p id="osc-output" class="sim-output" aria-live="polite"></p>
-              </article>
-            </div>
-          </div>
-        </div>
-      </section>
-    `,
-        flashcards: `
-      <section class="panel panel--journal journal-panel">
-        <div class="section-header section-header--journal">
-          <p class="section-kicker">Cosmic Journal</p>
-          <h2>Flashcards</h2>
-          <p>Flip through quick prompts, review by topic, and track what you've already seen.</p>
-        </div>
-        <div class="journal-shell">
-          <div class="journal-main">
-            <div class="control-row control-row--glass">
-              <label>Topic filter
-                <select id="flash-topic"></select>
-              </label>
-              <button id="flash-prev" type="button">Previous</button>
-              <button id="flash-reveal" type="button">Reveal</button>
-              <button id="flash-next" type="button">Next</button>
-              <button id="flash-random" type="button">Random</button>
-            </div>
-            <article id="flash-card" class="flash-card"></article>
-            <p id="flash-meta" class="status" aria-live="polite"></p>
-          </div>
-          <aside class="journal-side">
-            <div class="journal-card">
-              <h3>Review rule</h3>
-              <p>Try to answer from memory before you reveal the back of the card.</p>
-            </div>
-            <div class="journal-card">
-              <h3>Why it helps</h3>
-              <p>Short retrieval practice builds the fast recall you want on exam day.</p>
-            </div>
-          </aside>
-        </div>
-      </section>
-    `,
-        tools: `
-      <section class="panel panel--bento">
-        <div class="section-header">
-          <p class="section-kicker">Bento Dashboard</p>
-          <h2>Study Tools</h2>
-          <p>Checklist, converter, formula finder, and progress snapshot in one modular dashboard.</p>
-        </div>
-        <div class="tools-grid">
-          <article class="tool-card">
-            <h3>Problem-Solving Checklist</h3>
-            <div id="checklist-box" class="stack"></div>
-          </article>
-
-          <article class="tool-card">
-            <h3>Unit Conversion Helper</h3>
-            <label>Conversion
-              <select id="convert-type"></select>
-            </label>
-            <label>Value<input id="convert-value" type="number" value="1" step="any" /></label>
-            <p id="convert-output" class="status" aria-live="polite"></p>
-          </article>
-
-          <article class="tool-card">
-            <h3>Formula Finder Decision Guide</h3>
-            <label>What are you solving?
-              <select id="finder-select"></select>
-            </label>
-            <p id="finder-output" class="status" aria-live="polite"></p>
-          </article>
-
-          <article class="tool-card">
-            <h3>Exam-Day Strategy</h3>
-            <ul>
-              <li>Start with problems you can finish in 90 seconds or less.</li>
-              <li>Write knowns with units before equations.</li>
-              <li>Check signs and directions before final answer.</li>
-              <li>If stuck, box equation setup and move on.</li>
-              <li>Use the final 10 minutes to check units and reasonableness.</li>
-            </ul>
-          </article>
-
-          <article class="tool-card">
-            <h3>Topic Progress Tracker</h3>
-            <div id="topic-progress" class="stack"></div>
-          </article>
-
-          <article class="tool-card">
-            <h3>Overall Progress</h3>
-            <div id="progress-summary" class="stack" aria-live="polite"></div>
-          </article>
-        </div>
-      </section>
-    `,
-        resources: `
-      <section class="panel panel--journal journal-panel">
-        <div class="section-header section-header--journal">
-          <p class="section-kicker">Archive</p>
-          <h2>Resources & Team</h2>
-          <p>Useful links, project credits, and a short note on deployment.</p>
-        </div>
-        <div class="two-col resources-grid">
-          <article class="journal-card">
-            <h3>Recommended Resources</h3>
-            <ul>
-              <li><a href="https://openstax.org/details/books/university-physics-volume-1" target="_blank" rel="noreferrer">OpenStax University Physics Vol. 1</a></li>
-              <li><a href="https://phet.colorado.edu" target="_blank" rel="noreferrer">PhET Interactive Simulations</a></li>
-              <li><a href="https://www.khanacademy.org/science/physics" target="_blank" rel="noreferrer">Khan Academy Physics</a></li>
-              <li><a href="https://www.desmos.com/scientific" target="_blank" rel="noreferrer">Scientific Calculator (Desmos)</a></li>
-            </ul>
-          </article>
-          <article class="journal-card">
-            <h3>Project Team</h3>
-            <ul>
-              <li>Tyler Abell</li>
-              <li>Andrew Garza</li>
-              <li>David Peine</li>
-              <li>Xavier Robles</li>
-            </ul>
-            <p>This site is static, browser-only, and designed for GitHub Pages hosting.</p>
-          </article>
-        </div>
-      </section>
-    `
-    };
-    appEl.innerHTML = `
-    <div class="scene-glow scene-glow--one" aria-hidden="true"></div>
-    <div class="scene-glow scene-glow--two" aria-hidden="true"></div>
-    <div class="site-shell">
-      <header class="site-header" id="top">
-        <div class="brand-lockup">
-          <div class="brand-mark" aria-hidden="true"></div>
-          <div>
-            <p class="eyebrow">${page.badge}</p>
-            <h1>PHYS Extra Credit</h1>
-          </div>
-        </div>
-        <p class="header-meta">${page.summary}</p>
-      </header>
-      <div id="home" aria-hidden="true"></div>
-      <main id="page-content" class="page-grid page-grid--${page.tone}">
-        ${pageTemplates[base] || pageTemplates.home}
-      </main>
-      <nav class="site-nav" id="site-nav" aria-label="Main navigation">
-        ${navLinks}
-      </nav>
-    </div>
-  `;
-    updateActiveNav();
-    updateProgressSummary();
-    switch (base) {
-        case 'study-guide':
-            renderStudyGuide();
-            break;
-        case 'formula-sheet':
-            renderFormulaSheet();
-            break;
-        case 'practice':
-            setupPracticeExam();
-            break;
-        case 'simulators':
-            setupSimulators();
-            break;
-        case 'flashcards':
-            setupFlashcards();
-            break;
-        case 'tools':
-            setupTools();
-            break;
-        default:
-            break;
-    }
-})();
+initializeCurrentPage();
