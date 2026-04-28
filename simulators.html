@@ -248,32 +248,62 @@ function drawSim() {
   if (tAnim < tFlight) {
     const bx = ox + v0x * tAnim * scale;
     const by = oy - (h0 + v0y * tAnim - 0.5 * g * tAnim * tAnim) * scale;
-    const vx = v0x, vy = v0y - g * tAnim;
-    const vs = Math.min(scale * 1.2, 40);
+    const vx = v0x, vy = v0y - g * tAnim;  // vy > 0 = upward (physics coords)
+    const vs = 90 / Math.max(v0, 1);        // fixed scale: initial speed → 90 px
 
-    // Ball
-    sctx.beginPath(); sctx.arc(bx, by, 7, 0, Math.PI * 2);
-    sctx.fillStyle = '#fb923c'; sctx.shadowColor = '#fb923c'; sctx.shadowBlur = 14; sctx.fill(); sctx.shadowBlur = 0;
+    // Screen-space deltas (y-axis flipped: upward physics → negative screen dy)
+    const dvx =  vx * vs;
+    const dvy = -vy * vs;
 
-    function arrow(x,y,dx,dy,col,lw) {
-      const len = Math.sqrt(dx*dx+dy*dy); if(len<4) return;
+    // Absolute tips of each vector
+    const vxEx = bx + dvx, vxEy = by;        // tip of vₓ (horizontal)
+    const vyEx = bx,        vyEy = by + dvy;  // tip of vᵧ (vertical)
+    const vEx  = bx + dvx,  vEy  = by + dvy;  // tip of resultant v
+
+    function arrow(x1,y1,x2,y2,col,lw) {
+      const dx=x2-x1,dy=y2-y1,len=Math.sqrt(dx*dx+dy*dy); if(len<6) return;
       sctx.save(); sctx.strokeStyle=col; sctx.fillStyle=col; sctx.lineWidth=lw||2; sctx.lineCap='round';
-      sctx.beginPath(); sctx.moveTo(x,y); sctx.lineTo(x+dx,y+dy); sctx.stroke();
-      const a=Math.atan2(dy,dx),h=10;
-      sctx.beginPath(); sctx.moveTo(x+dx,y+dy);
-      sctx.lineTo(x+dx-h*Math.cos(a-0.4),y+dy-h*Math.sin(a-0.4));
-      sctx.lineTo(x+dx-h*Math.cos(a+0.4),y+dy-h*Math.sin(a+0.4));
+      sctx.beginPath(); sctx.moveTo(x1,y1); sctx.lineTo(x2,y2); sctx.stroke();
+      const a=Math.atan2(dy,dx),hs=10;
+      sctx.beginPath(); sctx.moveTo(x2,y2);
+      sctx.lineTo(x2-hs*Math.cos(a-0.38),y2-hs*Math.sin(a-0.38));
+      sctx.lineTo(x2-hs*Math.cos(a+0.38),y2-hs*Math.sin(a+0.38));
       sctx.closePath(); sctx.fill(); sctx.restore();
     }
+    function lbl(text,x,y,col) {
+      sctx.save(); sctx.fillStyle=col; sctx.globalAlpha=0.95;
+      sctx.font='11px JetBrains Mono,monospace'; sctx.fillText(text,x,y); sctx.restore();
+    }
 
-    // Velocity vector
-    arrow(bx, by, vx*vs/v0*0.8, -vy*vs/v0*0.8, '#38bdf8', 2.5);
-    // vx component
-    arrow(bx, by, vx*vs/v0*0.8, 0, 'rgba(56,189,248,0.5)', 1.5);
-    // vy component
-    arrow(bx, by, 0, -vy*vs/v0*0.8, 'rgba(52,211,153,0.6)', 1.5);
-    // Gravity
-    arrow(bx, by, 0, 32, '#f87171', 2);
+    // Ball
+    sctx.save();
+    sctx.beginPath(); sctx.arc(bx, by, 7, 0, Math.PI * 2);
+    sctx.fillStyle = '#fb923c'; sctx.shadowColor = '#fb923c'; sctx.shadowBlur = 14; sctx.fill();
+    sctx.shadowBlur = 0; sctx.restore();
+
+    // vₓ — horizontal cyan (constant length since vₓ never changes)
+    arrow(bx, by, vxEx, vxEy, '#38bdf8', 2.5);
+    lbl('vₓ', bx + dvx * 0.5 - 10, by + 16, '#38bdf8');
+
+    // vᵧ — vertical green
+    arrow(bx, by, vyEx, vyEy, '#34d399', 2.5);
+    lbl('vᵧ', bx - 28, by + dvy * 0.5 + 4, '#34d399');
+
+    // Dashed parallelogram completion lines
+    sctx.save();
+    sctx.globalAlpha = 0.3; sctx.strokeStyle = 'rgba(255,255,255,0.55)';
+    sctx.lineWidth = 1; sctx.setLineDash([4, 5]);
+    sctx.beginPath();
+    sctx.moveTo(vxEx, vxEy); sctx.lineTo(vEx, vEy);
+    sctx.moveTo(vyEx, vyEy); sctx.lineTo(vEx, vEy);
+    sctx.stroke(); sctx.setLineDash([]); sctx.restore();
+
+    // Full velocity vector v — orange (same colour as ball)
+    arrow(bx, by, vEx, vEy, '#fb923c', 3);
+    lbl('v', vEx + 6, vEy - 5, '#fb923c');
+
+    // Gravity — red downward
+    arrow(bx, by, bx, by + 28, 'rgba(248,113,113,1)', 1.5);
   }
 
   // Launch label

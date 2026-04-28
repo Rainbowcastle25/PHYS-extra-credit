@@ -136,9 +136,8 @@
       const p = this.pos(this.t);
       const v = this.vel(this.t);
 
-      // Scale vectors so the full speed covers ~90px
-      const speed = Math.sqrt(v.vx * v.vx + v.vy * v.vy);
-      const vs = 90 / Math.max(speed, 1);
+      // Fixed scale: initial speed → 90 px, so vₓ stays constant throughout
+      const vs = 90 / Math.max(this.v0, 1);
 
       const ex = p.x + v.vx * vs;   // tip of full v vector
       const ey = p.y + v.vy * vs;
