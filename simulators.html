@@ -1,113 +1,454 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Simulators | Physics 1 Study Platform</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="./css/styles.css" />
-  </head>
-  <body>
-    <div class="page-shell">
-      <header class="topbar">
-        <div>
-          <p class="eyebrow">Interactive Tools</p>
-          <h1>Physics Simulators</h1>
-        </div>
-        <nav class="nav-links" aria-label="Main navigation">
-          <a href="./index.html">Home</a>
-          <a href="./topics.html">Topics</a>
-          <a href="./formulas.html">Formulas</a>
-          <a href="./exams.html">Exams</a>
-          <a href="./flashcards.html">Flashcards</a>
-          <a href="./tools.html">Tools</a>
-          <a href="./simulators.html" class="active">Simulators</a>
-        </nav>
-      </header>
-
-      <main class="bento-grid">
-        <section class="card featured grid-2">
-          <div class="card-header">
-            <p class="card-label">Projectile Motion</p>
-            <span class="badge">Live</span>
-          </div>
-          <h2>Launch calculator + trajectory graph</h2>
-          <div class="sim-layout">
-            <form id="projectileForm" class="tool-form" novalidate>
-              <label>
-                Initial speed (m/s)
-                <input id="velocityInput" type="number" min="0.1" step="0.1" value="20" />
-              </label>
-              <label>
-                Launch angle (deg)
-                <input id="angleInput" type="number" min="1" max="89" step="1" value="45" />
-              </label>
-              <label>
-                Gravity (m/s^2)
-                <input id="gravityInput" type="number" min="0.1" step="0.1" value="9.8" />
-              </label>
-              <button class="btn primary" type="submit">Calculate</button>
-              <pre id="projectileResults" class="result"></pre>
-            </form>
-            <div class="sim-canvas-wrap">
-              <canvas id="projectileCanvas" width="760" height="380"></canvas>
-            </div>
-          </div>
-          <div class="physics-ring"></div>
-        </section>
-
-        <section class="card">
-          <div class="card-header">
-            <p class="card-label">Forces</p>
-            <span class="badge">Planned</span>
-          </div>
-          <h3>Net force explorer</h3>
-          <p>Add applied force, friction, and mass to visualize acceleration and force vectors.</p>
-        </section>
-
-        <section class="card">
-          <div class="card-header">
-            <p class="card-label">Energy</p>
-            <span class="badge">Planned</span>
-          </div>
-          <h3>Energy conversion plot</h3>
-          <p>Track kinetic and potential energy changes over time and position.</p>
-        </section>
-
-        <section class="card">
-          <div class="card-header">
-            <p class="card-label">Momentum</p>
-            <span class="badge">Planned</span>
-          </div>
-          <h3>Collision simulator</h3>
-          <p>Compare elastic and inelastic outcomes for two-body 1D collisions.</p>
-        </section>
-
-        <section class="card">
-          <div class="card-header">
-            <p class="card-label">SHM</p>
-            <span class="badge">Planned</span>
-          </div>
-          <h3>Spring-mass graph</h3>
-          <p>Graph displacement, velocity, and acceleration for sinusoidal motion.</p>
-        </section>
-
-        <section class="card">
-          <div class="card-header">
-            <p class="card-label">Rotation</p>
-            <span class="badge">Planned</span>
-          </div>
-          <h3>Torque and inertia</h3>
-          <p>Model angular acceleration with adjustable torque and moment of inertia.</p>
-        </section>
-      </main>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulators | Physics 1 Study Guide</title>
+  <link rel="stylesheet" href="./css/styles.css" />
+  <style>
+    #simCanvas { background: #030712; border-radius: 12px; }
+    .sim-tab { padding:8px 16px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:var(--mono);font-size:0.75rem;cursor:pointer;transition:all 0.15s; }
+    .sim-tab.active { border-color:var(--orange);color:var(--orange);background:rgba(251,146,60,0.08); }
+    .sim-panel { display:none; }
+    .sim-panel.active { display:block; }
+  </style>
+</head>
+<body>
+<canvas id="physics-bg"></canvas>
+<div class="page-shell">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon">φ</div>
+      <div><div class="brand-name">PHYS 101</div><div class="brand-sub">Ultimate Study Guide</div></div>
     </div>
+    <nav class="nav-links">
+      <a href="./index.html">Home</a>
+      <a href="./topics.html">Topics</a>
+      <a href="./formulas.html">Formulas</a>
+      <a href="./flashcards.html">Flashcards</a>
+      <a href="./simulators.html" class="active">Simulators</a>
+      <a href="./exams.html">Practice</a>
+      <a href="./tools.html">Tools</a>
+    </nav>
+  </header>
 
-    <script type="module" src="./js/app.js"></script>
-  </body>
+  <section class="page-hero">
+    <p class="eyebrow">Interactive Simulators</p>
+    <h1>Visualize <span>Physics</span></h1>
+    <p>Hands-on calculators with live trajectory graphs. Adjust parameters and see results instantly.</p>
+  </section>
+
+  <!-- Sim tabs -->
+  <div style="display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap;">
+    <button class="sim-tab active" data-sim="projectile">Projectile Motion</button>
+    <button class="sim-tab" data-sim="forces">Force Diagram</button>
+    <button class="sim-tab" data-sim="energy">Energy Bar Chart</button>
+  </div>
+
+  <!-- Projectile sim -->
+  <div class="sim-panel active" id="sim-projectile">
+    <div class="sim-layout">
+      <div>
+        <div class="card sim-controls">
+          <div class="card-header"><div class="card-label">Parameters</div><span class="badge badge-orange">Live</span></div>
+          <div class="sim-field">
+            <div class="sim-label">Initial speed v₀ (m/s)</div>
+            <input class="sim-input" id="pVel" type="range" min="5" max="50" value="25" step="0.5" />
+            <div style="font-family:var(--mono);font-size:0.8rem;color:var(--cyan);text-align:right;" id="pVelVal">25 m/s</div>
+          </div>
+          <div class="sim-field">
+            <div class="sim-label">Launch angle θ (°)</div>
+            <input class="sim-input" id="pAngle" type="range" min="5" max="85" value="45" step="1" />
+            <div style="font-family:var(--mono);font-size:0.8rem;color:var(--cyan);text-align:right;" id="pAngleVal">45°</div>
+          </div>
+          <div class="sim-field">
+            <div class="sim-label">Gravity g (m/s²)</div>
+            <input class="sim-input" id="pGrav" type="range" min="1.6" max="24.8" value="9.8" step="0.1" />
+            <div style="font-family:var(--mono);font-size:0.8rem;color:var(--cyan);text-align:right;" id="pGravVal">9.8 m/s²</div>
+          </div>
+          <div class="sim-field">
+            <div class="sim-label">Launch height h₀ (m)</div>
+            <input class="sim-input" id="pHeight" type="range" min="0" max="30" value="0" step="0.5" />
+            <div style="font-family:var(--mono);font-size:0.8rem;color:var(--cyan);text-align:right;" id="pHeightVal">0 m</div>
+          </div>
+          <div class="sim-result" id="pResults" style="margin-top:4px;"></div>
+        </div>
+
+        <div class="card" style="margin-top:16px;">
+          <div class="card-label" style="margin-bottom:10px;">Key equations used</div>
+          <div style="font-family:var(--mono);font-size:0.78rem;line-height:2;color:var(--muted);">
+            xₓ = v₀cosθ · t<br>
+            y = h₀ + v₀sinθ · t − ½gt²<br>
+            vᵧ = v₀sinθ − gt<br>
+            Range = v₀²sin(2θ)/g
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sim-canvas-wrap">
+          <canvas id="simCanvas" width="820" height="460"></canvas>
+        </div>
+        <div style="display:flex;gap:16px;margin-top:10px;flex-wrap:wrap;font-family:var(--mono);font-size:0.75rem;color:var(--muted);">
+          <span style="color:var(--orange);">— Trajectory</span>
+          <span style="color:var(--cyan);">→ Velocity vector</span>
+          <span style="color:var(--green);">↑ vᵧ component</span>
+          <span style="color:#f87171;">↓ Gravity</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Forces sim -->
+  <div class="sim-panel" id="sim-forces">
+    <div class="sim-layout">
+      <div>
+        <div class="card sim-controls">
+          <div class="card-header"><div class="card-label">Parameters</div><span class="badge badge-cyan">Forces</span></div>
+          <div class="sim-field">
+            <div class="sim-label">Mass (kg)</div>
+            <input class="sim-input" id="fMass" type="range" min="0.5" max="20" value="5" step="0.5" />
+            <div style="font-family:var(--mono);font-size:0.8rem;color:var(--cyan);text-align:right;" id="fMassVal">5 kg</div>
+          </div>
+          <div class="sim-field">
+            <div class="sim-label">Applied force (N)</div>
+            <input class="sim-input" id="fApplied" type="range" min="0" max="100" value="30" step="1" />
+            <div style="font-family:var(--mono);font-size:0.8rem;color:var(--cyan);text-align:right;" id="fAppliedVal">30 N</div>
+          </div>
+          <div class="sim-field">
+            <div class="sim-label">Friction coefficient μ_k</div>
+            <input class="sim-input" id="fMu" type="range" min="0" max="1" value="0.3" step="0.01" />
+            <div style="font-family:var(--mono);font-size:0.8rem;color:var(--cyan);text-align:right;" id="fMuVal">0.30</div>
+          </div>
+          <div class="sim-result" id="fResults" style="margin-top:4px;"></div>
+        </div>
+      </div>
+      <div class="sim-canvas-wrap">
+        <canvas id="forceCanvas" width="820" height="460"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Energy sim -->
+  <div class="sim-panel" id="sim-energy">
+    <div class="sim-layout">
+      <div>
+        <div class="card sim-controls">
+          <div class="card-header"><div class="card-label">Parameters</div><span class="badge badge-violet">Energy</span></div>
+          <div class="sim-field">
+            <div class="sim-label">Mass (kg)</div>
+            <input class="sim-input" id="eMass" type="range" min="0.5" max="10" value="2" step="0.5" />
+            <div style="font-family:var(--mono);font-size:0.8rem;color:var(--cyan);text-align:right;" id="eMassVal">2 kg</div>
+          </div>
+          <div class="sim-field">
+            <div class="sim-label">Height h (m)</div>
+            <input class="sim-input" id="eHeight" type="range" min="0" max="20" value="10" step="0.5" />
+            <div style="font-family:var(--mono);font-size:0.8rem;color:var(--cyan);text-align:right;" id="eHeightVal">10 m</div>
+          </div>
+          <div class="sim-field">
+            <div class="sim-label">Initial speed (m/s)</div>
+            <input class="sim-input" id="eVel" type="range" min="0" max="20" value="0" step="0.5" />
+            <div style="font-family:var(--mono);font-size:0.8rem;color:var(--cyan);text-align:right;" id="eVelVal">0 m/s</div>
+          </div>
+          <div class="sim-result" id="eResults" style="margin-top:4px;"></div>
+        </div>
+      </div>
+      <div class="sim-canvas-wrap">
+        <canvas id="energyCanvas" width="820" height="460"></canvas>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="./js/physics-bg.js"></script>
+<script>
+// ── Tab switching
+document.querySelectorAll('.sim-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.sim-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.sim-panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('sim-' + tab.dataset.sim).classList.add('active');
+    if (tab.dataset.sim === 'forces') drawForces();
+    if (tab.dataset.sim === 'energy') drawEnergy();
+  });
+});
+
+// ── Projectile Simulator
+const simCanvas = document.getElementById('simCanvas');
+const sctx = simCanvas.getContext('2d');
+
+function getP() {
+  return {
+    v0: parseFloat(document.getElementById('pVel').value),
+    angle: parseFloat(document.getElementById('pAngle').value) * Math.PI / 180,
+    g: parseFloat(document.getElementById('pGrav').value),
+    h0: parseFloat(document.getElementById('pHeight').value),
+  };
+}
+
+function drawSim() {
+  const { v0, angle, g, h0 } = getP();
+  const W = simCanvas.width, H = simCanvas.height;
+  sctx.clearRect(0, 0, W, H);
+
+  // Grid
+  sctx.strokeStyle = 'rgba(56,189,248,0.06)'; sctx.lineWidth = 1;
+  for (let x = 0; x < W; x += 40) { sctx.beginPath(); sctx.moveTo(x,0); sctx.lineTo(x,H); sctx.stroke(); }
+  for (let y = 0; y < H; y += 40) { sctx.beginPath(); sctx.moveTo(0,y); sctx.lineTo(W,y); sctx.stroke(); }
+
+  const v0x = v0 * Math.cos(angle);
+  const v0y = v0 * Math.sin(angle);
+  // Time of flight: h0 + v0y*t - 0.5*g*t^2 = 0
+  const disc = v0y * v0y + 2 * g * h0;
+  const tFlight = (v0y + Math.sqrt(Math.max(0, disc))) / g;
+  const range = v0x * tFlight;
+  const hMax = h0 + (v0y * v0y) / (2 * g);
+
+  // Scale to fit canvas
+  const pad = 60;
+  const scaleX = (W - pad * 2) / Math.max(range, 1);
+  const scaleY = (H - pad * 2) / Math.max(hMax * 1.1 + h0, 1);
+  const scale = Math.min(scaleX, scaleY);
+
+  const ox = pad, oy = H - pad;
+
+  // Ground
+  sctx.strokeStyle = 'rgba(52,211,153,0.3)'; sctx.lineWidth = 2;
+  sctx.beginPath(); sctx.moveTo(ox - 10, oy); sctx.lineTo(W - pad + 10, oy); sctx.stroke();
+
+  // Trajectory
+  sctx.strokeStyle = '#fb923c'; sctx.lineWidth = 2.5; sctx.lineJoin = 'round';
+  sctx.beginPath();
+  const steps = 200;
+  for (let i = 0; i <= steps; i++) {
+    const t = (i / steps) * tFlight;
+    const px = ox + v0x * t * scale;
+    const py = oy - (h0 + v0y * t - 0.5 * g * t * t) * scale;
+    if (i === 0) sctx.moveTo(px, py); else sctx.lineTo(px, py);
+  }
+  sctx.stroke();
+
+  // Peak marker
+  const tPeak = v0y / g;
+  const peakX = ox + v0x * tPeak * scale;
+  const peakY = oy - hMax * scale;
+  sctx.strokeStyle = 'rgba(192,132,252,0.5)'; sctx.lineWidth = 1; sctx.setLineDash([4,4]);
+  sctx.beginPath(); sctx.moveTo(peakX, peakY); sctx.lineTo(peakX, oy); sctx.stroke();
+  sctx.setLineDash([]);
+  sctx.fillStyle = '#c084fc'; sctx.font = '11px JetBrains Mono, monospace';
+  sctx.fillText(`h_max = ${hMax.toFixed(1)} m`, peakX + 5, peakY - 6);
+
+  // Ball at current animated t
+  const tAnim = (Date.now() % (tFlight * 1000 + 1200)) / 1000;
+  if (tAnim < tFlight) {
+    const bx = ox + v0x * tAnim * scale;
+    const by = oy - (h0 + v0y * tAnim - 0.5 * g * tAnim * tAnim) * scale;
+    const vx = v0x, vy = v0y - g * tAnim;
+    const vs = Math.min(scale * 1.2, 40);
+
+    // Ball
+    sctx.beginPath(); sctx.arc(bx, by, 7, 0, Math.PI * 2);
+    sctx.fillStyle = '#fb923c'; sctx.shadowColor = '#fb923c'; sctx.shadowBlur = 14; sctx.fill(); sctx.shadowBlur = 0;
+
+    function arrow(x,y,dx,dy,col,lw) {
+      const len = Math.sqrt(dx*dx+dy*dy); if(len<4) return;
+      sctx.save(); sctx.strokeStyle=col; sctx.fillStyle=col; sctx.lineWidth=lw||2; sctx.lineCap='round';
+      sctx.beginPath(); sctx.moveTo(x,y); sctx.lineTo(x+dx,y+dy); sctx.stroke();
+      const a=Math.atan2(dy,dx),h=10;
+      sctx.beginPath(); sctx.moveTo(x+dx,y+dy);
+      sctx.lineTo(x+dx-h*Math.cos(a-0.4),y+dy-h*Math.sin(a-0.4));
+      sctx.lineTo(x+dx-h*Math.cos(a+0.4),y+dy-h*Math.sin(a+0.4));
+      sctx.closePath(); sctx.fill(); sctx.restore();
+    }
+
+    // Velocity vector
+    arrow(bx, by, vx*vs/v0*0.8, -vy*vs/v0*0.8, '#38bdf8', 2.5);
+    // vx component
+    arrow(bx, by, vx*vs/v0*0.8, 0, 'rgba(56,189,248,0.5)', 1.5);
+    // vy component
+    arrow(bx, by, 0, -vy*vs/v0*0.8, 'rgba(52,211,153,0.6)', 1.5);
+    // Gravity
+    arrow(bx, by, 0, 32, '#f87171', 2);
+  }
+
+  // Launch label
+  sctx.fillStyle = 'rgba(255,255,255,0.6)'; sctx.font = '11px JetBrains Mono, monospace';
+  sctx.fillText(`v₀ = ${v0} m/s, θ = ${Math.round(angle*180/Math.PI)}°`, ox + 6, oy - h0 * scale - 14);
+  sctx.fillText(`Range = ${range.toFixed(1)} m`, W - pad - 110, oy - 10);
+
+  // Results
+  document.getElementById('pResults').innerHTML =
+    `Range: <b style="color:var(--orange)">${range.toFixed(2)} m</b>\n` +
+    `Max height: <b style="color:var(--violet)">${hMax.toFixed(2)} m</b>\n` +
+    `Time of flight: <b style="color:var(--cyan)">${tFlight.toFixed(2)} s</b>\n` +
+    `v₀ₓ: ${v0x.toFixed(2)} m/s  ·  v₀ᵧ: ${v0y.toFixed(2)} m/s`;
+
+  requestAnimationFrame(drawSim);
+}
+
+['pVel','pAngle','pGrav','pHeight'].forEach(id => {
+  const el = document.getElementById(id);
+  const valEl = document.getElementById(id + 'Val');
+  el.addEventListener('input', () => {
+    if (id==='pAngle') valEl.textContent = el.value + '°';
+    else if (id==='pGrav') valEl.textContent = el.value + ' m/s²';
+    else if (id==='pHeight') valEl.textContent = el.value + ' m';
+    else valEl.textContent = el.value + ' m/s';
+  });
+});
+
+drawSim();
+
+// ── Forces Simulator
+const forceCanvas = document.getElementById('forceCanvas');
+const fctx = forceCanvas.getContext('2d');
+
+function drawForces() {
+  const m = parseFloat(document.getElementById('fMass').value);
+  const F = parseFloat(document.getElementById('fApplied').value);
+  const mu = parseFloat(document.getElementById('fMu').value);
+  const g = 9.8;
+  const N = m * g;
+  const fk = mu * N;
+  const Fnet = F - fk;
+  const a = Fnet / m;
+  const W = forceCanvas.width, H = forceCanvas.height;
+  fctx.clearRect(0, 0, W, H);
+
+  // Grid
+  fctx.strokeStyle = 'rgba(56,189,248,0.06)'; fctx.lineWidth = 1;
+  for (let x = 0; x < W; x += 40) { fctx.beginPath(); fctx.moveTo(x,0); fctx.lineTo(x,H); fctx.stroke(); }
+  for (let y = 0; y < H; y += 40) { fctx.beginPath(); fctx.moveTo(0,y); fctx.lineTo(W,y); fctx.stroke(); }
+
+  // Block
+  const bx = W/2 - 50, by = H/2 - 40, bw = 100, bh = 80;
+  fctx.fillStyle = 'rgba(56,189,248,0.12)';
+  fctx.strokeStyle = 'rgba(56,189,248,0.4)';
+  fctx.lineWidth = 2;
+  fctx.beginPath(); fctx.roundRect(bx, by, bw, bh, 8); fctx.fill(); fctx.stroke();
+  fctx.fillStyle = 'var(--text)'; fctx.font = 'bold 14px JetBrains Mono, monospace';
+  fctx.textAlign = 'center';
+  fctx.fillStyle = '#e2e8f0';
+  fctx.fillText(`${m} kg`, W/2, H/2 + 6);
+  fctx.textAlign = 'left';
+
+  function arrow(x,y,dx,dy,col,lw,label) {
+    const len = Math.sqrt(dx*dx+dy*dy); if(len<4) return;
+    fctx.save(); fctx.strokeStyle=col; fctx.fillStyle=col; fctx.lineWidth=lw||2.5; fctx.lineCap='round';
+    fctx.beginPath(); fctx.moveTo(x,y); fctx.lineTo(x+dx,y+dy); fctx.stroke();
+    const a=Math.atan2(dy,dx),h=12;
+    fctx.beginPath(); fctx.moveTo(x+dx,y+dy);
+    fctx.lineTo(x+dx-h*Math.cos(a-0.4),y+dy-h*Math.sin(a-0.4));
+    fctx.lineTo(x+dx-h*Math.cos(a+0.4),y+dy-h*Math.sin(a+0.4));
+    fctx.closePath(); fctx.fill();
+    if (label) {
+      fctx.font = '12px JetBrains Mono, monospace';
+      fctx.fillText(label, x+dx+5, y+dy+4);
+    }
+    fctx.restore();
+  }
+
+  const sc = Math.min(120, Math.max(30, 120 * F / 100));
+  const fksc = Math.min(120, Math.max(0, 120 * fk / 100));
+  // Weight down
+  arrow(W/2, by+bh, 0, Math.min(N*1.2,80), '#f87171', 3, `W=${N.toFixed(0)}N`);
+  // Normal up
+  arrow(W/2, by, 0, -Math.min(N*1.2,80), '#34d399', 3, `N=${N.toFixed(0)}N`);
+  // Applied right
+  if (F > 0) arrow(bx+bw, H/2, sc, 0, '#38bdf8', 3, `F=${F.toFixed(0)}N`);
+  // Friction left
+  if (fk > 0) arrow(bx, H/2, -fksc, 0, '#fb923c', 3, `f_k=${fk.toFixed(0)}N`);
+
+  // Surface
+  fctx.strokeStyle = 'rgba(52,211,153,0.3)'; fctx.lineWidth = 2;
+  fctx.beginPath(); fctx.moveTo(50, by+bh+2); fctx.lineTo(W-50, by+bh+2); fctx.stroke();
+
+  document.getElementById('fResults').innerHTML =
+    `N = mg = ${N.toFixed(1)} N\n` +
+    `f_k = μN = ${fk.toFixed(1)} N\n` +
+    `F_net = ${Fnet.toFixed(1)} N\n` +
+    `a = ${a.toFixed(2)} m/s²  ${a < 0 ? '← decelerating' : a > 0 ? '→ accelerating' : '(static)'}`;
+}
+
+['fMass','fApplied','fMu'].forEach(id => {
+  const el = document.getElementById(id);
+  const valEl = document.getElementById(id+'Val');
+  el.addEventListener('input', () => {
+    if(id==='fMu') valEl.textContent = parseFloat(el.value).toFixed(2);
+    else valEl.textContent = el.value + (id==='fApplied' ? ' N' : ' kg');
+    drawForces();
+  });
+});
+
+// ── Energy bar chart
+const energyCanvas = document.getElementById('energyCanvas');
+const ectx = energyCanvas.getContext('2d');
+
+function drawEnergy() {
+  const m = parseFloat(document.getElementById('eMass').value);
+  const h = parseFloat(document.getElementById('eHeight').value);
+  const v = parseFloat(document.getElementById('eVel').value);
+  const g = 9.8;
+  const KE = 0.5 * m * v * v;
+  const PE = m * g * h;
+  const E  = KE + PE;
+  const W = energyCanvas.width, H = energyCanvas.height;
+  ectx.clearRect(0, 0, W, H);
+
+  // Grid
+  ectx.strokeStyle = 'rgba(56,189,248,0.06)'; ectx.lineWidth = 1;
+  for (let x = 0; x < W; x += 40) { ectx.beginPath(); ectx.moveTo(x,0); ectx.lineTo(x,H); ectx.stroke(); }
+  for (let y = 0; y < H; y += 40) { ectx.beginPath(); ectx.moveTo(0,y); ectx.lineTo(W,y); ectx.stroke(); }
+
+  const maxE = Math.max(E, 1);
+  const barH = H - 100;
+  const barW = 100;
+  const gap = 50;
+  const startX = W/2 - (3*barW + 2*gap)/2;
+  const baseY = H - 60;
+
+  function bar(x, val, col, label, sublabel) {
+    const h_px = (val/maxE) * barH;
+    ectx.fillStyle = col + '28';
+    ectx.strokeStyle = col;
+    ectx.lineWidth = 2;
+    ectx.beginPath(); ectx.roundRect(x, baseY - h_px, barW, h_px, [6,6,0,0]); ectx.fill(); ectx.stroke();
+    ectx.fillStyle = col;
+    ectx.font = 'bold 13px JetBrains Mono, monospace';
+    ectx.textAlign = 'center';
+    ectx.fillText(val.toFixed(1)+'J', x + barW/2, baseY - h_px - 8);
+    ectx.fillStyle = '#e2e8f0'; ectx.font = '12px JetBrains Mono, monospace';
+    ectx.fillText(label, x + barW/2, baseY + 20);
+    ectx.fillStyle = '#64748b'; ectx.font = '10px JetBrains Mono, monospace';
+    ectx.fillText(sublabel, x + barW/2, baseY + 36);
+    ectx.textAlign = 'left';
+  }
+
+  bar(startX, KE, '#38bdf8', 'KE', '½mv²');
+  bar(startX + barW + gap, PE, '#fb923c', 'PE', 'mgh');
+  bar(startX + 2*(barW + gap), E, '#c084fc', 'E_total', 'KE+PE');
+
+  document.getElementById('eResults').innerHTML =
+    `KE = ½mv² = ${KE.toFixed(2)} J\n` +
+    `PE = mgh = ${PE.toFixed(2)} J\n` +
+    `Total E = ${E.toFixed(2)} J\n` +
+    `v_max (at h=0) = ${Math.sqrt(2*E/m).toFixed(2)} m/s`;
+}
+
+['eMass','eHeight','eVel'].forEach(id => {
+  const el = document.getElementById(id);
+  const valEl = document.getElementById(id+'Val');
+  el.addEventListener('input', () => {
+    if(id==='eHeight') valEl.textContent = el.value + ' m';
+    else if(id==='eVel') valEl.textContent = el.value + ' m/s';
+    else valEl.textContent = el.value + ' kg';
+    drawEnergy();
+  });
+});
+
+drawEnergy();
+</script>
+</body>
 </html>
