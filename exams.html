@@ -1,113 +1,234 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Exams | Physics 1 Study Platform</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="./css/styles.css" />
-  </head>
-  <body>
-    <div class="page-shell">
-      <header class="topbar">
-        <div>
-          <p class="eyebrow">Practice Exams</p>
-          <h1>Exam Readiness Lab</h1>
-        </div>
-        <nav class="nav-links" aria-label="Main navigation">
-          <a href="./index.html">Home</a>
-          <a href="./topics.html">Topics</a>
-          <a href="./formulas.html">Formulas</a>
-          <a href="./exams.html" class="active">Exams</a>
-          <a href="./flashcards.html">Flashcards</a>
-          <a href="./tools.html">Tools</a>
-          <a href="./simulators.html">Simulators</a>
-        </nav>
-      </header>
-
-      <main class="bento-grid">
-        <section class="card featured">
-          <div class="card-header">
-            <p class="card-label">Mock Exam Set A</p>
-            <span class="badge">60 min</span>
-          </div>
-          <div class="featured-content">
-            <h2>Mixed mechanics review</h2>
-            <p>20 multiple-choice and 4 free-response questions. Focus: kinematics through rotation.</p>
-            <div class="check-list">
-              <p>Section 1: Motion and forces</p>
-              <p>Section 2: Work and energy</p>
-              <p>Section 3: Momentum and collisions</p>
-              <p>Section 4: Rotation and SHM</p>
-            </div>
-            <div class="feature-actions">
-              <button class="btn primary" type="button">Start Timed Set</button>
-              <button class="btn secondary" type="button">Review Solutions</button>
-            </div>
-          </div>
-          <div class="physics-ring"></div>
-        </section>
-
-        <section class="card">
-          <div class="card-header">
-            <p class="card-label">Quick Drill</p>
-            <span class="badge">15 min</span>
-          </div>
-          <h3>Formula speed test</h3>
-          <p>Rapid-fire equation selection and unit matching across all core units.</p>
-        </section>
-
-        <section class="card">
-          <div class="card-header">
-            <p class="card-label">Difficulty</p>
-            <span class="badge">Adaptive</span>
-          </div>
-          <h3>Three levels</h3>
-          <div class="stat-list">
-            <p>Foundation: algebraic setup</p>
-            <p>Standard: multi-step mechanics</p>
-            <p>Challenge: conceptual synthesis</p>
-          </div>
-        </section>
-
-        <section class="card wide">
-          <div class="card-header">
-            <p class="card-label">Exam Strategy</p>
-            <span class="badge">Checklist</span>
-          </div>
-          <div class="check-list">
-            <p>Read all givens and define symbols before solving.</p>
-            <p>Draw diagrams for every force, energy, or collision problem.</p>
-            <p>Check units at each step and sanity-check final magnitude.</p>
-            <p>For free-response, state equation choice before substitution.</p>
-          </div>
-        </section>
-
-        <section class="card">
-          <div class="card-header">
-            <p class="card-label">Progress</p>
-            <span class="badge">Tracking</span>
-          </div>
-          <h3>Current benchmark</h3>
-          <p class="mono">MCQ accuracy: 78% | FRQ score: 70%</p>
-        </section>
-
-        <section class="card">
-          <div class="card-header">
-            <p class="card-label">Next Goal</p>
-            <span class="badge">Target</span>
-          </div>
-          <h3>Break 85% overall</h3>
-          <p>Prioritize momentum and rotational dynamics sets this week.</p>
-        </section>
-      </main>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Practice Exams | Physics 1 Study Guide</title>
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+<canvas id="physics-bg"></canvas>
+<div class="page-shell">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon">φ</div>
+      <div><div class="brand-name">PHYS 101</div><div class="brand-sub">Ultimate Study Guide</div></div>
     </div>
+    <nav class="nav-links">
+      <a href="./index.html">Home</a>
+      <a href="./topics.html">Topics</a>
+      <a href="./formulas.html">Formulas</a>
+      <a href="./flashcards.html">Flashcards</a>
+      <a href="./simulators.html">Simulators</a>
+      <a href="./exams.html" class="active">Practice</a>
+      <a href="./tools.html">Tools</a>
+    </nav>
+  </header>
 
-    <script type="module" src="./js/app.js"></script>
-  </body>
+  <section class="page-hero">
+    <p class="eyebrow">Practice Exams</p>
+    <h1>Test Your <span>Knowledge</span></h1>
+    <p>30 multiple-choice questions across all Physics 1 topics. Click an option to check your answer — explanation reveals automatically.</p>
+  </section>
+
+  <!-- Score bar -->
+  <div class="card" style="margin-bottom:32px;display:flex;gap:24px;align-items:center;flex-wrap:wrap;">
+    <div style="flex:1;min-width:160px;">
+      <div class="card-label" style="margin-bottom:4px;">Score</div>
+      <div style="font-family:var(--mono);font-size:1.4rem;font-weight:700;" id="scoreDisplay">0 / 0</div>
+    </div>
+    <div style="flex:1;min-width:160px;">
+      <div class="card-label" style="margin-bottom:6px;">Progress</div>
+      <div class="fc-progress" style="margin-bottom:0;"><div class="fc-progress-bar" id="examProgress" style="width:0%"></div></div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn btn-secondary" id="filterAll" onclick="setFilter('all')">All topics</button>
+      <button class="btn btn-secondary" id="filterWrong" onclick="setFilter('wrong')" style="display:none;">Show wrong only</button>
+      <button class="btn btn-secondary" onclick="resetExam()">Reset</button>
+    </div>
+  </div>
+
+  <div id="questionList"></div>
+
+</div>
+
+<script src="./js/physics-bg.js"></script>
+<script>
+const QUESTIONS = [
+  // Kinematics
+  { topic:'kinematics', q:"A ball is thrown horizontally at 15 m/s from a 20 m cliff. How long does it take to hit the ground? (g = 9.8 m/s²)",
+    opts:["1.5 s","2.0 s","2.5 s","3.0 s"], ans:1,
+    exp:"Using y = ½gt²: 20 = ½(9.8)t² → t² = 40/9.8 → t ≈ 2.02 s. Horizontal velocity doesn't affect vertical fall time." },
+  { topic:'kinematics', q:"A car accelerates from rest at 3.0 m/s² for 8 seconds. What is its final velocity?",
+    opts:["11 m/s","18 m/s","24 m/s","30 m/s"], ans:2,
+    exp:"v = v₀ + at = 0 + 3.0(8) = 24 m/s. Start from the definition of constant acceleration." },
+  { topic:'kinematics', q:"At maximum height, a projectile has which velocity components?",
+    opts:["vₓ = 0, vᵧ = 0","vₓ ≠ 0, vᵧ = 0","vₓ = 0, vᵧ ≠ 0","vₓ ≠ 0, vᵧ ≠ 0"], ans:1,
+    exp:"At max height, the vertical component vᵧ = 0 (momentarily stopped rising). The horizontal component vₓ = v₀cosθ is unchanged throughout — no horizontal acceleration." },
+  { topic:'kinematics', q:"A train travels 100 m north then 60 m south. What is its displacement?",
+    opts:["160 m","100 m","60 m","40 m north"], ans:3,
+    exp:"Displacement = net change in position = 100 − 60 = 40 m north. Distance = 160 m. Displacement is a vector; distance is scalar." },
+  // Newton's Laws
+  { topic:'dynamics', q:"A 10 kg box is pushed forward by a 50 N applied force and opposed by a 20 N friction force. What is the acceleration?",
+    opts:["5.0 m/s²","3.0 m/s²","2.0 m/s²","7.0 m/s²"], ans:1,
+    exp:"F_net = 50 − 20 = 30 N. a = F_net/m = 30/10 = 3.0 m/s². Always compute net force first, then apply F = ma." },
+  { topic:'dynamics', q:"Which of the following is a correct statement of Newton's 3rd Law?",
+    opts:["A net force causes acceleration in the same direction","An object at rest stays at rest unless acted on","For every action force, there is an equal and opposite reaction force on a DIFFERENT object","F = ma"], ans:2,
+    exp:"Newton's 3rd: action–reaction pairs act on different objects. The book pushes down on the table; the table pushes up on the book — equal in magnitude, opposite in direction, different objects." },
+  { topic:'dynamics', q:"A 5 kg block sits on a frictionless incline of 30°. What is its acceleration down the slope?",
+    opts:["9.8 m/s²","4.9 m/s²","8.5 m/s²","2.5 m/s²"], ans:1,
+    exp:"a = g sinθ = 9.8 × sin30° = 9.8 × 0.5 = 4.9 m/s². The normal force does no work along the slope direction." },
+  { topic:'dynamics', q:"If μ_s = 0.4 and a 6 kg box rests on a flat surface, what is the maximum static friction force?",
+    opts:["2.4 N","23.5 N","40 N","9.8 N"], ans:1,
+    exp:"f_s,max = μ_s N = μ_s mg = 0.4 × 6 × 9.8 = 23.52 N ≈ 23.5 N. Normal force = mg on a flat surface." },
+  // Energy
+  { topic:'energy', q:"A 2 kg object moves at 6 m/s. What is its kinetic energy?",
+    opts:["12 J","36 J","6 J","72 J"], ans:1,
+    exp:"KE = ½mv² = ½(2)(6²) = ½(2)(36) = 36 J. Don't forget the ½ and that velocity is squared." },
+  { topic:'energy', q:"A box is pushed 5 m by a 40 N force at 60° to the horizontal. How much work is done?",
+    opts:["200 J","100 J","173 J","346 J"], ans:1,
+    exp:"W = Fd cosθ = 40 × 5 × cos60° = 200 × 0.5 = 100 J. Only the horizontal component of force does work on horizontal displacement." },
+  { topic:'energy', q:"A ball is dropped from 10 m. Using energy conservation, what is its speed just before impact? (g = 9.8 m/s²)",
+    opts:["9.8 m/s","14 m/s","19.6 m/s","4.9 m/s"], ans:1,
+    exp:"mgh = ½mv² → v = √(2gh) = √(2 × 9.8 × 10) = √196 = 14 m/s. Mass cancels — all PE converts to KE." },
+  { topic:'energy', q:"Which force does NOT do work on an object moving horizontally on a flat surface?",
+    opts:["Applied horizontal force","Kinetic friction","Normal force","Air resistance"], ans:2,
+    exp:"Normal force is perpendicular to displacement (horizontal). W = Fd cosθ = Fd cos90° = 0. Perpendicular forces do zero work." },
+  // Momentum
+  { topic:'momentum', q:"A 3 kg ball moving at 4 m/s collides and sticks to a 2 kg stationary ball. What is the final velocity?",
+    opts:["2.4 m/s","6 m/s","1.2 m/s","4.0 m/s"], ans:0,
+    exp:"Perfectly inelastic: p_i = m₁v₁ = 3×4 = 12 kg·m/s. v_f = p_i/(m₁+m₂) = 12/5 = 2.4 m/s." },
+  { topic:'momentum', q:"A 0.5 kg ball hits a wall at 10 m/s and bounces back at 8 m/s. What is the impulse from the wall?",
+    opts:["1 N·s","9 N·s","5 N·s","18 N·s"], ans:1,
+    exp:"J = Δp = m(v_f − v_i) = 0.5(−8 − 10) = 0.5(−18) = −9 N·s. Magnitude = 9 N·s. (Negative because direction reversed.)" },
+  { topic:'momentum', q:"In an elastic collision, which quantities are conserved?",
+    opts:["Only momentum","Only kinetic energy","Both momentum and kinetic energy","Momentum and total energy, but not KE"], ans:2,
+    exp:"Elastic collisions conserve both momentum AND kinetic energy. Inelastic conserves only momentum." },
+  // Circular / Gravity
+  { topic:'circular', q:"A 1200 kg car goes around a circular track of radius 50 m at 20 m/s. What centripetal force is needed?",
+    opts:["480 N","9600 N","4800 N","240 N"], ans:1,
+    exp:"F_c = mv²/r = 1200 × 400/50 = 480000/50 = 9600 N." },
+  { topic:'circular', q:"If a satellite's orbital radius doubles, how does its orbital speed change?",
+    opts:["Doubles","Halves","Decreases by factor √2","Increases by factor √2"], ans:2,
+    exp:"v = √(GM/r). If r → 2r, v → √(GM/2r) = v/√2. Speed decreases by factor of √2." },
+  // Rotation
+  { topic:'rotation', q:"A solid disk (I = ½MR²) and a hoop (I = MR²) of equal mass and radius roll from rest down an incline. Which reaches the bottom first?",
+    opts:["The hoop","The disk","They arrive at the same time","Depends on the incline angle"], ans:1,
+    exp:"More I = more rotational KE needed = less translational KE = slower. The disk (I = ½MR²) has less inertia than the hoop (I = MR²), so it wins." },
+  { topic:'rotation', q:"A force of 20 N is applied perpendicular to a wrench at 0.3 m from the bolt. What is the torque?",
+    opts:["66.7 N·m","6 N·m","0.6 N·m","60 N·m"], ans:1,
+    exp:"τ = rF sinθ = 0.3 × 20 × sin90° = 6 N·m. Force perpendicular to lever arm → sin90° = 1, maximum torque." },
+  { topic:'rotation', q:"An ice skater spins with arms extended (I = 4 kg·m²) at ω = 2 rad/s. She pulls arms in (I = 1 kg·m²). New angular velocity?",
+    opts:["0.5 rad/s","2 rad/s","8 rad/s","4 rad/s"], ans:2,
+    exp:"L = Iω is conserved: I₁ω₁ = I₂ω₂ → 4(2) = 1(ω₂) → ω₂ = 8 rad/s." },
+  // SHM
+  { topic:'shm', q:"A spring with k = 200 N/m has a 2 kg mass. What is its period of oscillation?",
+    opts:["0.31 s","0.63 s","6.28 s","1.0 s"], ans:1,
+    exp:"T = 2π√(m/k) = 2π√(2/200) = 2π√(0.01) = 2π(0.1) = 0.628 s ≈ 0.63 s." },
+  { topic:'shm', q:"In SHM, when the displacement equals the amplitude (x = A), what is the velocity?",
+    opts:["Maximum","Zero","v₀","½v_max"], ans:1,
+    exp:"At x = ±A (the extremes), the object momentarily stops before reversing. KE = 0 → v = 0. All energy is PE = ½kA²." },
+  { topic:'shm', q:"A pendulum on the Moon (g = 1.6 m/s²) has L = 1 m. What is its period?",
+    opts:["2.0 s","4.97 s","1.27 s","6.28 s"], ans:1,
+    exp:"T = 2π√(L/g) = 2π√(1/1.6) = 2π(0.79) ≈ 4.97 s. Lower g → longer period → slower swing." },
+  // Gravitation
+  { topic:'gravity', q:"If you double the distance from Earth's center, how does gravitational force change?",
+    opts:["Halves","Quarters","Doubles","Stays same"], ans:1,
+    exp:"F_g = Gm₁m₂/r². If r → 2r: F → Gm₁m₂/(2r)² = F/4. Force drops to one-quarter (inverse-square law)." },
+  { topic:'gravity', q:"What is escape velocity from a planet of mass M and radius R?",
+    opts:["√(GM/R)","√(2GM/R)","2GM/R","GM/R²"], ans:1,
+    exp:"Set KE = |PE|: ½mv² = GMm/R → v_esc = √(2GM/R). This is √2 times the circular orbit speed." },
+  // Mixed conceptual
+  { topic:'mixed', q:"A person stands on a scale in an elevator. The scale reads LESS than their actual weight. What is the elevator doing?",
+    opts:["Moving up at constant speed","Accelerating upward","Accelerating downward","Moving down at constant speed"], ans:2,
+    exp:"N = m(g−a). If accelerating downward, a is in the −g direction, so N < mg. At constant speed (any direction), N = mg." },
+  { topic:'mixed', q:"A hockey puck slides on a frictionless surface. According to Newton's 1st Law, what happens?",
+    opts:["It slows down due to inertia","It speeds up gradually","It continues at constant velocity indefinitely","It curves"], ans:2,
+    exp:"With no net force (frictionless), Newton's 1st Law: object maintains constant velocity forever. No force = no acceleration." },
+  { topic:'mixed', q:"Which of the following is a vector quantity?",
+    opts:["Speed","Mass","Kinetic energy","Velocity"], ans:3,
+    exp:"Velocity is a vector (magnitude + direction). Speed is scalar (magnitude only). KE and mass are also scalars." },
+  { topic:'mixed', q:"A 70 kg person stands on a 30 kg platform. The platform is accelerated upward at 2 m/s². What does the floor scale read?",
+    opts:["686 N","980 N","826 N","980 N"], ans:2,
+    exp:"F_net = (m_person + m_platform) × a. Scale = weight + ma = 70(9.8) + 70(2) = 686 + 140 = 826 N. The platform's own weight is supported separately." },
+  { topic:'mixed', q:"Two objects, one 2× the mass, fall from the same height in a vacuum. Which hits first?",
+    opts:["The heavier one","The lighter one","They hit at the same time","Depends on shape"], ans:2,
+    exp:"In a vacuum (no air resistance), all objects fall with the same acceleration g regardless of mass. Galileo's experiment. a = g for all masses." },
+];
+
+let answered = new Set();
+let correct   = new Set();
+let wrong     = new Set();
+let filter    = 'all';
+
+function setFilter(f) { filter = f; renderQuestions(); }
+function resetExam()  { answered.clear(); correct.clear(); wrong.clear(); renderQuestions(); updateScore(); }
+
+function renderQuestions() {
+  const list = document.getElementById('questionList');
+  list.innerHTML = '';
+  const toShow = filter === 'wrong' ? QUESTIONS.filter((_,i) => wrong.has(i)) : QUESTIONS;
+  if (!toShow.length) { list.innerHTML = '<p style="color:var(--muted);text-align:center;padding:40px 0;">No wrong answers yet — great job!</p>'; return; }
+  toShow.forEach((q, localIdx) => {
+    const globalIdx = QUESTIONS.indexOf(q);
+    const div = document.createElement('div');
+    div.className = 'question-card';
+    div.dataset.qi = globalIdx;
+    const isAnswered = answered.has(globalIdx);
+    const isCorrect  = correct.has(globalIdx);
+
+    div.innerHTML = `
+      <div class="q-num">Q${globalIdx + 1} · <span style="color:var(--muted);">${q.topic.toUpperCase()}</span></div>
+      <div class="q-text">${q.q}</div>
+      <div class="q-options">
+        ${q.opts.map((opt, oi) => {
+          let cls = 'q-option';
+          if (isAnswered) {
+            cls += oi === q.ans ? ' correct' : '';
+            cls += (wrong.has(globalIdx) && oi !== q.ans) ? ' revealed' : '';
+          }
+          return `<div class="${cls}" data-qi="${globalIdx}" data-oi="${oi}">
+            <div class="q-letter">${'ABCD'[oi]}</div>
+            <span>${opt}</span>
+          </div>`;
+        }).join('')}
+      </div>
+      <div class="q-explanation" style="${isAnswered ? 'display:block' : ''}">${q.exp}</div>
+    `;
+    list.appendChild(div);
+  });
+
+  // Click handlers
+  list.querySelectorAll('.q-option').forEach(opt => {
+    opt.addEventListener('click', function() {
+      const qi = parseInt(this.dataset.qi);
+      const oi = parseInt(this.dataset.oi);
+      if (answered.has(qi)) return;
+      answered.add(qi);
+      const q = QUESTIONS[qi];
+      if (oi === q.ans) correct.add(qi); else wrong.add(qi);
+      // Re-render this card's options
+      const card = document.querySelector(`.question-card[data-qi="${qi}"]`);
+      card.querySelectorAll('.q-option').forEach((o, i) => {
+        if (i === q.ans) o.classList.add('correct');
+        if (i === oi && oi !== q.ans) o.classList.add('wrong');
+      });
+      card.querySelector('.q-explanation').style.display = 'block';
+      updateScore();
+    });
+  });
+}
+
+function updateScore() {
+  const total = QUESTIONS.length;
+  const done  = answered.size;
+  const cr    = correct.size;
+  document.getElementById('scoreDisplay').textContent = `${cr} / ${done} correct`;
+  document.getElementById('examProgress').style.width = (done / total * 100) + '%';
+  if (wrong.size > 0) document.getElementById('filterWrong').style.display = '';
+}
+
+renderQuestions();
+</script>
+</body>
 </html>

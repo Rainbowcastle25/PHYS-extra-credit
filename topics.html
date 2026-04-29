@@ -1,122 +1,256 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Topics | Physics 1 Study Platform</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="./css/styles.css" />
-  </head>
-  <body>
-    <div class="page-shell">
-      <header class="topbar">
-        <div>
-          <p class="eyebrow">Topic Summaries</p>
-          <h1>Physics 1 Core Units</h1>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Topics | Physics 1 Study Guide</title>
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+<canvas id="physics-bg"></canvas>
+<div class="page-shell">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon">φ</div>
+      <div><div class="brand-name">PHYS 101</div><div class="brand-sub">Ultimate Study Guide</div></div>
+    </div>
+    <nav class="nav-links">
+      <a href="./index.html">Home</a>
+      <a href="./topics.html" class="active">Topics</a>
+      <a href="./formulas.html">Formulas</a>
+      <a href="./flashcards.html">Flashcards</a>
+      <a href="./simulators.html">Simulators</a>
+      <a href="./exams.html">Practice</a>
+      <a href="./tools.html">Tools</a>
+    </nav>
+  </header>
+
+  <section class="page-hero">
+    <p class="eyebrow">Concept Summaries</p>
+    <h1>Physics 1 <span>Core Topics</span></h1>
+    <p>Eight units in order of dependency. Click any topic to expand its concept summary, key ideas, and common exam traps.</p>
+  </section>
+
+  <div class="topic-grid" id="topicGrid">
+
+    <div class="topic-card" data-topic="0">
+      <div class="topic-header">
+        <div class="topic-title-wrap">
+          <div class="topic-num" style="background:rgba(56,189,248,0.15);color:var(--cyan);">01</div>
+          <div>
+            <div class="topic-title">Kinematics</div>
+            <div class="topic-sub">Motion without causes · Vectors · Projectiles</div>
+          </div>
         </div>
-        <nav class="nav-links" aria-label="Main navigation">
-          <a href="./index.html">Home</a>
-          <a href="./topics.html" class="active">Topics</a>
-          <a href="./formulas.html">Formulas</a>
-          <a href="./exams.html">Exams</a>
-          <a href="./flashcards.html">Flashcards</a>
-          <a href="./tools.html">Tools</a>
-          <a href="./simulators.html">Simulators</a>
-        </nav>
-      </header>
-
-      <main class="bento-grid">
-        <section class="card featured">
-          <div class="card-header">
-            <p class="card-label">Study Path</p>
-            <span class="badge">Structured</span>
-          </div>
-          <div class="featured-content">
-            <h2>Concept flow for exam prep</h2>
-            <p>Move from motion and forces into energy, momentum, rotation, and oscillations in this order.</p>
-            <div class="topic-list mono">
-              <p>1. Kinematics and vectors</p>
-              <p>2. Newton's laws and free-body diagrams</p>
-              <p>3. Work, energy, and power</p>
-              <p>4. Momentum and collisions</p>
-              <p>5. Circular motion and gravitation</p>
-              <p>6. Rotation and torque</p>
-              <p>7. Simple harmonic motion</p>
-            </div>
-          </div>
-          <div class="physics-ring"></div>
-        </section>
-
-        <section class="card">
-          <div class="card-header">
-            <p class="card-label">Kinematics</p>
-            <span class="badge">Motion</span>
-          </div>
-          <h3>Describe motion without causes</h3>
-          <p>Use position-time and velocity-time relationships to model linear and projectile motion.</p>
-        </section>
-
-        <section class="card">
-          <div class="card-header">
-            <p class="card-label">Dynamics</p>
-            <span class="badge">Forces</span>
-          </div>
-          <h3>Newton's laws in context</h3>
-          <p>Draw force diagrams, compute net force, and solve acceleration problems with friction and tension.</p>
-        </section>
-
-        <section class="card">
-          <div class="card-header">
-            <p class="card-label">Energy</p>
-            <span class="badge">Work</span>
-          </div>
-          <h3>Conservation reasoning</h3>
-          <p>Connect work, kinetic energy, and potential energy to predict motion in changing systems.</p>
-        </section>
-
-        <section class="card">
-          <div class="card-header">
-            <p class="card-label">Momentum</p>
-            <span class="badge">Collisions</span>
-          </div>
-          <h3>Before-and-after analysis</h3>
-          <p>Apply impulse-momentum and conservation of momentum for elastic and inelastic collisions.</p>
-        </section>
-
-        <section class="card">
-          <div class="card-header">
-            <p class="card-label">Rotation</p>
-            <span class="badge">Torque</span>
-          </div>
-          <h3>Angular analogs of force laws</h3>
-          <p>Use torque, angular acceleration, and moment of inertia for rotating rigid bodies.</p>
-        </section>
-
-        <section class="card">
-          <div class="card-header">
-            <p class="card-label">Oscillations</p>
-            <span class="badge">SHM</span>
-          </div>
-          <h3>Periodic motion models</h3>
-          <p>Compute frequency, period, displacement, and phase in spring-mass and pendulum systems.</p>
-        </section>
-
-        <section class="card">
-          <div class="card-header">
-            <p class="card-label">Gravitation</p>
-            <span class="badge">Fields</span>
-          </div>
-          <h3>Universal attraction</h3>
-          <p>Understand inverse-square force and orbital mechanics using energy and circular motion ideas.</p>
-        </section>
-      </main>
+        <span class="topic-chevron">▾</span>
+      </div>
+      <div class="topic-body">
+        <p>Kinematics describes <em>how</em> objects move without asking why. The four kinematic equations apply only when acceleration is <strong>constant</strong>. Always define a positive direction before writing equations.</p>
+        <p><strong style="color:var(--cyan);">Key concepts:</strong></p>
+        <div class="concept-list">
+          <div class="concept-item">Position (x), displacement (Δx), distance — displacement is a vector, distance is not.</div>
+          <div class="concept-item">Average velocity = Δx/Δt; instantaneous velocity = slope of x–t graph.</div>
+          <div class="concept-item">Acceleration = Δv/Δt; slope of v–t graph. Area under v–t = displacement.</div>
+          <div class="concept-item">Projectile motion: horizontal (aₓ = 0) and vertical (aᵧ = −g) are independent.</div>
+          <div class="concept-item">At max height of a projectile: vᵧ = 0, but vₓ ≠ 0.</div>
+          <div class="concept-item">Range is maximized at θ = 45° (on flat ground).</div>
+        </div>
+        <p style="margin-top:14px;"><strong style="color:var(--red);">Common traps:</strong> Forgetting to split v₀ into components; using g = +9.8 when you set downward as negative.</p>
+      </div>
     </div>
 
-    <script type="module" src="./js/app.js"></script>
-  </body>
+    <div class="topic-card" data-topic="1">
+      <div class="topic-header">
+        <div class="topic-title-wrap">
+          <div class="topic-num" style="background:rgba(251,146,60,0.15);color:var(--orange);">02</div>
+          <div>
+            <div class="topic-title">Newton's Laws & Dynamics</div>
+            <div class="topic-sub">Forces · Free-body diagrams · Friction</div>
+          </div>
+        </div>
+        <span class="topic-chevron">▾</span>
+      </div>
+      <div class="topic-body">
+        <p>Newton's three laws govern how forces cause changes in motion. Always start with a free-body diagram (FBD) — label every force acting <strong>on</strong> the object, not forces the object exerts on others.</p>
+        <p><strong style="color:var(--cyan);">Key concepts:</strong></p>
+        <div class="concept-list">
+          <div class="concept-item">1st Law (Inertia): an object at rest/constant velocity has F_net = 0.</div>
+          <div class="concept-item">2nd Law: F_net = ma. Net force causes acceleration in the same direction.</div>
+          <div class="concept-item">3rd Law: forces come in equal-and-opposite action–reaction pairs on different objects.</div>
+          <div class="concept-item">Normal force (N) is perpendicular to the surface; it is NOT always equal to mg.</div>
+          <div class="concept-item">Kinetic friction: f_k = μ_k N (opposes motion). Static friction: f_s ≤ μ_s N.</div>
+          <div class="concept-item">On inclines: break weight into components parallel and perpendicular to slope.</div>
+        </div>
+        <p style="margin-top:14px;"><strong style="color:var(--red);">Common traps:</strong> Including reaction forces on the same FBD; forgetting tension is the same throughout a massless rope.</p>
+      </div>
+    </div>
+
+    <div class="topic-card" data-topic="2">
+      <div class="topic-header">
+        <div class="topic-title-wrap">
+          <div class="topic-num" style="background:rgba(192,132,252,0.15);color:var(--violet);">03</div>
+          <div>
+            <div class="topic-title">Work, Energy & Power</div>
+            <div class="topic-sub">Work–Energy Theorem · Conservation of Energy</div>
+          </div>
+        </div>
+        <span class="topic-chevron">▾</span>
+      </div>
+      <div class="topic-body">
+        <p>Energy is the most powerful tool in Physics 1. When only conservative forces act, total mechanical energy is conserved: KE + PE = constant. This often lets you skip Newton's laws entirely.</p>
+        <p><strong style="color:var(--cyan);">Key concepts:</strong></p>
+        <div class="concept-list">
+          <div class="concept-item">Work = F·d·cosθ — only the component of force along displacement does work.</div>
+          <div class="concept-item">Work–Energy Theorem: W_net = ΔKE. All net work goes into changing KE.</div>
+          <div class="concept-item">Gravitational PE = mgh (reference point is your choice). Spring PE = ½kx².</div>
+          <div class="concept-item">Conservative forces (gravity, spring) have path-independent work. Friction is non-conservative.</div>
+          <div class="concept-item">With friction: KE_i + PE_i = KE_f + PE_f + W_friction (energy lost to heat).</div>
+          <div class="concept-item">Power = W/t = Fv (watts = J/s).</div>
+        </div>
+        <p style="margin-top:14px;"><strong style="color:var(--red);">Common traps:</strong> Forgetting cosθ in the work formula; using PE = mgh when the reference height is ambiguous.</p>
+      </div>
+    </div>
+
+    <div class="topic-card" data-topic="3">
+      <div class="topic-header">
+        <div class="topic-title-wrap">
+          <div class="topic-num" style="background:rgba(52,211,153,0.15);color:var(--green);">04</div>
+          <div>
+            <div class="topic-title">Momentum & Collisions</div>
+            <div class="topic-sub">Impulse · Elastic · Inelastic</div>
+          </div>
+        </div>
+        <span class="topic-chevron">▾</span>
+      </div>
+      <div class="topic-body">
+        <p>Momentum is always conserved when the net external force is zero. Identify the system: if all colliding objects are in the system, internal forces cancel and total momentum is conserved.</p>
+        <p><strong style="color:var(--cyan);">Key concepts:</strong></p>
+        <div class="concept-list">
+          <div class="concept-item">Momentum: p = mv (vector). Impulse: J = FΔt = Δp.</div>
+          <div class="concept-item">Conservation: m₁v₁ᵢ + m₂v₂ᵢ = m₁v₁f + m₂v₂f (when F_ext = 0).</div>
+          <div class="concept-item">Elastic collision: KE conserved AND momentum conserved.</div>
+          <div class="concept-item">Perfectly inelastic: objects stick together. Momentum conserved, KE not.</div>
+          <div class="concept-item">Center of mass: x_cm = (m₁x₁ + m₂x₂)/(m₁+m₂). It moves at constant v if F_ext = 0.</div>
+        </div>
+        <p style="margin-top:14px;"><strong style="color:var(--red);">Common traps:</strong> Assuming KE is conserved in all collisions. It only is in elastic ones.</p>
+      </div>
+    </div>
+
+    <div class="topic-card" data-topic="4">
+      <div class="topic-header">
+        <div class="topic-title-wrap">
+          <div class="topic-num" style="background:rgba(56,189,248,0.15);color:var(--cyan);">05</div>
+          <div>
+            <div class="topic-title">Circular Motion & Gravitation</div>
+            <div class="topic-sub">Centripetal force · Orbits · Kepler's laws</div>
+          </div>
+        </div>
+        <span class="topic-chevron">▾</span>
+      </div>
+      <div class="topic-body">
+        <p>An object in circular motion accelerates toward the center even at constant speed — its direction changes. The centripetal force is not a new force; it is provided by existing forces (gravity, tension, normal force, friction).</p>
+        <p><strong style="color:var(--cyan);">Key concepts:</strong></p>
+        <div class="concept-list">
+          <div class="concept-item">Centripetal acceleration: a_c = v²/r (directed toward center).</div>
+          <div class="concept-item">Centripetal force: F_c = mv²/r. Ask: what supplies this force in the problem?</div>
+          <div class="concept-item">Period and frequency: T = 2πr/v; f = 1/T.</div>
+          <div class="concept-item">Universal gravity: F_g = Gm₁m₂/r² (inverse-square law).</div>
+          <div class="concept-item">For circular orbit: gravitational force = centripetal force → v = √(GM/r).</div>
+          <div class="concept-item">Kepler's 3rd law: T² ∝ r³.</div>
+        </div>
+        <p style="margin-top:14px;"><strong style="color:var(--red);">Common traps:</strong> Treating centripetal force as an extra force on FBDs. It is the net inward force.</p>
+      </div>
+    </div>
+
+    <div class="topic-card" data-topic="5">
+      <div class="topic-header">
+        <div class="topic-title-wrap">
+          <div class="topic-num" style="background:rgba(251,146,60,0.15);color:var(--orange);">06</div>
+          <div>
+            <div class="topic-title">Rotation & Torque</div>
+            <div class="topic-sub">Angular kinematics · Moment of inertia · Rolling</div>
+          </div>
+        </div>
+        <span class="topic-chevron">▾</span>
+      </div>
+      <div class="topic-body">
+        <p>Rotational mechanics is the angular analog of linear mechanics. Every linear quantity (x, v, a, F, m) has a rotational counterpart (θ, ω, α, τ, I). The equations have the same form.</p>
+        <p><strong style="color:var(--cyan);">Key concepts:</strong></p>
+        <div class="concept-list">
+          <div class="concept-item">Angular kinematics: same four equations with θ, ω, α replacing x, v, a.</div>
+          <div class="concept-item">Torque: τ = rF sinθ. Positive = counterclockwise (convention).</div>
+          <div class="concept-item">Newton's 2nd for rotation: τ_net = Iα.</div>
+          <div class="concept-item">Moment of inertia depends on shape AND axis. Disk: I = ½MR². Hoop: I = MR².</div>
+          <div class="concept-item">Angular momentum: L = Iω. Conserved when τ_net = 0.</div>
+          <div class="concept-item">Rolling without slipping: v_cm = Rω. Total KE = ½mv² + ½Iω².</div>
+        </div>
+        <p style="margin-top:14px;"><strong style="color:var(--red);">Common traps:</strong> Using the wrong moment of inertia formula for the axis; forgetting the parallel-axis theorem.</p>
+      </div>
+    </div>
+
+    <div class="topic-card" data-topic="6">
+      <div class="topic-header">
+        <div class="topic-title-wrap">
+          <div class="topic-num" style="background:rgba(192,132,252,0.15);color:var(--violet);">07</div>
+          <div>
+            <div class="topic-title">Simple Harmonic Motion</div>
+            <div class="topic-sub">Springs · Pendulums · Energy in SHM</div>
+          </div>
+        </div>
+        <span class="topic-chevron">▾</span>
+      </div>
+      <div class="topic-body">
+        <p>SHM occurs whenever the restoring force is proportional to displacement: F = −kx. The motion is sinusoidal. Period does NOT depend on amplitude (for small angles in a pendulum).</p>
+        <p><strong style="color:var(--cyan);">Key concepts:</strong></p>
+        <div class="concept-list">
+          <div class="concept-item">x(t) = A cos(ωt + φ) — amplitude A, angular frequency ω, phase φ.</div>
+          <div class="concept-item">ω = 2πf = 2π/T. For spring: ω = √(k/m). For pendulum: ω = √(g/L).</div>
+          <div class="concept-item">Velocity is maximum at equilibrium (x = 0); zero at extremes (x = ±A).</div>
+          <div class="concept-item">Acceleration is maximum at extremes; zero at equilibrium.</div>
+          <div class="concept-item">Energy: E = ½kA² = ½mv²_max. KE and PE trade off; total E is constant.</div>
+          <div class="concept-item">Pendulum: T = 2π√(L/g). Period depends on L and g, not mass or amplitude.</div>
+        </div>
+        <p style="margin-top:14px;"><strong style="color:var(--red);">Common traps:</strong> Thinking heavier masses oscillate slower on a spring. Heavier = slower. Pendulum mass doesn't matter.</p>
+      </div>
+    </div>
+
+    <div class="topic-card" data-topic="7">
+      <div class="topic-header">
+        <div class="topic-title-wrap">
+          <div class="topic-num" style="background:rgba(52,211,153,0.15);color:var(--green);">08</div>
+          <div>
+            <div class="topic-title">Gravitation</div>
+            <div class="topic-sub">Universal law · Gravitational PE · Escape velocity</div>
+          </div>
+        </div>
+        <span class="topic-chevron">▾</span>
+      </div>
+      <div class="topic-body">
+        <p>Newton's law of universal gravitation describes the force between any two masses. Near Earth's surface, g ≈ 9.8 m/s² is a simplification; the full law uses F = Gm₁m₂/r².</p>
+        <p><strong style="color:var(--cyan);">Key concepts:</strong></p>
+        <div class="concept-list">
+          <div class="concept-item">F_g = Gm₁m₂/r² — decreases with the square of distance.</div>
+          <div class="concept-item">Gravitational PE = −GMm/r (negative! zero is at infinity).</div>
+          <div class="concept-item">Escape velocity: v_esc = √(2GM/r) — set KE = |PE| and solve.</div>
+          <div class="concept-item">For circular orbits: GMm/r² = mv²/r → v_orbit = √(GM/r).</div>
+          <div class="concept-item">Kepler's 1st: orbits are ellipses. 2nd: equal areas in equal times. 3rd: T² ∝ r³.</div>
+        </div>
+        <p style="margin-top:14px;"><strong style="color:var(--red);">Common traps:</strong> Using PE = mgh (only valid near Earth's surface). Use −GMm/r for general cases.</p>
+      </div>
+    </div>
+
+  </div><!-- end topic-grid -->
+</div>
+
+<script src="./js/physics-bg.js"></script>
+<script>
+  document.querySelectorAll('.topic-card').forEach(card => {
+    card.querySelector('.topic-header').addEventListener('click', () => {
+      card.classList.toggle('open');
+    });
+    // Open first one by default
+    if (card.dataset.topic === '0') card.classList.add('open');
+  });
+</script>
+</body>
 </html>

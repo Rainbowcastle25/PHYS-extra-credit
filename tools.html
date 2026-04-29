@@ -1,118 +1,318 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tools | Physics 1 Study Platform</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="./css/styles.css" />
-  </head>
-  <body>
-    <div class="page-shell">
-      <header class="topbar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tools | Physics 1 Study Guide</title>
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+<canvas id="physics-bg"></canvas>
+<div class="page-shell">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon">φ</div>
+      <div><div class="brand-name">PHYS 101</div><div class="brand-sub">Ultimate Study Guide</div></div>
+    </div>
+    <nav class="nav-links">
+      <a href="./index.html">Home</a>
+      <a href="./topics.html">Topics</a>
+      <a href="./formulas.html">Formulas</a>
+      <a href="./flashcards.html">Flashcards</a>
+      <a href="./simulators.html">Simulators</a>
+      <a href="./exams.html">Practice</a>
+      <a href="./tools.html" class="active">Tools</a>
+    </nav>
+  </header>
+
+  <section class="page-hero">
+    <p class="eyebrow">Study Utilities</p>
+    <h1>Physics <span>Tools</span></h1>
+    <p>Quick calculators for common Physics 1 problems. Great for checking homework and building intuition.</p>
+  </section>
+
+  <div class="tool-grid">
+
+    <!-- Unit Converter -->
+    <div class="card">
+      <div class="card-header">
         <div>
-          <p class="eyebrow">Study Utilities</p>
-          <h1>Physics Tools</h1>
+          <div class="card-label">Unit Converter</div>
+          <h3>Convert units instantly</h3>
         </div>
-        <nav class="nav-links" aria-label="Main navigation">
-          <a href="./index.html">Home</a>
-          <a href="./topics.html">Topics</a>
-          <a href="./formulas.html">Formulas</a>
-          <a href="./exams.html">Exams</a>
-          <a href="./flashcards.html">Flashcards</a>
-          <a href="./tools.html" class="active">Tools</a>
-          <a href="./simulators.html">Simulators</a>
-        </nav>
-      </header>
-
-      <main class="bento-grid">
-        <section class="card featured">
-          <div class="card-header">
-            <p class="card-label">Unit Converter</p>
-            <span class="badge">Interactive</span>
-          </div>
-          <h2>Convert common Physics 1 units</h2>
-          <form id="unitConverterForm" class="tool-form">
-            <label>
-              Value
-              <input id="unitValue" type="number" step="any" value="1" />
-            </label>
-            <label>
-              Conversion
-              <select id="unitMode">
-                <option value="m-to-cm">m -> cm</option>
-                <option value="cm-to-m">cm -> m</option>
-                <option value="kg-to-g">kg -> g</option>
-                <option value="g-to-kg">g -> kg</option>
-                <option value="deg-to-rad">deg -> rad</option>
-                <option value="rad-to-deg">rad -> deg</option>
-              </select>
-            </label>
-            <button class="btn primary" type="submit">Convert</button>
-          </form>
-          <pre id="unitConverterResult" class="result">1 m = 100.000 cm</pre>
-          <div class="physics-ring"></div>
-        </section>
-
-        <section class="card tall">
-          <div class="card-header">
-            <p class="card-label">Equation Rearranger</p>
-            <span class="badge">Guide</span>
-          </div>
-          <div class="check-list mono">
-            <p>F = ma -> a = F / m</p>
-            <p>v = d / t -> d = vt, t = d / v</p>
-            <p>KE = 0.5mv^2 -> v = sqrt(2KE / m)</p>
-            <p>p = mv -> v = p / m</p>
-            <p>P = W / t -> W = Pt</p>
-            <p>tau = Ialpha -> alpha = tau / I</p>
-          </div>
-        </section>
-
-        <section class="card">
-          <div class="card-header">
-            <p class="card-label">Scientific Notation</p>
-            <span class="badge">Reference</span>
-          </div>
-          <h3>Quick format rules</h3>
-          <p>Write values as a x 10^n where 1 &lt;= a &lt; 10 and n is an integer.</p>
-        </section>
-
-        <section class="card">
-          <div class="card-header">
-            <p class="card-label">Dimensional Analysis</p>
-            <span class="badge">Checklist</span>
-          </div>
-          <h3>Validation steps</h3>
-          <div class="check-list">
-            <p>Convert all givens to SI first.</p>
-            <p>Track base units through every equation.</p>
-            <p>Cancel units algebraically before solving.</p>
-          </div>
-        </section>
-
-        <section class="card wide">
-          <div class="card-header">
-            <p class="card-label">Common Constants</p>
-            <span class="badge">Mono</span>
-          </div>
-          <div class="mini-grid mono">
-            <p>g = 9.8 m/s^2</p>
-            <p>pi = 3.14159</p>
-            <p>1 N = 1 kg*m/s^2</p>
-            <p>1 J = 1 N*m</p>
-            <p>1 W = 1 J/s</p>
-            <p>1 rev = 2pi rad</p>
-          </div>
-        </section>
-      </main>
+        <span class="badge badge-cyan">Units</span>
+      </div>
+      <div class="tool-form">
+        <label>Value
+          <input class="tool-input" id="ucVal" type="number" value="1" step="any" placeholder="Enter value" />
+        </label>
+        <label>Convert from
+          <select class="tool-select" id="ucFrom">
+            <optgroup label="Length"><option value="m">Meters (m)</option><option value="km">Kilometers (km)</option><option value="cm">Centimeters (cm)</option><option value="mm">Millimeters (mm)</option><option value="ft">Feet (ft)</option><option value="in">Inches (in)</option><option value="mi">Miles (mi)</option></optgroup>
+            <optgroup label="Speed"><option value="ms">m/s</option><option value="kmh">km/h</option><option value="mph">mph</option></optgroup>
+            <optgroup label="Mass"><option value="kg">Kilograms (kg)</option><option value="g">Grams (g)</option><option value="lb">Pounds (lb)</option></optgroup>
+            <optgroup label="Energy"><option value="J">Joules (J)</option><option value="kJ">Kilojoules (kJ)</option><option value="cal">Calories (cal)</option><option value="eV">Electron-volts (eV)</option></optgroup>
+            <optgroup label="Angle"><option value="deg">Degrees (°)</option><option value="rad">Radians (rad)</option></optgroup>
+          </select>
+        </label>
+        <label>Convert to
+          <select class="tool-select" id="ucTo">
+            <optgroup label="Length"><option value="m">Meters (m)</option><option value="km">Kilometers (km)</option><option value="cm">Centimeters (cm)</option><option value="mm">Millimeters (mm)</option><option value="ft">Feet (ft)</option><option value="in">Inches (in)</option><option value="mi">Miles (mi)</option></optgroup>
+            <optgroup label="Speed"><option value="ms">m/s</option><option value="kmh">km/h</option><option value="mph">mph</option></optgroup>
+            <optgroup label="Mass"><option value="kg">Kilograms (kg)</option><option value="g">Grams (g)</option><option value="lb">Pounds (lb)</option></optgroup>
+            <optgroup label="Energy"><option value="J">Joules (J)</option><option value="kJ">Kilojoules (kJ)</option><option value="cal">Calories (cal)</option><option value="eV">Electron-volts (eV)</option></optgroup>
+            <optgroup label="Angle"><option value="deg">Degrees (°)</option><option value="rad">Radians (rad)</option></optgroup>
+          </select>
+        </label>
+        <button class="btn btn-primary" onclick="convertUnit()">Convert</button>
+        <div class="tool-result" id="ucResult">—</div>
+      </div>
     </div>
 
-    <script type="module" src="./js/app.js"></script>
-  </body>
+    <!-- Kinematic Solver -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-label">Kinematic Solver</div>
+          <h3>Solve for any variable</h3>
+        </div>
+        <span class="badge badge-orange">Motion</span>
+      </div>
+      <p style="font-size:0.82rem;margin-bottom:14px;">Fill in 3 of the 5 kinematic variables. Leave the unknown blank.</p>
+      <div class="tool-form">
+        <label>v₀ — initial velocity (m/s) <input class="tool-input" id="kv0" type="number" step="any" placeholder="?" /></label>
+        <label>v — final velocity (m/s)    <input class="tool-input" id="kv"  type="number" step="any" placeholder="?" /></label>
+        <label>a — acceleration (m/s²)     <input class="tool-input" id="ka"  type="number" step="any" placeholder="?" /></label>
+        <label>t — time (s)                <input class="tool-input" id="kt"  type="number" step="any" placeholder="?" /></label>
+        <label>Δx — displacement (m)       <input class="tool-input" id="kx"  type="number" step="any" placeholder="?" /></label>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-primary" onclick="solveKinematics()" style="flex:1;">Solve</button>
+          <button class="btn btn-secondary" onclick="clearKin()">Clear</button>
+        </div>
+        <div class="tool-result" id="kResult">Enter 3 known values and click Solve.</div>
+      </div>
+    </div>
+
+    <!-- Newton's 2nd Law solver -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-label">Force Calculator</div>
+          <h3>F = ma solver</h3>
+        </div>
+        <span class="badge badge-violet">Dynamics</span>
+      </div>
+      <div class="tool-form">
+        <label>Solve for
+          <select class="tool-select" id="fSolveFor" onchange="updateFFields()">
+            <option value="F">Net Force (F)</option>
+            <option value="m">Mass (m)</option>
+            <option value="a">Acceleration (a)</option>
+          </select>
+        </label>
+        <label id="fField1Label">Mass m (kg)<input class="tool-input" id="fVal1" type="number" step="any" placeholder="Enter mass" /></label>
+        <label id="fField2Label">Acceleration a (m/s²)<input class="tool-input" id="fVal2" type="number" step="any" placeholder="Enter acceleration" /></label>
+        <button class="btn btn-primary" onclick="solveForce()">Calculate</button>
+        <div class="tool-result" id="fResult">—</div>
+      </div>
+    </div>
+
+    <!-- Energy solver -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-label">Energy Calculator</div>
+          <h3>KE, PE, and conservation</h3>
+        </div>
+        <span class="badge badge-green">Energy</span>
+      </div>
+      <div class="tool-form">
+        <label>Mass m (kg)        <input class="tool-input" id="em" type="number" step="any" placeholder="e.g. 2" /></label>
+        <label>Speed v (m/s)      <input class="tool-input" id="ev" type="number" step="any" placeholder="e.g. 5" /></label>
+        <label>Height h (m)       <input class="tool-input" id="eh" type="number" step="any" placeholder="e.g. 10" /></label>
+        <label>Spring const k (N/m) — optional <input class="tool-input" id="ek" type="number" step="any" placeholder="e.g. 200" /></label>
+        <label>Spring stretch x (m) — optional <input class="tool-input" id="ex" type="number" step="any" placeholder="e.g. 0.1" /></label>
+        <button class="btn btn-primary" onclick="calcEnergy()">Calculate</button>
+        <div class="tool-result" id="eResult">—</div>
+      </div>
+    </div>
+
+    <!-- Projectile quick calc -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-label">Projectile Quick Calc</div>
+          <h3>Range, height, flight time</h3>
+        </div>
+        <span class="badge badge-orange">Kinematics</span>
+      </div>
+      <div class="tool-form">
+        <label>Initial speed v₀ (m/s) <input class="tool-input" id="pqv" type="number" step="any" value="20" /></label>
+        <label>Launch angle θ (°)     <input class="tool-input" id="pqa" type="number" step="any" value="45" /></label>
+        <label>Initial height h₀ (m)  <input class="tool-input" id="pqh" type="number" step="any" value="0" /></label>
+        <label>g (m/s²)               <input class="tool-input" id="pqg" type="number" step="any" value="9.8" /></label>
+        <button class="btn btn-primary" onclick="calcProjectile()">Calculate</button>
+        <div class="tool-result" id="pqResult">—</div>
+      </div>
+    </div>
+
+    <!-- Circular motion / gravity -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-label">Circular Motion</div>
+          <h3>Centripetal force & orbits</h3>
+        </div>
+        <span class="badge badge-cyan">Circular</span>
+      </div>
+      <div class="tool-form">
+        <label>Mass m (kg)     <input class="tool-input" id="cm" type="number" step="any" placeholder="e.g. 1000" /></label>
+        <label>Speed v (m/s)   <input class="tool-input" id="cv" type="number" step="any" placeholder="e.g. 20" /></label>
+        <label>Radius r (m)    <input class="tool-input" id="cr" type="number" step="any" placeholder="e.g. 50" /></label>
+        <button class="btn btn-primary" onclick="calcCircular()">Calculate</button>
+        <div class="tool-result" id="cResult">—</div>
+      </div>
+    </div>
+
+  </div><!-- end tool-grid -->
+</div>
+
+<script src="./js/physics-bg.js"></script>
+<script>
+// ── Unit converter
+const TO_SI = {
+  m:1, km:1000, cm:0.01, mm:0.001, ft:0.3048, in:0.0254, mi:1609.34,
+  ms:1, kmh:1/3.6, mph:0.44704,
+  kg:1, g:0.001, lb:0.453592,
+  J:1, kJ:1000, cal:4.184, eV:1.60218e-19,
+  deg:Math.PI/180, rad:1,
+};
+function convertUnit() {
+  const val = parseFloat(document.getElementById('ucVal').value);
+  const from = document.getElementById('ucFrom').value;
+  const to   = document.getElementById('ucTo').value;
+  if (isNaN(val)) { document.getElementById('ucResult').textContent = 'Enter a valid number.'; return; }
+  if (TO_SI[from] === undefined || TO_SI[to] === undefined) { document.getElementById('ucResult').textContent = 'Incompatible units.'; return; }
+  const result = val * TO_SI[from] / TO_SI[to];
+  document.getElementById('ucResult').textContent = `${val} ${from} = ${result.toPrecision(5)} ${to}`;
+}
+
+// ── Kinematic solver
+function getKin() {
+  return {
+    v0: document.getElementById('kv0').value, v: document.getElementById('kv').value,
+    a:  document.getElementById('ka').value,  t: document.getElementById('kt').value,
+    x:  document.getElementById('kx').value,
+  };
+}
+function clearKin() {
+  ['kv0','kv','ka','kt','kx'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('kResult').textContent = 'Enter 3 known values and click Solve.';
+}
+function solveKinematics() {
+  const raw = getKin();
+  const vals = {};
+  for (const k in raw) { const n = parseFloat(raw[k]); if (!isNaN(n)) vals[k] = n; }
+  const known = Object.keys(vals);
+  const res = document.getElementById('kResult');
+  let solved = false;
+  let out = '';
+
+  function fmt(n) { return isNaN(n) || !isFinite(n) ? 'undefined' : n.toFixed(4); }
+
+  // Try all 5 kinematic equations
+  if (known.includes('v0') && known.includes('a') && known.includes('t') && !known.includes('v')) {
+    const v = vals.v0 + vals.a * vals.t; out += `v = v₀ + at = ${fmt(v)} m/s\n`; solved = true;
+  }
+  if (known.includes('v') && known.includes('a') && known.includes('t') && !known.includes('v0')) {
+    const v0 = vals.v - vals.a * vals.t; out += `v₀ = v − at = ${fmt(v0)} m/s\n`; solved = true;
+  }
+  if (known.includes('v0') && known.includes('v') && known.includes('t') && !known.includes('x')) {
+    const x = 0.5*(vals.v + vals.v0)*vals.t; out += `Δx = ½(v+v₀)t = ${fmt(x)} m\n`; solved = true;
+  }
+  if (known.includes('v0') && known.includes('v') && known.includes('a') && !known.includes('x')) {
+    const x = (vals.v*vals.v - vals.v0*vals.v0)/(2*vals.a); out += `Δx = (v²−v₀²)/(2a) = ${fmt(x)} m\n`; solved = true;
+  }
+  if (known.includes('v0') && known.includes('t') && known.includes('a') && !known.includes('x')) {
+    const x = vals.v0*vals.t + 0.5*vals.a*vals.t*vals.t; out += `Δx = v₀t + ½at² = ${fmt(x)} m\n`; solved = true;
+  }
+  if (known.includes('v0') && known.includes('v') && known.includes('x') && !known.includes('a')) {
+    const a = (vals.v*vals.v - vals.v0*vals.v0)/(2*vals.x); out += `a = (v²−v₀²)/(2Δx) = ${fmt(a)} m/s²\n`; solved = true;
+  }
+  if (known.includes('v0') && known.includes('v') && !known.includes('t') && known.includes('a')) {
+    const t = (vals.v - vals.v0)/vals.a; out += `t = (v−v₀)/a = ${fmt(t)} s\n`; solved = true;
+  }
+  if (known.includes('x') && known.includes('t') && known.includes('a') && !known.includes('v0')) {
+    const v0 = (vals.x - 0.5*vals.a*vals.t*vals.t)/vals.t; out += `v₀ = (Δx − ½at²)/t = ${fmt(v0)} m/s\n`; solved = true;
+  }
+
+  res.textContent = solved ? out.trim() : 'Need at least 3 known values. Check inputs.';
+}
+
+// ── F = ma
+function updateFFields() {
+  const sf = document.getElementById('fSolveFor').value;
+  const labs = { F:['Mass m (kg)','Acceleration a (m/s²)'], m:['Net Force F (N)','Acceleration a (m/s²)'], a:['Net Force F (N)','Mass m (kg)'] };
+  document.getElementById('fField1Label').firstChild.textContent = labs[sf][0];
+  document.getElementById('fField2Label').firstChild.textContent = labs[sf][1];
+}
+function solveForce() {
+  const sf = document.getElementById('fSolveFor').value;
+  const v1 = parseFloat(document.getElementById('fVal1').value);
+  const v2 = parseFloat(document.getElementById('fVal2').value);
+  const res = document.getElementById('fResult');
+  if (isNaN(v1)||isNaN(v2)) { res.textContent='Enter both values.'; return; }
+  if (sf==='F') res.textContent = `F = ma = ${v1} × ${v2} = ${(v1*v2).toFixed(4)} N`;
+  if (sf==='m') res.textContent = `m = F/a = ${v1} / ${v2} = ${(v1/v2).toFixed(4)} kg`;
+  if (sf==='a') res.textContent = `a = F/m = ${v1} / ${v2} = ${(v1/v2).toFixed(4)} m/s²`;
+}
+
+// ── Energy
+function calcEnergy() {
+  const m = parseFloat(document.getElementById('em').value);
+  const v = parseFloat(document.getElementById('ev').value);
+  const h = parseFloat(document.getElementById('eh').value);
+  const k = parseFloat(document.getElementById('ek').value);
+  const x = parseFloat(document.getElementById('ex').value);
+  const g = 9.8;
+  let out = '';
+  if (!isNaN(m) && !isNaN(v)) out += `KE = ½mv² = ${(0.5*m*v*v).toFixed(4)} J\n`;
+  if (!isNaN(m) && !isNaN(h)) out += `PE_g = mgh = ${(m*g*h).toFixed(4)} J\n`;
+  if (!isNaN(k) && !isNaN(x)) out += `PE_spring = ½kx² = ${(0.5*k*x*x).toFixed(4)} J\n`;
+  if (!isNaN(m)&&!isNaN(v)&&!isNaN(h)) {
+    const E = 0.5*m*v*v + m*g*h;
+    out += `Total E = ${E.toFixed(4)} J\n`;
+    out += `v_max (h=0) = ${Math.sqrt(2*E/m).toFixed(4)} m/s`;
+  }
+  document.getElementById('eResult').textContent = out.trim() || 'Enter values above.';
+}
+
+// ── Projectile
+function calcProjectile() {
+  const v0 = parseFloat(document.getElementById('pqv').value);
+  const a  = parseFloat(document.getElementById('pqa').value) * Math.PI / 180;
+  const h0 = parseFloat(document.getElementById('pqh').value) || 0;
+  const g  = parseFloat(document.getElementById('pqg').value) || 9.8;
+  const v0x = v0*Math.cos(a), v0y = v0*Math.sin(a);
+  const disc = v0y*v0y + 2*g*h0;
+  const tF   = (v0y + Math.sqrt(Math.max(0,disc)))/g;
+  const range = v0x*tF;
+  const hMax  = h0 + v0y*v0y/(2*g);
+  const tPeak = v0y/g;
+  document.getElementById('pqResult').textContent =
+    `Range: ${range.toFixed(3)} m\nMax height: ${hMax.toFixed(3)} m\nFlight time: ${tF.toFixed(3)} s\nTime to peak: ${tPeak.toFixed(3)} s\nv₀ₓ = ${v0x.toFixed(3)} m/s  ·  v₀ᵧ = ${v0y.toFixed(3)} m/s`;
+}
+
+// ── Circular
+function calcCircular() {
+  const m = parseFloat(document.getElementById('cm').value);
+  const v = parseFloat(document.getElementById('cv').value);
+  const r = parseFloat(document.getElementById('cr').value);
+  if ([m,v,r].some(isNaN)) { document.getElementById('cResult').textContent='Enter all three values.'; return; }
+  const ac = v*v/r, Fc = m*v*v/r, T = 2*Math.PI*r/v, omega = v/r;
+  document.getElementById('cResult').textContent =
+    `a_c = v²/r = ${ac.toFixed(4)} m/s²\nF_c = mv²/r = ${Fc.toFixed(4)} N\nPeriod T = 2πr/v = ${T.toFixed(4)} s\nω = v/r = ${omega.toFixed(4)} rad/s`;
+}
+</script>
+</body>
 </html>

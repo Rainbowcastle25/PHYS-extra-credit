@@ -1,100 +1,224 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Flashcards | Physics 1 Study Platform</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="./css/styles.css" />
-  </head>
-  <body>
-    <div class="page-shell">
-      <header class="topbar">
-        <div>
-          <p class="eyebrow">Flashcards</p>
-          <h1>Recall Training Deck</h1>
-        </div>
-        <nav class="nav-links" aria-label="Main navigation">
-          <a href="./index.html">Home</a>
-          <a href="./topics.html">Topics</a>
-          <a href="./formulas.html">Formulas</a>
-          <a href="./exams.html">Exams</a>
-          <a href="./flashcards.html" class="active">Flashcards</a>
-          <a href="./tools.html">Tools</a>
-          <a href="./simulators.html">Simulators</a>
-        </nav>
-      </header>
-
-      <main class="bento-grid">
-        <section class="card featured">
-          <div class="card-header">
-            <p class="card-label">Interactive Deck</p>
-            <span class="badge">Memory</span>
-          </div>
-          <div id="flashcardBody" class="flashcard" role="button" tabindex="0" aria-label="Flashcard">
-            <p class="pill" id="flashcardIndex"></p>
-            <h3 id="flashcardQuestion"></h3>
-            <p id="flashcardAnswer"></p>
-          </div>
-          <div class="flashcard-controls">
-            <button id="flipCardButton" class="btn primary" type="button">Flip Card</button>
-            <button id="nextCardButton" class="btn secondary" type="button">Next Card</button>
-          </div>
-          <div class="physics-ring"></div>
-        </section>
-
-        <section class="card tall">
-          <div class="card-header">
-            <p class="card-label">Deck Focus</p>
-            <span class="badge">Core</span>
-          </div>
-          <div class="check-list">
-            <p>Newton's laws and force models</p>
-            <p>Kinematic variables and graphs</p>
-            <p>Energy and momentum definitions</p>
-            <p>Rotation and torque relationships</p>
-            <p>SHM period and frequency facts</p>
-            <p>SI units and dimensional checks</p>
-          </div>
-        </section>
-
-        <section class="card">
-          <div class="card-header">
-            <p class="card-label">Tip</p>
-            <span class="badge">Method</span>
-          </div>
-          <h3>Active recall loop</h3>
-          <p>Say each answer out loud before flipping, then classify as known or needs review.</p>
-        </section>
-
-        <section class="card">
-          <div class="card-header">
-            <p class="card-label">Pacing</p>
-            <span class="badge">Daily</span>
-          </div>
-          <h3>15-minute sessions</h3>
-          <p>Short, frequent sessions improve retention more than one long cram block.</p>
-        </section>
-
-        <section class="card wide">
-          <div class="card-header">
-            <p class="card-label">Practice Pattern</p>
-            <span class="badge">Routine</span>
-          </div>
-          <div class="check-list">
-            <p>Round 1: all cards once, no pressure.</p>
-            <p>Round 2: repeat only missed cards.</p>
-            <p>Round 3: mix with one timed mini quiz.</p>
-          </div>
-        </section>
-      </main>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flashcards | Physics 1 Study Guide</title>
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+<canvas id="physics-bg"></canvas>
+<div class="page-shell">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon">φ</div>
+      <div><div class="brand-name">PHYS 101</div><div class="brand-sub">Ultimate Study Guide</div></div>
     </div>
+    <nav class="nav-links">
+      <a href="./index.html">Home</a>
+      <a href="./topics.html">Topics</a>
+      <a href="./formulas.html">Formulas</a>
+      <a href="./flashcards.html" class="active">Flashcards</a>
+      <a href="./simulators.html">Simulators</a>
+      <a href="./exams.html">Practice</a>
+      <a href="./tools.html">Tools</a>
+    </nav>
+  </header>
 
-    <script type="module" src="./js/app.js"></script>
-  </body>
+  <section class="page-hero">
+    <p class="eyebrow">Active Recall</p>
+    <h1>Physics 1 <span>Flashcards</span></h1>
+    <p>Click to flip. Use the arrow keys or buttons to navigate. Filter by topic to drill specific units.</p>
+  </section>
+
+  <!-- Deck filter -->
+  <div class="deck-select" id="deckSelect">
+    <button class="deck-btn active" data-deck="all">All (20)</button>
+    <button class="deck-btn" data-deck="kinematics">Kinematics</button>
+    <button class="deck-btn" data-deck="dynamics">Dynamics</button>
+    <button class="deck-btn" data-deck="energy">Energy</button>
+    <button class="deck-btn" data-deck="momentum">Momentum</button>
+    <button class="deck-btn" data-deck="rotation">Rotation</button>
+    <button class="deck-btn" data-deck="shm">SHM</button>
+  </div>
+
+  <!-- Progress bar -->
+  <div class="fc-progress"><div class="fc-progress-bar" id="fcProgressBar" style="width:5%"></div></div>
+
+  <!-- Flashcard -->
+  <div class="flashcard-scene" id="fcScene" style="cursor:pointer;" title="Click to flip">
+    <div class="flashcard-inner" id="fcInner">
+      <div class="fc-face fc-front">
+        <div class="q-label">Question <span id="fcNum"></span></div>
+        <div class="q-text" id="fcQuestion"></div>
+        <div style="margin-top:18px;font-size:0.75rem;color:var(--dim);font-family:var(--mono);">click to reveal answer</div>
+      </div>
+      <div class="fc-face fc-back">
+        <div class="q-label" style="color:var(--green);">Answer</div>
+        <div class="a-text" id="fcAnswer"></div>
+        <div class="a-sub" id="fcNote"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="fc-controls">
+    <button class="btn btn-secondary" id="fcPrev">← Prev</button>
+    <span class="fc-counter" id="fcCounter"></span>
+    <button class="btn btn-secondary" id="fcNext">Next →</button>
+    <button class="btn btn-primary" id="fcFlip">Flip Card</button>
+    <button class="btn btn-secondary" id="fcShuffle">Shuffle</button>
+  </div>
+
+  <!-- Known / review tracking -->
+  <div style="display:flex;gap:10px;justify-content:center;margin-top:14px;flex-wrap:wrap;">
+    <button class="btn" id="fcKnown"   style="background:rgba(52,211,153,0.12);border:1px solid rgba(52,211,153,0.3);color:var(--green);">✓ Know it</button>
+    <button class="btn" id="fcReview"  style="background:rgba(251,146,60,0.12);border:1px solid rgba(251,146,60,0.3);color:var(--orange);">↩ Review later</button>
+    <button class="btn btn-secondary" id="fcReviewOnly" style="display:none;">Show review-only</button>
+  </div>
+
+  <!-- Score summary -->
+  <div class="card" style="margin-top:32px;display:flex;gap:28px;flex-wrap:wrap;align-items:center;">
+    <div style="flex:1;min-width:160px;">
+      <div class="card-label" style="margin-bottom:4px;">Session score</div>
+      <div style="font-family:var(--mono);font-size:0.9rem;color:var(--muted);" id="fcScore">Known: 0 · Review: 0</div>
+    </div>
+    <div style="flex:2;min-width:200px;font-size:0.85rem;color:var(--muted);">
+      Mark cards as <span style="color:var(--green);">Know it</span> or <span style="color:var(--orange);">Review later</span> to track progress. Use "Show review-only" to drill weak spots.
+    </div>
+    <button class="btn btn-secondary" id="fcReset">Reset session</button>
+  </div>
+
+  <!-- Study tips -->
+  <div style="margin-top:32px;">
+    <p class="section-title">Active Recall Tips</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;">
+      <div class="card" style="min-height:unset;">
+        <div style="color:var(--cyan);font-family:var(--mono);font-size:0.7rem;margin-bottom:6px;">TIP 01</div>
+        <p style="font-size:0.875rem;color:var(--text);">Say the answer out loud before flipping — this forces retrieval, not just recognition.</p>
+      </div>
+      <div class="card" style="min-height:unset;">
+        <div style="color:var(--orange);font-family:var(--mono);font-size:0.7rem;margin-bottom:6px;">TIP 02</div>
+        <p style="font-size:0.875rem;color:var(--text);">Do 2–3 rounds: first pass all cards, second pass only Review cards, third pass timed.</p>
+      </div>
+      <div class="card" style="min-height:unset;">
+        <div style="color:var(--violet);font-family:var(--mono);font-size:0.7rem;margin-bottom:6px;">TIP 03</div>
+        <p style="font-size:0.875rem;color:var(--text);">Shuffle the deck on every new session to avoid memorizing card order instead of content.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="./js/physics-bg.js"></script>
+<script>
+const ALL_CARDS = [
+  { deck:'kinematics', q:"What are the four kinematic equations and when do they apply?", a:"v=v₀+at, x=x₀+v₀t+½at², v²=v₀²+2aΔx, Δx=½(v+v₀)t", note:"They only apply when acceleration is constant." },
+  { deck:'kinematics', q:"A projectile is at its maximum height. What is its vertical velocity?", a:"vᵧ = 0 m/s", note:"Horizontal velocity vₓ is unchanged throughout the flight." },
+  { deck:'kinematics', q:"What launch angle maximizes horizontal range on flat ground?", a:"θ = 45°", note:"This maximizes sin(2θ) = sin(90°) = 1 in the range formula." },
+  { deck:'kinematics', q:"On a velocity–time graph, what does the area under the curve represent?", a:"Displacement (Δx)", note:"Slope of v–t graph = acceleration. Slope of x–t graph = velocity." },
+  { deck:'dynamics', q:"State Newton's Second Law in equation form.", a:"F_net = ma", note:"Net force is the vector sum of all forces acting on the object." },
+  { deck:'dynamics', q:"What is the difference between static and kinetic friction?", a:"Static: f_s ≤ μ_s N (before sliding). Kinetic: f_k = μ_k N (during sliding). Always μ_s > μ_k.", note:"Static friction adjusts up to its maximum value; kinetic is constant." },
+  { deck:'dynamics', q:"A 5 kg block sits on a frictionless surface. Two forces act: 20 N right and 8 N left. What is the acceleration?", a:"a = F_net/m = 12/5 = 2.4 m/s²", note:"Always subtract opposing forces to find net force first." },
+  { deck:'energy', q:"State the Work–Energy Theorem.", a:"W_net = ΔKE = KE_f − KE_i", note:"All net work done on an object equals its change in kinetic energy." },
+  { deck:'energy', q:"When is mechanical energy conserved?", a:"When only conservative forces (gravity, spring) do work — no friction or air resistance.", note:"With friction: KE_i + PE_i = KE_f + PE_f + |W_friction|" },
+  { deck:'energy', q:"How does the work formula account for angle?", a:"W = Fd cosθ — only the component of force parallel to displacement does work.", note:"If F ⊥ displacement (like normal force), W = 0." },
+  { deck:'momentum', q:"Under what condition is linear momentum conserved?", a:"When the net external force on the system is zero (F_ext = 0).", note:"Internal forces (collision forces) always cancel in pairs by Newton's 3rd law." },
+  { deck:'momentum', q:"What is the difference between elastic and inelastic collisions?", a:"Elastic: both momentum AND kinetic energy conserved. Inelastic: only momentum conserved; KE lost to heat/deformation.", note:"Perfectly inelastic = objects stick together after collision." },
+  { deck:'momentum', q:"Define impulse and give its two equivalent expressions.", a:"J = FΔt (force × time) = Δp (change in momentum)", note:"Units: N·s = kg·m/s. A large force over short time can equal small force over long time." },
+  { deck:'rotation', q:"What is the rotational analog of F = ma?", a:"τ_net = Iα (net torque = moment of inertia × angular acceleration)", note:"Every linear law has an angular analog: F→τ, m→I, a→α." },
+  { deck:'rotation', q:"What is the moment of inertia of a solid disk about its center?", a:"I = ½MR²", note:"Compare: hollow hoop = MR². Solid sphere = 2/5 MR². Rod (center) = 1/12 ML²." },
+  { deck:'rotation', q:"An ice skater pulls in their arms. What happens to their angular velocity?", a:"ω increases — angular momentum L = Iω is conserved, so smaller I → larger ω.", note:"This is conservation of angular momentum: τ_net = 0 on the skater." },
+  { deck:'shm', q:"What is the period of a spring–mass system?", a:"T = 2π√(m/k)", note:"Heavier mass → longer period. Stiffer spring → shorter period. Amplitude doesn't matter!" },
+  { deck:'shm', q:"In SHM, where is velocity maximum and where is acceleration maximum?", a:"Velocity max at equilibrium (x=0). Acceleration max at extremes (x=±A).", note:"a = −ω²x, so acceleration is largest where displacement is largest." },
+  { deck:'shm', q:"Does the period of a simple pendulum depend on its mass?", a:"No — T = 2π√(L/g) depends only on length L and g.", note:"Valid for small angles (< ~15°). Larger amplitudes require corrections." },
+  { deck:'shm', q:"What is the total energy of a simple harmonic oscillator?", a:"E = ½kA² = ½mv²_max (constant throughout motion)", note:"KE and PE trade off: E = ½kx² + ½mv² = constant at all points." },
+];
+
+let deck = [...ALL_CARDS];
+let idx = 0;
+let isFlipped = false;
+let known = new Set(), review = new Set();
+let reviewMode = false;
+
+function currentDeck() { return reviewMode ? deck.filter((_,i) => review.has(i)) : deck; }
+
+function render() {
+  const d = currentDeck();
+  if (!d.length) return;
+  const card = d[idx % d.length];
+  document.getElementById('fcQuestion').textContent = card.q;
+  document.getElementById('fcAnswer').textContent   = card.a;
+  document.getElementById('fcNote').textContent     = card.note || '';
+  document.getElementById('fcNum').textContent      = `${(idx % d.length) + 1} / ${d.length}`;
+  document.getElementById('fcCounter').textContent  = `${(idx % d.length) + 1} / ${d.length}`;
+  const pct = ((idx % d.length) + 1) / d.length * 100;
+  document.getElementById('fcProgressBar').style.width = pct + '%';
+  document.getElementById('fcScore').textContent = `Known: ${known.size} · Review: ${review.size}`;
+  if (isFlipped) { document.getElementById('fcInner').classList.add('flipped'); }
+  else           { document.getElementById('fcInner').classList.remove('flipped'); }
+}
+
+function flip() { isFlipped = !isFlipped; render(); }
+function go(dir) { isFlipped = false; idx = (idx + dir + currentDeck().length) % currentDeck().length; render(); }
+
+function shuffle() {
+  for (let i = deck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
+  }
+  idx = 0; isFlipped = false; render();
+}
+
+document.getElementById('fcScene').addEventListener('click', flip);
+document.getElementById('fcFlip').addEventListener('click', flip);
+document.getElementById('fcPrev').addEventListener('click', () => go(-1));
+document.getElementById('fcNext').addEventListener('click', () => go(1));
+document.getElementById('fcShuffle').addEventListener('click', shuffle);
+
+document.getElementById('fcKnown').addEventListener('click', () => {
+  known.add(idx % currentDeck().length);
+  review.delete(idx % currentDeck().length);
+  go(1);
+});
+
+document.getElementById('fcReview').addEventListener('click', () => {
+  review.add(idx % currentDeck().length);
+  known.delete(idx % currentDeck().length);
+  go(1);
+});
+
+document.getElementById('fcReset').addEventListener('click', () => {
+  known.clear(); review.clear(); reviewMode = false;
+  document.getElementById('fcReviewOnly').style.display = 'none';
+  idx = 0; isFlipped = false; render();
+});
+
+document.getElementById('fcReviewOnly').addEventListener('click', function() {
+  reviewMode = !reviewMode;
+  this.textContent = reviewMode ? 'Show all cards' : 'Show review-only';
+  idx = 0; isFlipped = false; render();
+});
+
+// Deck filter
+document.querySelectorAll('#deckSelect .deck-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#deckSelect .deck-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const d = btn.dataset.deck;
+    deck = d === 'all' ? [...ALL_CARDS] : ALL_CARDS.filter(c => c.deck === d);
+    idx = 0; isFlipped = false; known.clear(); review.clear(); render();
+  });
+});
+
+// Keyboard
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') go(1);
+  if (e.key === 'ArrowLeft')  go(-1);
+  if (e.key === ' ') { e.preventDefault(); flip(); }
+});
+
+render();
+</script>
+</body>
 </html>
