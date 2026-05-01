@@ -22,5 +22,9 @@ export const flashcards: Flashcard[] = [
   { id: 'fc11', topic: 'SHM', front: 'SHM period for mass-spring?', back: 'T = 2π√(m/k).' },
   { id: 'fc12', topic: 'SHM', front: 'Where is speed max in SHM?', back: 'At equilibrium (x = 0).' },
   { id: 'fc13', topic: 'Waves & Sound', front: 'Wave equation?', back: 'v = fλ.' },
-  { id: 'fc14', topic: 'Waves & Sound', front: 'How are frequency and period related?', back: 'They are reciprocals: f = 1/T.' }
+  { id: 'fc14', topic: 'Waves & Sound', front: 'How are frequency and period related?', back: 'They are reciprocals: f = 1/T.' },
+  { id: 'fc15', topic: 'Measurement, Units & Error Analysis', front: 'Percent error formula?', back: '% error = |measured − accepted| / accepted × 100%.' },
+  { id: 'fc16', topic: 'Measurement, Units & Error Analysis', front: 'Difference between accuracy and precision?', back: 'Accuracy: closeness to the true value. Precision: repeatability of results.' },
+  { id: 'fc17', topic: 'Equilibrium', front: 'Two conditions for static equilibrium?', back: 'ΣF = 0 (no net force) AND Στ = 0 (no net torque).' },
+  { id: 'fc18', topic: 'Equilibrium', front: 'Why choose the pivot at an unknown force?', back: 'It sets that force\'s torque to zero, leaving fewer unknowns in the torque equation.' }
 ];

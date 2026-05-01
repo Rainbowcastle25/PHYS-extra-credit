@@ -182,6 +182,42 @@ export const studyTopics: StudyTopic[] = [
     }
   },
   {
+    id: 'measurement',
+    title: 'Measurement, Units & Error Analysis',
+    summary: 'Every measurement has uncertainty. Expressing results with correct significant figures and propagating error correctly is as important as the calculation itself.',
+    formulas: ['% error = |measured - accepted| / accepted × 100%', 'δ(A+B) = δA + δB', 'δ(A×B)/(A×B) = δA/A + δB/B', 'sig figs: least decimal places in addition; least sig figs in multiplication'],
+    mistakes: ['Confusing accuracy (closeness to true value) with precision (repeatability)', 'Reporting more significant figures than the instrument justifies', 'Adding absolute uncertainties when you should add relative ones (or vice versa)'],
+    example: {
+      prompt: 'You measure g = 9.65 m/s². The accepted value is 9.81 m/s². Find the percent error.',
+      steps: ['Percent error = |measured − accepted| / accepted × 100%.', '|9.65 − 9.81| / 9.81 × 100% = 0.16 / 9.81 × 100%.', '≈ 1.63%.'],
+      answer: 'Percent error ≈ 1.63%.'
+    },
+    checkpoint: {
+      question: 'A ruler reads 12.5 cm ± 0.1 cm. Another reads 8.3 cm ± 0.1 cm. The uncertainty in their sum is:',
+      options: ['0.01 cm', '0.1 cm', '0.2 cm', '0.5 cm'],
+      answerIndex: 2,
+      explanation: 'When adding measurements, absolute uncertainties add: 0.1 + 0.1 = 0.2 cm.'
+    }
+  },
+  {
+    id: 'equilibrium',
+    title: 'Equilibrium',
+    summary: 'A body in static equilibrium has zero net force AND zero net torque. Both conditions must hold simultaneously, and you can choose any pivot point for torques.',
+    formulas: ['ΣFx = 0', 'ΣFy = 0', 'Στ = 0 (about any point)', 'τ = r⊥ F = rF sinφ'],
+    mistakes: ['Applying only the force condition and ignoring rotational equilibrium', 'Choosing a poor pivot point that creates extra unknowns', 'Using the wrong lever arm (must be the perpendicular distance to the line of action)'],
+    example: {
+      prompt: 'A uniform 4.0 m, 20 kg beam is supported at both ends. A 50 kg person stands 1.0 m from the left end. Find the two support forces.',
+      steps: ['Label left support F₁ and right support F₂. Take torques about the left end to eliminate F₁.', 'Clockwise torques: person weight (50)(9.8)(1.0) = 490 N·m; beam weight (20)(9.8)(2.0) = 392 N·m.', 'F₂(4.0) = 490 + 392 = 882 N·m, so F₂ = 220.5 N.', 'From ΣFy = 0: F₁ = (20+50)(9.8) − F₂ = 686 − 220.5 = 465.5 N.'],
+      answer: 'F₁ ≈ 466 N (left), F₂ ≈ 221 N (right).'
+    },
+    checkpoint: {
+      question: 'A horizontal beam in static equilibrium must satisfy:',
+      options: ['ΣF = 0 only', 'Στ = 0 only', 'Both ΣF = 0 and Στ = 0', 'Neither condition'],
+      answerIndex: 2,
+      explanation: 'Static equilibrium requires both the net force and net torque to be zero.'
+    }
+  },
+  {
     id: 'waves',
     title: 'Waves & Sound',
     summary: 'Wave speed, frequency, and wavelength are connected by v = fλ. Frequency comes from the source, while speed depends on the medium.',
@@ -225,5 +261,9 @@ export const formulaSheet: FormulaItem[] = [
   { topic: 'Gravitation & Orbits', name: 'Universal gravitation', expression: 'F = Gm1m2 / r^2', note: 'Inverse-square law.' },
   { topic: 'Gravitation & Orbits', name: 'Orbital speed', expression: 'v = sqrt(GM / r)', note: 'Circular orbit around mass M.' },
   { topic: 'Waves & Sound', name: 'Wave equation', expression: 'v = fλ', note: 'Wave speed equals frequency times wavelength.' },
-  { topic: 'Waves & Sound', name: 'Frequency-period relation', expression: 'f = 1/T', note: 'They are reciprocals.' }
+  { topic: 'Waves & Sound', name: 'Frequency-period relation', expression: 'f = 1/T', note: 'They are reciprocals.' },
+  { topic: 'Measurement, Units & Error Analysis', name: 'Percent error', expression: '% error = |measured − accepted| / accepted × 100%', note: 'Quantifies accuracy against a known standard.' },
+  { topic: 'Measurement, Units & Error Analysis', name: 'Uncertainty in a sum', expression: 'δ(A+B) = δA + δB', note: 'Absolute uncertainties add.' },
+  { topic: 'Equilibrium', name: 'Translational equilibrium', expression: 'ΣFx = 0  and  ΣFy = 0', note: 'No net linear acceleration.' },
+  { topic: 'Equilibrium', name: 'Rotational equilibrium', expression: 'Στ = 0 (choose any pivot)', note: 'Pick the pivot to eliminate unknown forces.' }
 ];
