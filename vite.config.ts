@@ -12,7 +12,8 @@ export default defineConfig({
         exams: resolve(__dirname, 'exams.html'),
         simulators: resolve(__dirname, 'simulators.html'),
         flashcards: resolve(__dirname, 'flashcards.html'),
-        tools: resolve(__dirname, 'tools.html')
+        tools: resolve(__dirname, 'tools.html'),
+        definitions: resolve(__dirname, 'definitions.html')
       }
     }
   }
