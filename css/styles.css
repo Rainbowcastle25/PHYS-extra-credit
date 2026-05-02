@@ -199,6 +199,7 @@ a { color: inherit; text-decoration: none; }
 .badge-violet { color: var(--violet); background: rgba(192,132,252,0.12); border: 1px solid rgba(192,132,252,0.2); }
 .badge-green  { color: var(--green);  background: rgba(52,211,153,0.12);  border: 1px solid rgba(52,211,153,0.2); }
 .badge-red    { color: var(--red);    background: rgba(248,113,113,0.12); border: 1px solid rgba(248,113,113,0.2); }
+.badge-yellow { color: var(--yellow); background: rgba(251,191,36,0.12);  border: 1px solid rgba(251,191,36,0.2); }
 
 .card-header {
   display: flex;
@@ -261,7 +262,7 @@ a { color: inherit; text-decoration: none; }
 
 .formula-row {
   display: flex;
-  align-items: baseline;
+  align-items: flex-start;
   gap: 12px;
   padding: 10px 14px;
   border-radius: 10px;
@@ -273,8 +274,29 @@ a { color: inherit; text-decoration: none; }
 }
 .formula-row:hover { background: rgba(56,189,248,0.06); border-color: rgba(56,189,248,0.15); }
 
-.formula-eq { color: var(--cyan); font-weight: 500; min-width: 200px; }
-.formula-desc { color: var(--muted); font-size: 0.78rem; font-family: var(--body); }
+.formula-eq { color: var(--cyan); font-weight: 500; min-width: 200px; flex-shrink: 0; }
+.formula-desc { color: var(--muted); font-size: 0.78rem; font-family: var(--body); flex: 1; min-width: 0; }
+
+/* ── Definition sub-groups ── */
+.def-subgroup {
+  border: 1px solid rgba(251,146,60,0.2);
+  border-radius: 12px;
+  padding: 4px 0 4px;
+  background: rgba(251,146,60,0.04);
+  margin: 4px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.def-subgroup-label {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--orange);
+  padding: 6px 14px 2px;
+  opacity: 0.85;
+}
 
 /* ── Topic cards ── */
 .topic-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
