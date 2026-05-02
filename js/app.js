@@ -235,10 +235,9 @@ function setupTeamCredits() {
   const detailTitle = byId("team-detail-title");
   const detailSummary = byId("team-detail-summary");
   const detailPoints = byId("team-detail-points");
-  const detailBadge = byId("team-detail-badge");
   const detailAvatar = byId("team-detail-avatar");
 
-  if (!memberButtons.length || !detailName || !detailTitle || !detailSummary || !detailPoints || !detailBadge || !detailAvatar) {
+  if (!memberButtons.length || !detailName || !detailTitle || !detailSummary || !detailPoints || !detailAvatar) {
     return;
   }
 
@@ -249,7 +248,6 @@ function setupTeamCredits() {
     detailName.textContent = member.name;
     detailTitle.textContent = member.title;
     detailSummary.textContent = member.summary;
-    detailBadge.textContent = member.initials;
     detailAvatar.textContent = member.initials;
     detailAvatar.dataset.accent = member.accent;
     detailPoints.innerHTML = member.points.map((point) => `<li>${point}</li>`).join("");
