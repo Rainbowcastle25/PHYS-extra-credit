@@ -219,46 +219,72 @@ function getKin() {
 }
 function clearKin() {
   ['kv0','kv','ka','kt','kx'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('kResult').textContent = 'Enter 3 known values and click Solve.';
+  document.getElementById('kResult').textContent = 'Enter at least 2 known values and click Solve.';
 }
 function solveKinematics() {
   const raw = getKin();
   const vals = {};
-  for (const k in raw) { const n = parseFloat(raw[k]); if (!isNaN(n)) vals[k] = n; }
-  const known = Object.keys(vals);
+  const given = {};
+  for (const k in raw) { const n = parseFloat(raw[k]); if (!isNaN(n)) { vals[k] = n; given[k] = true; } }
+
   const res = document.getElementById('kResult');
-  let solved = false;
-  let out = '';
+  if (Object.keys(vals).length < 2) { res.textContent = 'Enter at least 2 known values.'; return; }
 
-  function fmt(n) { return isNaN(n) || !isFinite(n) ? 'undefined' : n.toFixed(4); }
-
-  // Try all 5 kinematic equations
-  if (known.includes('v0') && known.includes('a') && known.includes('t') && !known.includes('v')) {
-    const v = vals.v0 + vals.a * vals.t; out += `v = v₀ + at = ${fmt(v)} m/s\n`; solved = true;
-  }
-  if (known.includes('v') && known.includes('a') && known.includes('t') && !known.includes('v0')) {
-    const v0 = vals.v - vals.a * vals.t; out += `v₀ = v − at = ${fmt(v0)} m/s\n`; solved = true;
-  }
-  if (known.includes('v0') && known.includes('v') && known.includes('t') && !known.includes('x')) {
-    const x = 0.5*(vals.v + vals.v0)*vals.t; out += `Δx = ½(v+v₀)t = ${fmt(x)} m\n`; solved = true;
-  }
-  if (known.includes('v0') && known.includes('v') && known.includes('a') && !known.includes('x')) {
-    const x = (vals.v*vals.v - vals.v0*vals.v0)/(2*vals.a); out += `Δx = (v²−v₀²)/(2a) = ${fmt(x)} m\n`; solved = true;
-  }
-  if (known.includes('v0') && known.includes('t') && known.includes('a') && !known.includes('x')) {
-    const x = vals.v0*vals.t + 0.5*vals.a*vals.t*vals.t; out += `Δx = v₀t + ½at² = ${fmt(x)} m\n`; solved = true;
-  }
-  if (known.includes('v0') && known.includes('v') && known.includes('x') && !known.includes('a')) {
-    const a = (vals.v*vals.v - vals.v0*vals.v0)/(2*vals.x); out += `a = (v²−v₀²)/(2Δx) = ${fmt(a)} m/s²\n`; solved = true;
-  }
-  if (known.includes('v0') && known.includes('v') && !known.includes('t') && known.includes('a')) {
-    const t = (vals.v - vals.v0)/vals.a; out += `t = (v−v₀)/a = ${fmt(t)} s\n`; solved = true;
-  }
-  if (known.includes('x') && known.includes('t') && known.includes('a') && !known.includes('v0')) {
-    const v0 = (vals.x - 0.5*vals.a*vals.t*vals.t)/vals.t; out += `v₀ = (Δx − ½at²)/t = ${fmt(v0)} m/s\n`; solved = true;
+  // Write a value only if the slot is still empty and the result is finite
+  function set(k, n) {
+    if (vals[k] === undefined && isFinite(n) && !isNaN(n)) { vals[k] = n; return true; }
+    return false;
   }
 
-  res.textContent = solved ? out.trim() : 'Need at least 3 known values. Check inputs.';
+  // Iteratively apply all four kinematic equations until no new values can be derived
+  let changed = true;
+  while (changed) {
+    changed = false;
+    const {v0, v, a, t, x} = vals;
+
+    // v = v0 + a·t
+    if (v0 !== undefined && a !== undefined && t !== undefined) changed = set('v', v0 + a*t) || changed;
+    if (v  !== undefined && a !== undefined && t !== undefined) changed = set('v0', v - a*t)  || changed;
+    if (v  !== undefined && v0 !== undefined && t !== undefined && t !== 0) changed = set('a', (v - v0)/t) || changed;
+    if (v  !== undefined && v0 !== undefined && a !== undefined && a !== 0) changed = set('t', (v - v0)/a) || changed;
+
+    // x = v0·t + ½a·t²
+    if (v0 !== undefined && t !== undefined && a !== undefined) changed = set('x', v0*t + 0.5*a*t*t) || changed;
+    if (t  !== undefined && a !== undefined && x !== undefined && t !== 0) changed = set('v0', (x - 0.5*a*t*t)/t)    || changed;
+    if (v0 !== undefined && t !== undefined && x !== undefined && t !== 0) changed = set('a',  2*(x - v0*t)/(t*t))   || changed;
+
+    // v² = v0² + 2·a·x
+    if (v0 !== undefined && a !== undefined && x !== undefined) {
+      const disc = v0*v0 + 2*a*x;
+      if (disc >= 0) changed = set('v', Math.sqrt(disc)) || changed;
+    }
+    if (v !== undefined && v0 !== undefined && x !== undefined && x !== 0) changed = set('a', (v*v - v0*v0)/(2*x)) || changed;
+    if (v !== undefined && v0 !== undefined && a !== undefined && a !== 0) changed = set('x', (v*v - v0*v0)/(2*a)) || changed;
+
+    // x = ½(v0 + v)·t
+    if (v0 !== undefined && v !== undefined && t !== undefined) changed = set('x', 0.5*(v0+v)*t)  || changed;
+    if (v0 !== undefined && v !== undefined && x !== undefined && (v0+v) !== 0) changed = set('t', 2*x/(v0+v)) || changed;
+    if (v  !== undefined && t !== undefined && x !== undefined && t !== 0) changed = set('v0', 2*x/t - v)  || changed;
+    if (v0 !== undefined && t !== undefined && x !== undefined && t !== 0) changed = set('v',  2*x/t - v0) || changed;
+  }
+
+  // Format and display all five variables
+  const META = [
+    { k:'v0', label:'v₀  initial velocity', unit:'m/s'  },
+    { k:'v',  label:'v   final velocity',   unit:'m/s'  },
+    { k:'a',  label:'a   acceleration',     unit:'m/s²' },
+    { k:'t',  label:'t   time',             unit:'s'    },
+    { k:'x',  label:'Δx  displacement',     unit:'m'    },
+  ];
+  function fmtNum(n) {
+    if (Math.abs(n) >= 1e4 || (Math.abs(n) < 1e-3 && n !== 0)) return n.toExponential(3);
+    return parseFloat(n.toFixed(4)).toString();
+  }
+  const lines = META.map(({k, label, unit}) => {
+    if (vals[k] === undefined) return `${label} = —`;
+    return `${label} = ${fmtNum(vals[k])} ${unit}${given[k] ? '  [given]' : '  ← solved'}`;
+  });
+  res.textContent = lines.join('\n');
 }
 
 // ── F = ma
