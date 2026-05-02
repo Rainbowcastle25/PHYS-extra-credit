@@ -43,6 +43,7 @@
   <div style="display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap;">
     <button class="sim-tab active" data-sim="projectile">Projectile Motion</button>
     <button class="sim-tab" data-sim="forces">Force Diagram</button>
+    <button class="sim-tab" data-sim="static">Static Friction</button>
     <button class="sim-tab" data-sim="energy">Energy Bar Chart</button>
   </div>
 
@@ -130,6 +131,44 @@
     </div>
   </div>
 
+  <!-- Static friction sim -->
+  <div class="sim-panel" id="sim-static">
+    <div class="sim-layout">
+      <div>
+        <div class="card sim-controls">
+          <div class="card-header"><div class="card-label">Parameters</div><span class="badge badge-green">Static</span></div>
+          <div class="sim-field">
+            <div class="sim-label">Mass (kg)</div>
+            <input class="sim-input" id="sMass" type="range" min="0.5" max="20" value="5" step="0.5" />
+            <div style="font-family:var(--mono);font-size:0.8rem;color:var(--cyan);text-align:right;" id="sMassVal">5 kg</div>
+          </div>
+          <div class="sim-field">
+            <div class="sim-label">Static friction coefficient μₛ</div>
+            <input class="sim-input" id="sMu" type="range" min="0.05" max="1.2" value="0.6" step="0.01" />
+            <div style="font-family:var(--mono);font-size:0.8rem;color:var(--cyan);text-align:right;" id="sMuVal">0.60</div>
+          </div>
+          <div class="sim-field">
+            <div class="sim-label">Applied force (N)</div>
+            <input class="sim-input" id="sApplied" type="range" min="0" max="120" value="20" step="1" />
+            <div style="font-family:var(--mono);font-size:0.8rem;color:var(--cyan);text-align:right;" id="sAppliedVal">20 N</div>
+          </div>
+          <div class="sim-result" id="sResults" style="margin-top:4px;"></div>
+        </div>
+      </div>
+      <div>
+        <div class="sim-canvas-wrap">
+          <canvas id="staticCanvas" width="820" height="460"></canvas>
+        </div>
+        <div style="display:flex;gap:16px;margin-top:10px;flex-wrap:wrap;font-family:var(--mono);font-size:0.75rem;color:var(--muted);">
+          <span style="color:var(--green);">— Cone of friction</span>
+          <span style="color:var(--cyan);">→ Applied force</span>
+          <span style="color:var(--orange);">← Static friction</span>
+          <span style="color:var(--violet);">↖ Contact resultant</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Energy sim -->
   <div class="sim-panel" id="sim-energy">
     <div class="sim-layout">
@@ -174,6 +213,7 @@ document.querySelectorAll('.sim-tab').forEach(tab => {
     document.getElementById('sim-' + tab.dataset.sim).classList.add('active');
     activeSimTab = tab.dataset.sim;
     if (tab.dataset.sim === 'forces') drawForces();
+    if (tab.dataset.sim === 'static') drawStaticFriction();
     if (tab.dataset.sim === 'energy') drawEnergy();
   });
 });
@@ -418,6 +458,182 @@ function drawForces() {
     drawForces();
   });
 });
+
+// ── Static Friction Simulator
+const staticCanvas = document.getElementById('staticCanvas');
+const stx = staticCanvas.getContext('2d');
+
+function drawStaticFriction() {
+  const m = parseFloat(document.getElementById('sMass').value);
+  const mu = parseFloat(document.getElementById('sMu').value);
+  const applied = parseFloat(document.getElementById('sApplied').value);
+  const g = 9.8;
+  const normal = m * g;
+  const maxStatic = mu * normal;
+  const actualStatic = Math.min(applied, maxStatic);
+  const isStatic = applied <= maxStatic;
+  const coneAngle = Math.atan(mu);
+  const contactAngle = Math.atan2(actualStatic, normal);
+  const contactResultant = Math.sqrt(normal ** 2 + actualStatic ** 2);
+  const W = staticCanvas.width, H = staticCanvas.height;
+  stx.clearRect(0, 0, W, H);
+
+  // Grid
+  stx.strokeStyle = 'rgba(56,189,248,0.06)';
+  stx.lineWidth = 1;
+  for (let x = 0; x < W; x += 40) { stx.beginPath(); stx.moveTo(x, 0); stx.lineTo(x, H); stx.stroke(); }
+  for (let y = 0; y < H; y += 40) { stx.beginPath(); stx.moveTo(0, y); stx.lineTo(W, y); stx.stroke(); }
+
+  // Block and surface
+  const bx = W / 2 - 60;
+  const by = H / 2 - 44;
+  const bw = 120;
+  const bh = 84;
+  const contactX = bx + bw / 2;
+  const contactY = by + bh;
+  stx.fillStyle = 'rgba(56,189,248,0.12)';
+  stx.strokeStyle = 'rgba(56,189,248,0.42)';
+  stx.lineWidth = 2;
+  stx.beginPath();
+  stx.roundRect(bx, by, bw, bh, 10);
+  stx.fill();
+  stx.stroke();
+
+  stx.strokeStyle = 'rgba(52,211,153,0.28)';
+  stx.lineWidth = 2;
+  stx.beginPath();
+  stx.moveTo(48, contactY + 2);
+  stx.lineTo(W - 48, contactY + 2);
+  stx.stroke();
+
+  function arrow(x1, y1, x2, y2, color, lw) {
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+    const len = Math.sqrt(dx * dx + dy * dy);
+    if (len < 4) return;
+    stx.save();
+    stx.strokeStyle = color;
+    stx.fillStyle = color;
+    stx.lineWidth = lw || 2.5;
+    stx.lineCap = 'round';
+    stx.beginPath();
+    stx.moveTo(x1, y1);
+    stx.lineTo(x2, y2);
+    stx.stroke();
+    const a = Math.atan2(dy, dx);
+    const hs = 11;
+    stx.beginPath();
+    stx.moveTo(x2, y2);
+    stx.lineTo(x2 - hs * Math.cos(a - 0.38), y2 - hs * Math.sin(a - 0.38));
+    stx.lineTo(x2 - hs * Math.cos(a + 0.38), y2 - hs * Math.sin(a + 0.38));
+    stx.closePath();
+    stx.fill();
+    stx.restore();
+  }
+
+  function label(text, x, y, color) {
+    stx.save();
+    stx.fillStyle = color;
+    stx.globalAlpha = 0.96;
+    stx.font = '12px JetBrains Mono, monospace';
+    stx.fillText(text, x, y);
+    stx.restore();
+  }
+
+  const maxForce = Math.max(normal, maxStatic, applied, 1);
+  const forceScale = 120 / maxForce;
+  const normalLen = Math.min(normal * forceScale, 130);
+  const staticLen = Math.min(actualStatic * forceScale, 130);
+  const appliedLen = Math.min(applied * forceScale, 130);
+  const coneRadius = 132;
+
+  // Cone of friction
+  stx.save();
+  stx.globalAlpha = 0.55;
+  stx.fillStyle = 'rgba(52,211,153,0.08)';
+  stx.strokeStyle = 'rgba(52,211,153,0.28)';
+  stx.lineWidth = 1.5;
+  stx.beginPath();
+  stx.moveTo(contactX, contactY);
+  stx.arc(contactX, contactY, coneRadius, -Math.PI / 2 - coneAngle, -Math.PI / 2 + coneAngle);
+  stx.closePath();
+  stx.fill();
+  stx.stroke();
+  stx.restore();
+
+  // Cone boundaries
+  const leftBoundaryX = contactX - Math.sin(coneAngle) * coneRadius;
+  const leftBoundaryY = contactY - Math.cos(coneAngle) * coneRadius;
+  const rightBoundaryX = contactX + Math.sin(coneAngle) * coneRadius;
+  const rightBoundaryY = contactY - Math.cos(coneAngle) * coneRadius;
+  stx.save();
+  stx.setLineDash([6, 6]);
+  stx.strokeStyle = 'rgba(52,211,153,0.55)';
+  stx.lineWidth = 2;
+  stx.beginPath();
+  stx.moveTo(contactX, contactY);
+  stx.lineTo(leftBoundaryX, leftBoundaryY);
+  stx.moveTo(contactX, contactY);
+  stx.lineTo(rightBoundaryX, rightBoundaryY);
+  stx.stroke();
+  stx.setLineDash([]);
+  stx.restore();
+
+  // Resultant contact force inside the cone
+  const contactTipX = contactX - actualStatic * forceScale;
+  const contactTipY = contactY - normal * forceScale;
+  arrow(contactX, contactY, contactTipX, contactTipY, '#c084fc', 3);
+  label('R_c', contactTipX - 2, contactTipY - 7, '#c084fc');
+
+  // Applied force to the right
+  arrow(bx + bw, H / 2, bx + bw + appliedLen, H / 2, '#38bdf8', 3);
+  label('F_app', bx + bw + appliedLen + 6, H / 2 + 4, '#38bdf8');
+
+  // Static friction to the left
+  arrow(bx, H / 2, bx - staticLen, H / 2, '#fb923c', 3);
+  label('f_s', bx - staticLen - 34, H / 2 + 4, '#fb923c');
+
+  // Normal force upward
+  arrow(contactX, contactY, contactX, contactY - normalLen, '#34d399', 3);
+  label('N', contactX + 6, contactY - normalLen + 4, '#34d399');
+
+  // Block label
+  stx.save();
+  stx.fillStyle = '#e2e8f0';
+  stx.font = 'bold 15px JetBrains Mono, monospace';
+  stx.textAlign = 'center';
+  stx.fillText(`${m.toFixed(1)} kg`, contactX, H / 2 + 6);
+  stx.textAlign = 'left';
+  stx.restore();
+
+  // Labels
+  stx.save();
+  stx.fillStyle = 'rgba(226,232,240,0.86)';
+  stx.font = '12px JetBrains Mono, monospace';
+  stx.fillText(`cone angle φ = ${Math.round(coneAngle * 180 / Math.PI)}°`, contactX - 88, contactY - coneRadius - 12);
+  stx.fillText(`max static friction = μₛN`, 64, 54);
+  stx.restore();
+
+  document.getElementById('sResults').innerHTML =
+    `N = mg = ${normal.toFixed(2)} N\n` +
+    `f_s,max = μₛN = ${maxStatic.toFixed(2)} N\n` +
+    `actual f_s = ${actualStatic.toFixed(2)} N\n` +
+    `contact angle = ${Math.round(contactAngle * 180 / Math.PI)}° from the normal\n` +
+    `state: <b style="color:${isStatic ? 'var(--green)' : 'var(--red)'}">${isStatic ? 'static' : 'slipping'}</b>`;
+}
+
+['sMass', 'sMu', 'sApplied'].forEach(id => {
+  const el = document.getElementById(id);
+  const valEl = document.getElementById(id + 'Val');
+  el.addEventListener('input', () => {
+    if (id === 'sMu') valEl.textContent = parseFloat(el.value).toFixed(2);
+    else if (id === 'sApplied') valEl.textContent = el.value + ' N';
+    else valEl.textContent = el.value + ' kg';
+    drawStaticFriction();
+  });
+});
+
+drawStaticFriction();
 
 // ── Energy bar chart
 const energyCanvas = document.getElementById('energyCanvas');
