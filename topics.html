@@ -29,7 +29,7 @@
   <section class="page-hero">
     <p class="eyebrow">Concept Summaries</p>
     <h1>Physics 1 <span>Core Topics</span></h1>
-    <p>Eight units in order of dependency. Click any topic to expand its concept summary, key ideas, and common exam traps.</p>
+    <p>Ten units in order of dependency. Click any topic to expand its concept summary, key ideas, and common exam traps.</p>
   </section>
 
   <div class="topic-grid" id="topicGrid">
@@ -37,7 +37,59 @@
     <div class="topic-card" data-topic="0">
       <div class="topic-header">
         <div class="topic-title-wrap">
-          <div class="topic-num" style="background:rgba(56,189,248,0.15);color:var(--cyan);">01</div>
+          <div class="topic-num" style="background:rgba(52,211,153,0.15);color:var(--green);">01</div>
+          <div>
+            <div class="topic-title">Measurement, Units & Error Analysis</div>
+            <div class="topic-sub">SI units · Significant figures · Uncertainty</div>
+          </div>
+        </div>
+        <span class="topic-chevron">▾</span>
+      </div>
+      <div class="topic-body">
+        <p>Every measurement is incomplete without a unit and an uncertainty. Physics is a quantitative science — how you report a number matters as much as the number itself.</p>
+        <p><strong style="color:var(--cyan);">Key concepts:</strong></p>
+        <div class="concept-list">
+          <div class="concept-item">SI base units: meter (m), kilogram (kg), second (s), ampere (A), kelvin (K), mole (mol), candela (cd).</div>
+          <div class="concept-item">Dimensional analysis: every term in an equation must have the same dimensions — use this to check equations and convert units.</div>
+          <div class="concept-item">Significant figures: reflect the precision of the measurement. Count from the first non-zero digit.</div>
+          <div class="concept-item">Accuracy vs. precision: accuracy is closeness to the true value; precision is repeatability of results.</div>
+          <div class="concept-item">Absolute uncertainty (±δ) vs. percent error: % error = |measured − accepted| / accepted × 100%.</div>
+          <div class="concept-item">Propagation: for sums/differences, add absolute uncertainties; for products/quotients, add relative uncertainties.</div>
+        </div>
+        <p style="margin-top:14px;"><strong style="color:var(--red);">Common traps:</strong> Reporting more sig figs than the least precise input; confusing accuracy with precision; forgetting that percent error can be negative if you define sign.</p>
+      </div>
+    </div>
+
+    <div class="topic-card" data-topic="1">
+      <div class="topic-header">
+        <div class="topic-title-wrap">
+          <div class="topic-num" style="background:rgba(192,132,252,0.15);color:var(--violet);">02</div>
+          <div>
+            <div class="topic-title">Vectors & Scalars</div>
+            <div class="topic-sub">Components · Addition · Dot product</div>
+          </div>
+        </div>
+        <span class="topic-chevron">▾</span>
+      </div>
+      <div class="topic-body">
+        <p>Vectors carry both magnitude and direction. Nearly every quantity in mechanics is a vector. Mastering component decomposition is the single most useful skill in Physics 1.</p>
+        <p><strong style="color:var(--cyan);">Key concepts:</strong></p>
+        <div class="concept-list">
+          <div class="concept-item">Scalar: magnitude only (mass, speed, energy, temperature). Vector: magnitude + direction (displacement, velocity, force, momentum).</div>
+          <div class="concept-item">Component form: Aₓ = A cos θ, Aᵧ = A sin θ — where θ is measured from the +x axis.</div>
+          <div class="concept-item">Magnitude from components: |A⃗| = √(Aₓ² + Aᵧ²). Direction: θ = tan⁻¹(Aᵧ/Aₓ).</div>
+          <div class="concept-item">Vector addition: add components axis by axis — never add magnitudes directly unless the vectors are parallel.</div>
+          <div class="concept-item">Unit vectors: î, ĵ, k̂ point along +x, +y, +z. Any vector can be written A⃗ = Aₓî + Aᵧĵ.</div>
+          <div class="concept-item">Dot product: A⃗ · B⃗ = AB cos θ = AₓBₓ + AᵧBᵧ. Used to find the component of one vector along another (e.g., work = F⃗ · d⃗).</div>
+        </div>
+        <p style="margin-top:14px;"><strong style="color:var(--red);">Common traps:</strong> Adding magnitudes instead of components; using the wrong reference angle; forgetting that components on the left/down axes are negative.</p>
+      </div>
+    </div>
+
+    <div class="topic-card" data-topic="2">
+      <div class="topic-header">
+        <div class="topic-title-wrap">
+          <div class="topic-num" style="background:rgba(56,189,248,0.15);color:var(--cyan);">03</div>
           <div>
             <div class="topic-title">Kinematics</div>
             <div class="topic-sub">Motion without causes · Vectors · Projectiles</div>
@@ -60,10 +112,10 @@
       </div>
     </div>
 
-    <div class="topic-card" data-topic="1">
+    <div class="topic-card" data-topic="3">
       <div class="topic-header">
         <div class="topic-title-wrap">
-          <div class="topic-num" style="background:rgba(251,146,60,0.15);color:var(--orange);">02</div>
+          <div class="topic-num" style="background:rgba(251,146,60,0.15);color:var(--orange);">04</div>
           <div>
             <div class="topic-title">Newton's Laws & Dynamics</div>
             <div class="topic-sub">Forces · Free-body diagrams · Friction</div>
@@ -86,10 +138,10 @@
       </div>
     </div>
 
-    <div class="topic-card" data-topic="2">
+    <div class="topic-card" data-topic="4">
       <div class="topic-header">
         <div class="topic-title-wrap">
-          <div class="topic-num" style="background:rgba(192,132,252,0.15);color:var(--violet);">03</div>
+          <div class="topic-num" style="background:rgba(192,132,252,0.15);color:var(--violet);">05</div>
           <div>
             <div class="topic-title">Work, Energy & Power</div>
             <div class="topic-sub">Work–Energy Theorem · Conservation of Energy</div>
@@ -112,10 +164,10 @@
       </div>
     </div>
 
-    <div class="topic-card" data-topic="3">
+    <div class="topic-card" data-topic="5">
       <div class="topic-header">
         <div class="topic-title-wrap">
-          <div class="topic-num" style="background:rgba(52,211,153,0.15);color:var(--green);">04</div>
+          <div class="topic-num" style="background:rgba(52,211,153,0.15);color:var(--green);">06</div>
           <div>
             <div class="topic-title">Momentum & Collisions</div>
             <div class="topic-sub">Impulse · Elastic · Inelastic</div>
@@ -137,10 +189,10 @@
       </div>
     </div>
 
-    <div class="topic-card" data-topic="4">
+    <div class="topic-card" data-topic="6">
       <div class="topic-header">
         <div class="topic-title-wrap">
-          <div class="topic-num" style="background:rgba(56,189,248,0.15);color:var(--cyan);">05</div>
+          <div class="topic-num" style="background:rgba(56,189,248,0.15);color:var(--cyan);">07</div>
           <div>
             <div class="topic-title">Circular Motion & Gravitation</div>
             <div class="topic-sub">Centripetal force · Orbits · Kepler's laws</div>
@@ -163,10 +215,10 @@
       </div>
     </div>
 
-    <div class="topic-card" data-topic="5">
+    <div class="topic-card" data-topic="7">
       <div class="topic-header">
         <div class="topic-title-wrap">
-          <div class="topic-num" style="background:rgba(251,146,60,0.15);color:var(--orange);">06</div>
+          <div class="topic-num" style="background:rgba(251,146,60,0.15);color:var(--orange);">08</div>
           <div>
             <div class="topic-title">Rotation & Torque</div>
             <div class="topic-sub">Angular kinematics · Moment of inertia · Rolling</div>
@@ -189,10 +241,10 @@
       </div>
     </div>
 
-    <div class="topic-card" data-topic="6">
+    <div class="topic-card" data-topic="8">
       <div class="topic-header">
         <div class="topic-title-wrap">
-          <div class="topic-num" style="background:rgba(192,132,252,0.15);color:var(--violet);">07</div>
+          <div class="topic-num" style="background:rgba(192,132,252,0.15);color:var(--violet);">09</div>
           <div>
             <div class="topic-title">Simple Harmonic Motion</div>
             <div class="topic-sub">Springs · Pendulums · Energy in SHM</div>
@@ -215,10 +267,10 @@
       </div>
     </div>
 
-    <div class="topic-card" data-topic="7">
+    <div class="topic-card" data-topic="9">
       <div class="topic-header">
         <div class="topic-title-wrap">
-          <div class="topic-num" style="background:rgba(52,211,153,0.15);color:var(--green);">08</div>
+          <div class="topic-num" style="background:rgba(52,211,153,0.15);color:var(--green);">10</div>
           <div>
             <div class="topic-title">Gravitation</div>
             <div class="topic-sub">Universal law · Gravitational PE · Escape velocity</div>
