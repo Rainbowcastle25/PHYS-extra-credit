@@ -194,6 +194,86 @@ function setupUnitConverter() {
   });
 }
 
+function setupTeamCredits() {
+  const teamMembers = {
+    david: {
+      name: "David Peine",
+      initials: "DP",
+      accent: "violet",
+      title: "Primary coding and implementation",
+      summary: "David did most of the coding and implementation work across the project.",
+      points: ["Handled the bulk of the coding", "Implemented the main project features", "Carried most of the build-out work"]
+    },
+    tyler: {
+      name: "Tyler Abell",
+      initials: "TA",
+      accent: "cyan",
+      title: "Testing and feedback",
+      summary: "Tyler handled testing, feedback, and refinement of the project.",
+      points: ["Tested the site flow", "Reviewed features and gave feedback", "Helped refine the final result"]
+    },
+    andrew: {
+      name: "Andrew Garza",
+      initials: "AG",
+      accent: "orange",
+      title: "Idea creation and testing",
+      summary: "Andrew Garza helped with idea creation and testing throughout the project.",
+      points: ["Contributed project ideas", "Helped test features", "Supported early planning and review"]
+    },
+    xavier: {
+      name: "Xavier Robles",
+      initials: "XR",
+      accent: "green",
+      title: "Idea creation and testing",
+      summary: "Xavier Robles helped with idea creation and testing throughout the project.",
+      points: ["Contributed project ideas", "Helped test features", "Supported early planning and review"]
+    }
+  };
+
+  const memberButtons = Array.from(document.querySelectorAll("[data-team-member]"));
+  const detailName = byId("team-detail-name");
+  const detailTitle = byId("team-detail-title");
+  const detailSummary = byId("team-detail-summary");
+  const detailPoints = byId("team-detail-points");
+  const detailBadge = byId("team-detail-badge");
+  const detailAvatar = byId("team-detail-avatar");
+
+  if (!memberButtons.length || !detailName || !detailTitle || !detailSummary || !detailPoints || !detailBadge || !detailAvatar) {
+    return;
+  }
+
+  const setActiveMember = (memberId) => {
+    const member = teamMembers[memberId];
+    if (!member) return;
+
+    detailName.textContent = member.name;
+    detailTitle.textContent = member.title;
+    detailSummary.textContent = member.summary;
+    detailBadge.textContent = member.initials;
+    detailAvatar.textContent = member.initials;
+    detailAvatar.dataset.accent = member.accent;
+    detailPoints.innerHTML = member.points.map((point) => `<li>${point}</li>`).join("");
+
+    memberButtons.forEach((button) => {
+      const isActive = button.dataset.teamMember === memberId;
+      button.classList.toggle("active", isActive);
+      button.setAttribute("aria-pressed", String(isActive));
+    });
+  };
+
+  memberButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const memberId = button.dataset.teamMember;
+      if (memberId) {
+        setActiveMember(memberId);
+      }
+    });
+  });
+
+  setActiveMember("tyler");
+}
+
 setupProjectileSimulator();
 setupFlashcards();
 setupUnitConverter();
+setupTeamCredits();

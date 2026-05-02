@@ -180,27 +180,47 @@
   </div>
 
   <!-- Team -->
-  <div class="card" style="margin-top:40px;display:flex;align-items:center;gap:32px;flex-wrap:wrap;">
-    <div style="flex:1;min-width:180px;">
+  <div class="card team-card" style="margin-top:40px;">
+    <div class="team-card-header">
       <div class="card-label" style="margin-bottom:6px;">Made by</div>
       <h3 style="font-family:var(--sans);font-weight:600;">Team PE<sup style="font-size:0.65em;color:var(--cyan);">3</sup></h3>
     </div>
-    <div style="flex:3;min-width:260px;display:flex;flex-wrap:wrap;gap:12px;">
-      <div style="display:flex;align-items:center;gap:10px;padding:10px 16px;border-radius:10px;background:rgba(56,189,248,0.07);border:1px solid rgba(56,189,248,0.18);">
-        <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--violet));display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:0.8rem;color:#000;flex-shrink:0;">TA</div>
-        <span style="font-weight:600;font-size:0.9rem;">Tyler Abell</span>
+    <div class="team-layout">
+      <div class="team-members" id="team-members">
+        <button class="team-member-card active" type="button" data-team-member="tyler" aria-pressed="true">
+          <div class="team-avatar team-avatar-cyan">TA</div>
+          <span>Tyler Abell</span>
+        </button>
+        <button class="team-member-card" type="button" data-team-member="andrew" aria-pressed="false">
+          <div class="team-avatar team-avatar-orange">AG</div>
+          <span>Andrew Garza</span>
+        </button>
+        <button class="team-member-card" type="button" data-team-member="david" aria-pressed="false">
+          <div class="team-avatar team-avatar-violet">DP</div>
+          <span>David Peine</span>
+        </button>
+        <button class="team-member-card" type="button" data-team-member="xavier" aria-pressed="false">
+          <div class="team-avatar team-avatar-green">XR</div>
+          <span>Xavier Robles</span>
+        </button>
       </div>
-      <div style="display:flex;align-items:center;gap:10px;padding:10px 16px;border-radius:10px;background:rgba(251,146,60,0.07);border:1px solid rgba(251,146,60,0.18);">
-        <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--orange),var(--yellow));display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:0.8rem;color:#000;flex-shrink:0;">AG</div>
-        <span style="font-weight:600;font-size:0.9rem;">Andrew Garza</span>
-      </div>
-      <div style="display:flex;align-items:center;gap:10px;padding:10px 16px;border-radius:10px;background:rgba(192,132,252,0.07);border:1px solid rgba(192,132,252,0.18);">
-        <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--violet),var(--cyan));display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:0.8rem;color:#000;flex-shrink:0;">DP</div>
-        <span style="font-weight:600;font-size:0.9rem;">David Peine</span>
-      </div>
-      <div style="display:flex;align-items:center;gap:10px;padding:10px 16px;border-radius:10px;background:rgba(52,211,153,0.07);border:1px solid rgba(52,211,153,0.18);">
-        <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--cyan));display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:0.8rem;color:#000;flex-shrink:0;">XR</div>
-        <span style="font-weight:600;font-size:0.9rem;">Xavier Robles</span>
+
+      <div class="team-detail-card" id="team-detail" aria-live="polite">
+        <div class="team-detail-header">
+          <div class="team-detail-avatar" id="team-detail-avatar" data-accent="cyan">TA</div>
+          <div>
+            <div class="card-label" style="margin-bottom:6px;">What they did</div>
+            <h3 id="team-detail-name" style="font-family:var(--sans);font-weight:600;">Tyler Abell</h3>
+          </div>
+        </div>
+        <p id="team-detail-title" class="team-detail-title">Testing and feedback</p>
+        <p id="team-detail-summary">Tyler handled testing, feedback, and refinement of the project.</p>
+        <ul id="team-detail-points" class="team-detail-points">
+          <li>Tested the site flow</li>
+          <li>Reviewed features and gave feedback</li>
+          <li>Helped refine the final result</li>
+        </ul>
+        <p class="team-detail-note">Click another name to switch the summary.</p>
       </div>
     </div>
   </div>
@@ -208,5 +228,6 @@
 </div><!-- end page-shell -->
 
 <script src="./js/physics-bg.js"></script>
+<script src="./js/app.js"></script>
 </body>
 </html>
