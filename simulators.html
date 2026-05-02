@@ -583,19 +583,19 @@ function drawStaticFriction() {
   const contactTipX = contactX - actualStatic * forceScale;
   const contactTipY = contactY - normal * forceScale;
   arrow(contactX, contactY, contactTipX, contactTipY, '#c084fc', 3);
-  label('R_c', contactTipX - 2, contactTipY - 7, '#c084fc');
+  label(`R = ${contactResultant.toFixed(0)} N`, contactTipX - 6, contactTipY - 7, '#c084fc');
 
   // Applied force to the right
   arrow(bx + bw, H / 2, bx + bw + appliedLen, H / 2, '#38bdf8', 3);
-  label('F_app', bx + bw + appliedLen * 0.45 - 12, H / 2 - 8, '#38bdf8');
+  label(`F = ${applied.toFixed(0)} N`, bx + bw + appliedLen * 0.45 - 18, H / 2 - 14, '#38bdf8');
 
   // Static friction to the left
   arrow(bx, H / 2, bx - staticLen, H / 2, '#fb923c', 3);
-  label('f_s', bx - staticLen * 0.55 - 8, H / 2 - 8, '#fb923c');
+  label(`fₛ = ${actualStatic.toFixed(0)} N`, bx - staticLen * 0.55 - 20, H / 2 - 8, '#fb923c');
 
   // Normal force upward
   arrow(contactX, contactY, contactX, contactY - normalLen, '#34d399', 3);
-  label('N', contactX + 6, contactY - normalLen + 4, '#34d399');
+  label(`N = ${normal.toFixed(0)} N`, contactX + 6, contactY - normalLen + 4, '#34d399');
 
   // Block label
   stx.save();
