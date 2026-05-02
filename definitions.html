@@ -42,6 +42,7 @@
     <button class="deck-btn" data-filter="energy">Energy &amp; Work</button>
     <button class="deck-btn" data-filter="momentum">Momentum</button>
     <button class="deck-btn" data-filter="rotation">Rotation</button>
+    <button class="deck-btn" data-filter="moments">Moments of Mass</button>
     <button class="deck-btn" data-filter="gravity">Gravity &amp; SHM</button>
   </div>
 
@@ -228,8 +229,8 @@
     <div class="formula-section" data-section="dynamics">
       <div class="formula-section-title">
         <span style="background:var(--orange);"></span>
-        Dynamics — Forces
-        <span class="badge badge-orange" style="margin-left:4px;">Newton's Laws</span>
+        <span>Dynamics — Forces</span>
+        <span class="badge badge-orange" style="margin-left:4px;white-space:nowrap;">Newton's Laws</span>
       </div>
       <div class="card" style="padding:8px 16px;">
         <div class="formula-block">
@@ -240,21 +241,26 @@
           </div>
 
           <div class="def-subgroup">
-            <div class="def-subgroup-label">Newton's Three Laws of Motion</div>
+            <div class="def-subgroup-label">Newton's Laws of Motion — 0th through 3rd</div>
 
             <div class="formula-row">
-              <span class="formula-eq">Newton's First Law</span>
+              <span class="formula-eq">Newton's 0th Law</span>
+              <span class="formula-desc">The laws of physics are the <em>same in all inertial (non-accelerating) reference frames</em> — Galilean Relativity. This foundational principle makes Newton's other laws universally applicable within classical mechanics.</span>
+            </div>
+
+            <div class="formula-row">
+              <span class="formula-eq">Newton's 1st Law</span>
               <span class="formula-desc"><em>An object at rest stays at rest, and an object in motion stays in motion at constant velocity, unless acted upon by a net external force.</em> Also called the Law of Inertia.</span>
             </div>
 
             <div class="formula-row">
-              <span class="formula-eq">Newton's Second Law</span>
-              <span class="formula-desc"><em>The net force on an object equals its mass times its acceleration:</em> F⃗_net = ma⃗. The acceleration is in the same direction as the net force.</span>
+              <span class="formula-eq">Newton's 2nd Law</span>
+              <span class="formula-desc"><em>The net force on an object equals its mass times its acceleration:</em> F⃗_net = ma⃗ = dp⃗/dt. The acceleration is in the same direction as the net force.</span>
             </div>
 
             <div class="formula-row">
-              <span class="formula-eq">Newton's Third Law</span>
-              <span class="formula-desc"><em>For every action force, there is an equal and opposite reaction force.</em> Forces come in pairs that act on different objects; they never cancel each other.</span>
+              <span class="formula-eq">Newton's 3rd Law</span>
+              <span class="formula-desc"><em>For every action force, there is an equal and opposite reaction force.</em> Forces come in pairs that act on <strong>different objects</strong>; they never cancel each other on the same free-body diagram.</span>
             </div>
           </div>
 
@@ -266,6 +272,21 @@
           <div class="formula-row">
             <span class="formula-eq">Mass (m)</span>
             <span class="formula-desc">A <em>measure of the quantity of matter in an object</em> and its resistance to acceleration (inertia). A scalar, measured in kilograms (kg). Mass is not the same as weight.</span>
+          </div>
+
+          <div class="formula-row">
+            <span class="formula-eq">Linear Momentum (p⃗)</span>
+            <span class="formula-desc">The <em>product of mass and velocity</em>: p⃗ = mv⃗. A vector. Newton's 2nd law in its general form states F⃗_net = dp⃗/dt — net force equals the rate of change of momentum.</span>
+          </div>
+
+          <div class="formula-row">
+            <span class="formula-eq">Center of Mass</span>
+            <span class="formula-desc">The <em>single point where the entire mass of a system can be treated as concentrated</em> for the purpose of applying Newton's 2nd law. r⃗_cm = Σ(mᵢr⃗ᵢ) / Σmᵢ. Net external force equals total mass times acceleration of the center of mass.</span>
+          </div>
+
+          <div class="formula-row">
+            <span class="formula-eq">Free-Body Diagram (FBD)</span>
+            <span class="formula-desc">A <em>diagram showing only the object of interest and all forces acting on it</em>. Each force is drawn as an arrow from the object's center. The essential first step in applying Newton's laws.</span>
           </div>
 
           <div class="formula-row">
@@ -460,23 +481,38 @@
             <span class="formula-desc">The <em>net inward force required to maintain circular motion</em>: F_c = mv²/r. Not a new type of force — it is the net force directed toward the center (gravity, tension, normal force, etc.).</span>
           </div>
 
-          <div class="def-subgroup" style="border-color:rgba(251,191,36,0.2);background:rgba(251,191,36,0.03);">
-            <div class="def-subgroup-label" style="color:var(--yellow);">Moments of Mass</div>
+        </div>
+      </div>
+    </div>
 
-            <div class="formula-row">
-              <span class="formula-eq">0th Moment of Mass</span>
-              <span class="formula-desc">The <em>total mass of a system</em>: M = ∫ dm. It is the "zeroth" moment because no positional weighting is applied — every mass element counts equally.</span>
-            </div>
+    <!-- ── MOMENTS OF MASS ───────────────────────────────────────────── -->
+    <div class="formula-section" data-section="moments">
+      <div class="formula-section-title">
+        <span style="background:var(--yellow);"></span>
+        <span>Moments of Mass</span>
+        <span class="badge badge-yellow" style="margin-left:4px;white-space:nowrap;">0th · 1st · 2nd</span>
+      </div>
+      <div class="card" style="padding:8px 16px;">
+        <div class="formula-block">
 
-            <div class="formula-row">
-              <span class="formula-eq">1st Moment of Mass</span>
-              <span class="formula-desc">The <em>mass-weighted sum of positions</em>: ∫ r dm. Dividing by the total mass gives the <strong>center of mass</strong>: r_cm = (1/M) ∫ r dm. It is the balance point of the mass distribution.</span>
-            </div>
+          <div class="formula-row">
+            <span class="formula-eq">0th Moment of Mass</span>
+            <span class="formula-desc">The <em>total mass of a system</em>: M = ∫ dm. It is the "zeroth" moment because no positional weighting is applied — every mass element counts equally regardless of where it is.</span>
+          </div>
 
-            <div class="formula-row">
-              <span class="formula-eq">2nd Moment of Mass</span>
-              <span class="formula-desc">The <em>mass-weighted sum of squared distances from an axis</em>: I = ∫ r² dm. This is the <strong>moment of inertia</strong> — the rotational analog of mass, quantifying resistance to angular acceleration.</span>
-            </div>
+          <div class="formula-row">
+            <span class="formula-eq">1st Moment of Mass</span>
+            <span class="formula-desc">The <em>mass-weighted sum of positions</em>: ∫ r dm. Dividing by the total mass gives the <strong>center of mass</strong>: r_cm = (1/M) ∫ r dm — the balance point of the mass distribution.</span>
+          </div>
+
+          <div class="formula-row">
+            <span class="formula-eq">2nd Moment of Mass</span>
+            <span class="formula-desc">The <em>mass-weighted sum of squared distances from a rotation axis</em>: I = ∫ r² dm. This is the <strong>moment of inertia</strong> — the rotational analog of mass, quantifying resistance to angular acceleration.</span>
+          </div>
+
+          <div class="formula-row">
+            <span class="formula-eq">Why "Moments"?</span>
+            <span class="formula-desc">Each higher moment weights mass by an extra power of distance from a reference point. The 0th gives <em>how much</em> mass; the 1st gives <em>where</em> it is (center of mass); the 2nd gives <em>how spread out</em> it is (moment of inertia).</span>
           </div>
 
         </div>
