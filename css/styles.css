@@ -785,6 +785,7 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-wrap: nowrap;
 }
 .formula-section-title span {
   width: 8px; height: 8px;
