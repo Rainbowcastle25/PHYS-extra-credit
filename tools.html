@@ -44,10 +44,10 @@
         <span class="badge badge-cyan">Units</span>
       </div>
       <div class="tool-form">
-        <label>Value
+        <label style="color:var(--cyan);">Value
           <input class="tool-input" id="ucVal" type="number" value="1" step="any" placeholder="Enter value" />
         </label>
-        <label>Convert from
+        <label style="color:var(--cyan);">Convert from
           <select class="tool-select" id="ucFrom">
             <optgroup label="Length"><option value="m">Meters (m)</option><option value="km">Kilometers (km)</option><option value="cm">Centimeters (cm)</option><option value="mm">Millimeters (mm)</option><option value="ft">Feet (ft)</option><option value="in">Inches (in)</option><option value="mi">Miles (mi)</option></optgroup>
             <optgroup label="Speed"><option value="ms">m/s</option><option value="kmh">km/h</option><option value="mph">mph</option></optgroup>
@@ -56,7 +56,7 @@
             <optgroup label="Angle"><option value="deg">Degrees (°)</option><option value="rad">Radians (rad)</option></optgroup>
           </select>
         </label>
-        <label>Convert to
+        <label style="color:var(--cyan);">Convert to
           <select class="tool-select" id="ucTo">
             <optgroup label="Length"><option value="m">Meters (m)</option><option value="km">Kilometers (km)</option><option value="cm">Centimeters (cm)</option><option value="mm">Millimeters (mm)</option><option value="ft">Feet (ft)</option><option value="in">Inches (in)</option><option value="mi">Miles (mi)</option></optgroup>
             <optgroup label="Speed"><option value="ms">m/s</option><option value="kmh">km/h</option><option value="mph">mph</option></optgroup>
@@ -181,6 +181,13 @@
 <script src="./js/physics-bg.js"></script>
 <script>
 // ── Unit converter
+const UC_CATEGORIES = {
+  m:'Length', km:'Length', cm:'Length', mm:'Length', ft:'Length', in:'Length', mi:'Length',
+  ms:'Speed', kmh:'Speed', mph:'Speed',
+  kg:'Mass', g:'Mass', lb:'Mass',
+  J:'Energy', kJ:'Energy', cal:'Energy', eV:'Energy',
+  deg:'Angle', rad:'Angle',
+};
 const TO_SI = {
   m:1, km:1000, cm:0.01, mm:0.001, ft:0.3048, in:0.0254, mi:1609.34,
   ms:1, kmh:1/3.6, mph:0.44704,
@@ -192,10 +199,14 @@ function convertUnit() {
   const val = parseFloat(document.getElementById('ucVal').value);
   const from = document.getElementById('ucFrom').value;
   const to   = document.getElementById('ucTo').value;
-  if (isNaN(val)) { document.getElementById('ucResult').textContent = 'Enter a valid number.'; return; }
-  if (TO_SI[from] === undefined || TO_SI[to] === undefined) { document.getElementById('ucResult').textContent = 'Incompatible units.'; return; }
+  const res  = document.getElementById('ucResult');
+  if (isNaN(val)) { res.textContent = 'Enter a valid number.'; return; }
+  if (UC_CATEGORIES[from] !== UC_CATEGORIES[to]) {
+    res.textContent = `Can't convert ${UC_CATEGORIES[from]} → ${UC_CATEGORIES[to]}. Choose units in the same category.`;
+    return;
+  }
   const result = val * TO_SI[from] / TO_SI[to];
-  document.getElementById('ucResult').textContent = `${val} ${from} = ${result.toPrecision(5)} ${to}`;
+  res.textContent = `${val} ${from} = ${result.toPrecision(5)} ${to}`;
 }
 
 // ── Kinematic solver
