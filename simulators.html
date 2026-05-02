@@ -379,7 +379,10 @@ function drawForces() {
     fctx.closePath(); fctx.fill();
     if (label) {
       fctx.font = '12px JetBrains Mono, monospace';
-      fctx.fillText(label, x+dx+5, y+dy+4);
+      const isLeftward = dx < 0 && Math.abs(dx) >= Math.abs(dy);
+      const labelX = isLeftward ? x + dx - 52 : x + dx + 5;
+      const labelY = y + dy + (isLeftward ? -8 : 4);
+      fctx.fillText(label, labelX, labelY);
     }
     fctx.restore();
   }
