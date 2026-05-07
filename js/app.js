@@ -217,7 +217,7 @@ function setupTeamCredits() {
       initials: "AG",
       accent: "orange",
       title: "Idea creation and testing",
-      summary: "Andrew Garza helped with idea creation and testing throughout the project.",
+      summary: "Andrew helped with idea creation and testing throughout the project.",
       points: ["Contributed project ideas", "Helped test features", "Supported early planning and review"]
     },
     xavier: {
@@ -225,7 +225,7 @@ function setupTeamCredits() {
       initials: "XR",
       accent: "green",
       title: "Idea creation and testing",
-      summary: "Xavier Robles helped with idea creation and testing throughout the project.",
+      summary: "Xavier helped with idea creation and testing throughout the project.",
       points: ["Contributed project ideas", "Helped test features", "Supported early planning and review"]
     }
   };
