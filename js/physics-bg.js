@@ -392,23 +392,24 @@
       const Dx = Math.abs((tx - sx) / SCALE);
       const Dy = (sy - ty) / SCALE; // positive = target above launch height
 
-      // Solve for v0 given a launch angle: v0² = g·Dx² / (2·cos²θ·(Dx·tanθ − Dy))
-      let solved = false;
-      const tryAngles = [45, 55, 35, 65, 28, 70, 20, 75, 15, 80];
+      // Collect all valid angles, then pick one at random so arcs vary shot-to-shot
+      const tryAngles = [20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80];
+      const validOptions = [];
       for (const deg of tryAngles) {
         const theta = deg * Math.PI / 180;
         const ct = Math.cos(theta);
         const denom = Dx * Math.tan(theta) - Dy;
         if (denom <= 0 || Dx <= 0) continue;
         const v0sq = G * Dx * Dx / (2 * ct * ct * denom);
-        if (!isFinite(v0sq) || v0sq <= 0 || v0sq > 260 * 260) continue;
-        this.v0 = Math.sqrt(v0sq);
-        this.angle = theta;
-        solved = true;
-        break;
+        if (!isFinite(v0sq) || v0sq <= 0 || v0sq > 280 * 280) continue;
+        validOptions.push({ theta, v0: Math.sqrt(v0sq) });
       }
 
-      if (!solved) {
+      if (validOptions.length > 0) {
+        const chosen = validOptions[Math.floor(Math.random() * validOptions.length)];
+        this.angle = chosen.theta;
+        this.v0 = chosen.v0;
+      } else {
         this.angle = Math.PI / 4;
         this.v0 = Math.max(22, Math.hypot(Dx, Math.max(Dy, 0)) * 1.4);
       }
@@ -416,9 +417,8 @@
       this.v0x = this.v0 * Math.cos(this.angle) * this.sign;
       this.v0y = this.v0 * Math.sin(this.angle);
 
-      // Stop after 1.5× the time needed to reach the target x
-      const tHit = Dx / (this.v0 * Math.cos(this.angle));
-      this.tMax = tHit * 1.6 + 0.4;
+      this.tHit = Dx > 0 ? Dx / (this.v0 * Math.cos(this.angle)) : 0.5;
+      this.tMax = this.tHit * 1.8 + 0.5;
 
       const ci = Math.floor(Math.random() * COLORS.length);
       this.col = COLORS[ci];
@@ -438,6 +438,17 @@
       const p = this.pos(this.t);
       this.trail.push({ x: p.x, y: p.y });
       if (this.trail.length > 90) this.trail.shift();
+
+      // Hit check: proximity OR guaranteed pop at the mathematically correct arrival time
+      if (!this.hit && this.balloon && !this.balloon.popped) {
+        if (this.balloon.hits(p.x, p.y) || this.t >= this.tHit) {
+          this.balloon.pop();
+          this.hit = true;
+          this.done = true;
+          return;
+        }
+      }
+
       if (this.t > this.tMax || p.y > canvas.height + 80) this.done = true;
     }
 
@@ -490,10 +501,7 @@
     const launchX = cx > canvas.width / 2 ? canvas.width * 0.04 : canvas.width * 0.96;
     const launchY = ground;
 
-    // Don't aim below the ground line
-    const targetY = Math.min(cy, ground - 20);
-
-    const shot = new AimedShot(launchX, launchY, cx, targetY);
+    const shot = new AimedShot(launchX, launchY, cx, cy);
     shot.balloon = balloon;
     userShots.push(shot);
   });
@@ -516,18 +524,10 @@
     // Update and draw user balloons
     for (const b of userBalloons) { b.update(dt); b.draw(); }
 
-    // Update and draw aimed shots; check for balloon hits
+    // Update and draw aimed shots
     for (const shot of userShots) {
       shot.update(dt);
       shot.draw();
-      if (!shot.done && !shot.hit && shot.balloon && !shot.balloon.popped) {
-        const p = shot.curPos();
-        if (shot.balloon.hits(p.x, p.y)) {
-          shot.balloon.pop();
-          shot.hit = true;
-          shot.done = true;
-        }
-      }
     }
 
     // Prune finished objects
