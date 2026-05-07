@@ -202,7 +202,7 @@ function setupTeamCredits() {
       accent: "violet",
       title: "Primary coding and implementation",
       summary: "David did most of the coding and implementation work across the project.",
-      points: ["Handled the bulk of the coding", "Implemented the main project features", "Carried most of the build-out work"]
+      points: ["Handled the bulk of the coding", "Implemented the main project features", "Carried most of the build-out work", "AI-assisted development via Claude Code"]
     },
     tyler: {
       name: "Tyler Abell",
