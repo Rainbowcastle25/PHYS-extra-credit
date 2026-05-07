@@ -392,7 +392,7 @@
       const Dx = Math.abs((tx - sx) / SCALE);
       const Dy = (sy - ty) / SCALE; // positive = target above launch height
 
-      // Collect all valid angles, then pick one at random so arcs vary shot-to-shot
+      // Build all valid angle options, annotated with tHit so we can prefer fast shots
       const tryAngles = [20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80];
       const validOptions = [];
       for (const deg of tryAngles) {
@@ -402,11 +402,15 @@
         if (denom <= 0 || Dx <= 0) continue;
         const v0sq = G * Dx * Dx / (2 * ct * ct * denom);
         if (!isFinite(v0sq) || v0sq <= 0 || v0sq > 280 * 280) continue;
-        validOptions.push({ theta, v0: Math.sqrt(v0sq) });
+        const v0 = Math.sqrt(v0sq);
+        validOptions.push({ theta, v0, tHit: Dx / (v0 * ct) });
       }
 
       if (validOptions.length > 0) {
-        const chosen = validOptions[Math.floor(Math.random() * validOptions.length)];
+        // Sort fastest-first; pick randomly from the fastest half so shots always arrive promptly
+        validOptions.sort((a, b) => a.tHit - b.tHit);
+        const pool = validOptions.slice(0, Math.max(1, Math.ceil(validOptions.length / 2)));
+        const chosen = pool[Math.floor(Math.random() * pool.length)];
         this.angle = chosen.theta;
         this.v0 = chosen.v0;
       } else {
@@ -535,7 +539,11 @@
       if (!userBalloons[i].alive) userBalloons.splice(i, 1);
     }
     for (let i = userShots.length - 1; i >= 0; i--) {
-      if (userShots[i].done) userShots.splice(i, 1);
+      if (userShots[i].done) {
+        const s = userShots[i];
+        if (s.balloon && !s.balloon.popped) s.balloon.pop();
+        userShots.splice(i, 1);
+      }
     }
 
     requestAnimationFrame(animate);
