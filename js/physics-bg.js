@@ -456,6 +456,10 @@
       if (this.t > this.tMax || p.y > canvas.height + 80) this.done = true;
     }
 
+    vel(t) {
+      return { vx: this.v0x, vy: -(this.v0y - G * t) };
+    }
+
     draw() {
       if (this.trail.length < 2) return;
       ctx.save();
@@ -473,6 +477,12 @@
 
       if (!this.done) {
         const p = this.pos(this.t);
+        const v = this.vel(this.t);
+        const vs = 90 / Math.max(this.v0, 1);
+        const ex = p.x + v.vx * vs;
+        const ey = p.y + v.vy * vs;
+
+        // Ball
         ctx.save();
         ctx.beginPath();
         ctx.arc(p.x, p.y, 7, 0, Math.PI * 2);
@@ -481,6 +491,34 @@
         ctx.shadowBlur = 18;
         ctx.fill();
         ctx.restore();
+
+        // vx — horizontal cyan
+        drawArrow(p.x, p.y, ex, p.y, '#38bdf8', 0.92, 2.5);
+        drawLabel('vₓ', p.x + v.vx * vs * 0.5 - 10, p.y + 16, '#38bdf8', 0.95);
+
+        // vy — vertical green
+        drawArrow(p.x, p.y, p.x, ey, '#34d399', 0.92, 2.5);
+        drawLabel('vᵧ', p.x - 28, p.y + v.vy * vs * 0.5 + 4, '#34d399', 0.95);
+
+        // Dashed parallelogram lines
+        ctx.save();
+        ctx.globalAlpha = 0.3;
+        ctx.strokeStyle = 'rgba(255,255,255,0.55)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([4, 5]);
+        ctx.beginPath();
+        ctx.moveTo(ex, p.y); ctx.lineTo(ex, ey);
+        ctx.moveTo(p.x, ey); ctx.lineTo(ex, ey);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.restore();
+
+        // Full v vector
+        drawArrow(p.x, p.y, ex, ey, this.cs, 0.95, 3);
+        drawLabel('v', ex + 6, ey - 5, this.cs, 0.9);
+
+        // Gravity arrow
+        drawArrow(p.x, p.y, p.x, p.y + 28, 'rgba(248,113,113,1)', 0.45, 1.5);
       }
     }
 
